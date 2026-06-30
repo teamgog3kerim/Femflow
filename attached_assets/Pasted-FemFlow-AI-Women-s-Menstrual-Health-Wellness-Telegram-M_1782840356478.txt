@@ -1,0 +1,319 @@
+FemFlow - AI Women's Menstrual Health & Wellness Telegram Mini App
+
+Overview
+
+FemFlow is a modern, AI-powered Telegram Mini App designed to help women monitor, understand, and improve their menstrual health and overall wellbeing. Built entirely within Telegram, it offers a private, intuitive, and multilingual experience (English and Arabic) that combines cycle tracking, wellness insights, personalized AI support, and health education.
+
+Every user who joins FemFlow automatically receives a dedicated AI health companion that learns from their logged information over time to provide personalized guidance, explain menstrual health topics, identify trends, answer questions, and encourage healthy habits. The AI is intended for education and wellness support and clearly advises users to consult healthcare professionals for medical concerns.
+
+
+---
+
+Core Features
+
+User Registration
+
+Telegram authentication
+
+Personal profile setup
+
+English and Arabic language selection
+
+Time zone and notification preferences
+
+Privacy settings
+
+
+Menstrual Cycle Tracking
+
+Record period start and end dates
+
+Track menstrual flow intensity
+
+Predict upcoming periods
+
+Calculate current cycle day
+
+Display menstrual phase
+
+Estimate fertile window and ovulation
+
+Track irregular cycles
+
+Calendar-based cycle visualization
+
+
+Daily Health Tracking
+
+Users can log:
+
+Symptoms
+
+Mood
+
+Pain level
+
+Energy level
+
+Sleep
+
+Water intake
+
+Exercise
+
+Nutrition
+
+Weight
+
+Body temperature
+
+Medication
+
+Personal notes
+
+
+AI Personal Health Companion
+
+Each user receives an AI assistant capable of:
+
+Answering menstrual health questions
+
+Explaining symptoms
+
+Reviewing cycle trends
+
+Providing personalized wellness recommendations
+
+Offering nutrition and lifestyle suggestions
+
+Sending daily wellness check-ins
+
+Summarizing monthly health patterns
+
+Remembering previous conversations and logs for more personalized support
+
+
+Health Analytics
+
+Interactive reports include:
+
+Average cycle length
+
+Period regularity
+
+Symptom frequency
+
+Mood trends
+
+Pain trends
+
+Sleep analysis
+
+Wellness score
+
+Monthly health summaries
+
+Personalized AI-generated insights
+
+
+Wellness Education
+
+A built-in knowledge center covering:
+
+Menstrual health
+
+PMS
+
+Ovulation
+
+Fertility awareness
+
+Nutrition
+
+Exercise
+
+Mental wellbeing
+
+Hormonal health
+
+Pregnancy basics
+
+Menopause education
+
+Frequently asked questions
+
+
+Smart Notifications
+
+Telegram notifications for:
+
+Upcoming period
+
+Ovulation window
+
+Daily symptom check-in
+
+Medication reminders
+
+Hydration reminders
+
+Wellness tips
+
+AI health summaries
+
+Subscription reminders
+
+
+
+---
+
+Telegram Integration
+
+FemFlow operates as a Telegram Mini App with seamless integration:
+
+Launch directly from the Telegram bot
+
+Persistent login using Telegram authentication
+
+AI conversations inside Telegram
+
+Quick daily logging through bot commands
+
+Push reminders and notifications
+
+Secure synchronization between the bot and Mini App
+
+
+
+---
+
+Subscription System
+
+FemFlow uses a subscription model.
+
+Plan
+
+Premium Membership
+
+990 ETB per month
+
+
+Payment Workflow
+
+1. User selects the Premium subscription.
+
+
+2. The app displays the designated CBE bank account details.
+
+
+3. The user transfers the subscription fee.
+
+
+4. The user uploads a payment receipt screenshot and provides basic payment details (such as transfer date and sender name).
+
+
+5. An administrator reviews the submission.
+
+
+6. Once approved, the subscription is activated for one month.
+
+
+7. The user receives confirmation via Telegram.
+
+
+8. Renewal reminders are sent before expiration.
+
+
+
+
+---
+
+Admin Dashboard
+
+Administrators can:
+
+Manage users
+
+Review subscription requests
+
+Approve or reject uploaded payment receipts
+
+Manage educational content
+
+Send announcements
+
+View analytics
+
+Monitor AI usage
+
+Manage subscriptions
+
+Configure reminders
+
+View health trend statistics (aggregated and anonymized where appropriate)
+
+
+
+---
+
+Languages
+
+FemFlow supports:
+
+English
+
+Arabic
+
+
+Users can switch languages at any time without losing their data.
+
+
+---
+
+Design Philosophy
+
+The interface is designed to be:
+
+Elegant and modern
+
+Warm and welcoming
+
+Minimal and easy to navigate
+
+Mobile-first
+
+Optimized for Telegram
+
+Fast and responsive
+
+Accessible for users of varying technical experience
+
+
+The design incorporates soft color palettes, intuitive icons, clear visualizations, and interactive charts to make health tracking engaging and approachable.
+
+
+---
+
+Privacy & Security
+
+FemFlow prioritizes user privacy by:
+
+Using secure Telegram authentication
+
+Encrypting data in transit
+
+Storing personal health information securely
+
+Allowing users to export or delete their data
+
+Requiring admin approval for subscription activation
+
+Keeping AI conversations private to each user
+
+
+
+---
+
+Vision
+
+FemFlow aims to become a trusted digital women's wellness companion by combining menstrual tracking, AI-powered guidance, wellness education, and personalized insights within the familiar Telegram ecosystem. The goal is to empower women to better understand their bodies, build healthy routines, and make informed decisions about their reproductive health through a simple, intelligent, and accessible platform.

@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "FemFlow"
+version = "1.0.0"
+id = "artifacts/femflow"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 21192
+
+[services.development]
+run = "pnpm --filter @workspace/femflow run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/femflow", "run", "build" ]
+publicDir = "artifacts/femflow/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "21192"
+BASE_PATH = "/"

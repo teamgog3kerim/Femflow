@@ -1,0 +1,3 @@
+- [FemFlow date serialization](femflow-date-serialization.md) — Drizzle returns Date objects; Zod from OpenAPI expects strings; use serialize() helper before Zod.parse()
+- [FemFlow esbuild externals](femflow-esbuild-externals.md) — openai/p-limit/p-retry must be both in api-server deps and marked external in build.mjs to bundle cross-package.
+- [FemFlow auth pattern](femflow-auth-pattern.md) — HMAC bearer tokens; setBaseUrl('/api') + setAuthTokenGetter in main.tsx; token in localStorage.

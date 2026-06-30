@@ -1,22 +1,39 @@
 openapi: 3.1.0
 info:
-  # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: FemFlow API specification
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: users
+    description: User profile and authentication
+  - name: cycles
+    description: Menstrual cycle tracking
+  - name: healthLogs
+    description: Daily health logging
+  - name: aiChat
+    description: AI health companion chat
+  - name: education
+    description: Health education content
+  - name: subscriptions
+    description: Subscription management
+  - name: analytics
+    description: Health analytics and insights
+  - name: notifications
+    description: Notifications
+  - name: admin
+    description: Admin operations
+
 paths:
   /healthz:
     get:
       operationId: healthCheck
       tags: [health]
       summary: Health check
-      description: Returns server health status
       responses:
         "200":
           description: Healthy
@@ -24,13 +41,1213 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+
+  # --- Users ---
+  /users/me:
+    get:
+      operationId: getMe
+      tags: [users]
+      summary: Get current user profile
+      responses:
+        "200":
+          description: User profile
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "404":
+          description: Not found
+    patch:
+      operationId: updateMe
+      tags: [users]
+      summary: Update user profile
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserUpdate"
+      responses:
+        "200":
+          description: Updated user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+
+  /users/auth:
+    post:
+      operationId: authUser
+      tags: [users]
+      summary: Authenticate or register via Telegram
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserAuthInput"
+      responses:
+        "200":
+          description: User and session
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+
+  # --- Cycles ---
+  /cycles:
+    get:
+      operationId: listCycles
+      tags: [cycles]
+      summary: List menstrual cycles
+      parameters:
+        - in: query
+          name: limit
+          schema:
+            type: integer
+        - in: query
+          name: offset
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: List of cycles
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Cycle"
+    post:
+      operationId: createCycle
+      tags: [cycles]
+      summary: Log a new period start
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CycleInput"
+      responses:
+        "201":
+          description: Created cycle
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Cycle"
+
+  /cycles/current:
+    get:
+      operationId: getCurrentCycle
+      tags: [cycles]
+      summary: Get current cycle status and predictions
+      responses:
+        "200":
+          description: Current cycle info
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CurrentCycleStatus"
+
+  /cycles/{id}:
+    patch:
+      operationId: updateCycle
+      tags: [cycles]
+      summary: Update a cycle (e.g. set end date, flow)
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CycleUpdate"
+      responses:
+        "200":
+          description: Updated cycle
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Cycle"
+        "404":
+          description: Not found
+
+  # --- Health Logs ---
+  /health-logs:
+    get:
+      operationId: listHealthLogs
+      tags: [healthLogs]
+      summary: List health logs
+      parameters:
+        - in: query
+          name: startDate
+          schema:
+            type: string
+        - in: query
+          name: endDate
+          schema:
+            type: string
+      responses:
+        "200":
+          description: List of health logs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/HealthLog"
+    post:
+      operationId: createHealthLog
+      tags: [healthLogs]
+      summary: Create a daily health log
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/HealthLogInput"
+      responses:
+        "201":
+          description: Created health log
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthLog"
+
+  /health-logs/{id}:
+    patch:
+      operationId: updateHealthLog
+      tags: [healthLogs]
+      summary: Update a health log
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/HealthLogUpdate"
+      responses:
+        "200":
+          description: Updated health log
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthLog"
+        "404":
+          description: Not found
+
+  /health-logs/summary:
+    get:
+      operationId: getHealthLogSummary
+      tags: [healthLogs]
+      summary: Get monthly health summary
+      parameters:
+        - in: query
+          name: year
+          schema:
+            type: integer
+        - in: query
+          name: month
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Monthly summary
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthLogSummary"
+
+  # --- AI Chat ---
+  /ai-messages:
+    get:
+      operationId: listAiMessages
+      tags: [aiChat]
+      summary: Get AI chat history
+      parameters:
+        - in: query
+          name: limit
+          schema:
+            type: integer
+        - in: query
+          name: offset
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Chat messages
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/AiMessage"
+    post:
+      operationId: sendAiMessage
+      tags: [aiChat]
+      summary: Send a message to the AI health companion
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AiMessageInput"
+      responses:
+        "201":
+          description: User message and AI response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AiMessagePair"
+
+  # --- Education ---
+  /articles:
+    get:
+      operationId: listArticles
+      tags: [education]
+      summary: List education articles
+      parameters:
+        - in: query
+          name: category
+          schema:
+            type: string
+        - in: query
+          name: language
+          schema:
+            type: string
+      responses:
+        "200":
+          description: List of articles
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Article"
+
+  /articles/{id}:
+    get:
+      operationId: getArticle
+      tags: [education]
+      summary: Get a single article
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Article
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Article"
+        "404":
+          description: Not found
+
+  # --- Subscriptions ---
+  /subscriptions/me:
+    get:
+      operationId: getMySubscription
+      tags: [subscriptions]
+      summary: Get current user's subscription status
+      responses:
+        "200":
+          description: Subscription status
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Subscription"
+
+  /subscriptions:
+    post:
+      operationId: submitSubscription
+      tags: [subscriptions]
+      summary: Submit a payment receipt for subscription
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SubscriptionInput"
+      responses:
+        "201":
+          description: Subscription request submitted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Subscription"
+
+  # --- Analytics ---
+  /analytics/wellness-score:
+    get:
+      operationId: getWellnessScore
+      tags: [analytics]
+      summary: Get current wellness score
+      responses:
+        "200":
+          description: Wellness score
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WellnessScore"
+
+  /analytics/symptom-trends:
+    get:
+      operationId: getSymptomTrends
+      tags: [analytics]
+      summary: Get symptom frequency trends
+      parameters:
+        - in: query
+          name: months
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Symptom trend data
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/SymptomTrend"
+
+  /analytics/mood-trends:
+    get:
+      operationId: getMoodTrends
+      tags: [analytics]
+      summary: Get mood trends over time
+      parameters:
+        - in: query
+          name: months
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Mood trend data
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/MoodTrend"
+
+  /analytics/cycle-calendar:
+    get:
+      operationId: getCycleCalendar
+      tags: [analytics]
+      summary: Get calendar data for cycle visualization
+      parameters:
+        - in: query
+          name: year
+          schema:
+            type: integer
+        - in: query
+          name: month
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Calendar data
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/CalendarDay"
+
+  /analytics/cycle-stats:
+    get:
+      operationId: getCycleStats
+      tags: [analytics]
+      summary: Get cycle statistics and analytics
+      responses:
+        "200":
+          description: Cycle statistics
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CycleStats"
+
+  # --- Notifications ---
+  /notifications:
+    get:
+      operationId: listNotifications
+      tags: [notifications]
+      summary: List notifications
+      responses:
+        "200":
+          description: Notifications
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Notification"
+
+  /notifications/{id}/read:
+    patch:
+      operationId: markNotificationRead
+      tags: [notifications]
+      summary: Mark notification as read
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Updated notification
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Notification"
+
+  # --- Admin ---
+  /admin/users:
+    get:
+      operationId: adminListUsers
+      tags: [admin]
+      summary: List all users
+      parameters:
+        - in: query
+          name: limit
+          schema:
+            type: integer
+        - in: query
+          name: offset
+          schema:
+            type: integer
+        - in: query
+          name: search
+          schema:
+            type: string
+      responses:
+        "200":
+          description: List of users
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminUserList"
+
+  /admin/subscriptions:
+    get:
+      operationId: adminListSubscriptions
+      tags: [admin]
+      summary: List subscription requests
+      parameters:
+        - in: query
+          name: status
+          schema:
+            type: string
+      responses:
+        "200":
+          description: List of subscriptions
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Subscription"
+
+  /admin/subscriptions/{id}:
+    patch:
+      operationId: adminUpdateSubscription
+      tags: [admin]
+      summary: Approve or reject a subscription
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdminSubscriptionUpdate"
+      responses:
+        "200":
+          description: Updated subscription
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Subscription"
+
+  /admin/analytics:
+    get:
+      operationId: adminGetAnalytics
+      tags: [admin]
+      summary: Get platform analytics
+      responses:
+        "200":
+          description: Platform stats
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminAnalytics"
+
+  /admin/articles:
+    get:
+      operationId: adminListArticles
+      tags: [admin]
+      summary: List all articles for admin
+      responses:
+        "200":
+          description: Articles
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Article"
+    post:
+      operationId: adminCreateArticle
+      tags: [admin]
+      summary: Create an education article
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ArticleInput"
+      responses:
+        "201":
+          description: Created article
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Article"
+
+  /admin/articles/{id}:
+    patch:
+      operationId: adminUpdateArticle
+      tags: [admin]
+      summary: Update an article
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ArticleUpdate"
+      responses:
+        "200":
+          description: Updated article
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Article"
+    delete:
+      operationId: adminDeleteArticle
+      tags: [admin]
+      summary: Delete an article
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+
+  /admin/announcements:
+    post:
+      operationId: adminSendAnnouncement
+      tags: [admin]
+      summary: Send announcement to all users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AnnouncementInput"
+      responses:
+        "201":
+          description: Announcement sent
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Announcement"
+
 components:
   schemas:
     HealthStatus:
       type: object
+      required: [status]
       properties:
         status:
           type: string
-      required:
-        - status
 
+    # --- Users ---
+    User:
+      type: object
+      required: [id, telegramId, language, createdAt]
+      properties:
+        id:
+          type: integer
+        telegramId:
+          type: string
+        firstName:
+          type: ["string", "null"]
+        lastName:
+          type: ["string", "null"]
+        username:
+          type: ["string", "null"]
+        language:
+          type: string
+        timezone:
+          type: ["string", "null"]
+        dateOfBirth:
+          type: ["string", "null"]
+        isAdmin:
+          type: boolean
+        notificationsEnabled:
+          type: boolean
+        subscriptionStatus:
+          type: string
+        createdAt:
+          type: string
+
+    UserUpdate:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        language:
+          type: string
+        timezone:
+          type: string
+        dateOfBirth:
+          type: string
+        notificationsEnabled:
+          type: boolean
+
+    UserAuthInput:
+      type: object
+      required: [telegramId]
+      properties:
+        telegramId:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        username:
+          type: string
+        language:
+          type: string
+
+    AuthResponse:
+      type: object
+      required: [user, token]
+      properties:
+        user:
+          $ref: "#/components/schemas/User"
+        token:
+          type: string
+
+    # --- Cycles ---
+    Cycle:
+      type: object
+      required: [id, userId, startDate, createdAt]
+      properties:
+        id:
+          type: integer
+        userId:
+          type: integer
+        startDate:
+          type: string
+        endDate:
+          type: ["string", "null"]
+        flowIntensity:
+          type: ["string", "null"]
+        notes:
+          type: ["string", "null"]
+        createdAt:
+          type: string
+
+    CycleInput:
+      type: object
+      required: [startDate]
+      properties:
+        startDate:
+          type: string
+        endDate:
+          type: string
+        flowIntensity:
+          type: string
+        notes:
+          type: string
+
+    CycleUpdate:
+      type: object
+      properties:
+        endDate:
+          type: string
+        flowIntensity:
+          type: string
+        notes:
+          type: string
+
+    CurrentCycleStatus:
+      type: object
+      required: [cycleDay, phase, nextPeriodDate, fertileWindowStart, fertileWindowEnd, ovulationDate, averageCycleLength]
+      properties:
+        cycleDay:
+          type: ["integer", "null"]
+        phase:
+          type: ["string", "null"]
+        nextPeriodDate:
+          type: ["string", "null"]
+        fertileWindowStart:
+          type: ["string", "null"]
+        fertileWindowEnd:
+          type: ["string", "null"]
+        ovulationDate:
+          type: ["string", "null"]
+        averageCycleLength:
+          type: ["number", "null"]
+        currentCycle:
+          $ref: "#/components/schemas/Cycle"
+
+    CycleStats:
+      type: object
+      required: [averageCycleLength, averagePeriodLength, totalCycles, regularityScore]
+      properties:
+        averageCycleLength:
+          type: ["number", "null"]
+        averagePeriodLength:
+          type: ["number", "null"]
+        totalCycles:
+          type: integer
+        regularityScore:
+          type: ["number", "null"]
+        shortestCycle:
+          type: ["integer", "null"]
+        longestCycle:
+          type: ["integer", "null"]
+
+    # --- Health Logs ---
+    HealthLog:
+      type: object
+      required: [id, userId, logDate, createdAt]
+      properties:
+        id:
+          type: integer
+        userId:
+          type: integer
+        logDate:
+          type: string
+        symptoms:
+          type: ["string", "null"]
+        mood:
+          type: ["string", "null"]
+        painLevel:
+          type: ["integer", "null"]
+        energyLevel:
+          type: ["integer", "null"]
+        sleepHours:
+          type: ["number", "null"]
+        waterIntakeLiters:
+          type: ["number", "null"]
+        exerciseMinutes:
+          type: ["integer", "null"]
+        nutrition:
+          type: ["string", "null"]
+        weightKg:
+          type: ["number", "null"]
+        bodyTemperature:
+          type: ["number", "null"]
+        medication:
+          type: ["string", "null"]
+        notes:
+          type: ["string", "null"]
+        createdAt:
+          type: string
+
+    HealthLogInput:
+      type: object
+      required: [logDate]
+      properties:
+        logDate:
+          type: string
+        symptoms:
+          type: string
+        mood:
+          type: string
+        painLevel:
+          type: integer
+        energyLevel:
+          type: integer
+        sleepHours:
+          type: number
+        waterIntakeLiters:
+          type: number
+        exerciseMinutes:
+          type: integer
+        nutrition:
+          type: string
+        weightKg:
+          type: number
+        bodyTemperature:
+          type: number
+        medication:
+          type: string
+        notes:
+          type: string
+
+    HealthLogUpdate:
+      type: object
+      properties:
+        symptoms:
+          type: string
+        mood:
+          type: string
+        painLevel:
+          type: integer
+        energyLevel:
+          type: integer
+        sleepHours:
+          type: number
+        waterIntakeLiters:
+          type: number
+        exerciseMinutes:
+          type: integer
+        nutrition:
+          type: string
+        weightKg:
+          type: number
+        bodyTemperature:
+          type: number
+        medication:
+          type: string
+        notes:
+          type: string
+
+    HealthLogSummary:
+      type: object
+      required: [month, year, totalDaysLogged, averageMood, averagePainLevel, averageEnergyLevel, averageSleepHours, averageWaterIntake]
+      properties:
+        month:
+          type: integer
+        year:
+          type: integer
+        totalDaysLogged:
+          type: integer
+        averageMood:
+          type: ["string", "null"]
+        averagePainLevel:
+          type: ["number", "null"]
+        averageEnergyLevel:
+          type: ["number", "null"]
+        averageSleepHours:
+          type: ["number", "null"]
+        averageWaterIntake:
+          type: ["number", "null"]
+        topSymptoms:
+          type: array
+          items:
+            type: string
+        wellnessScore:
+          type: ["number", "null"]
+
+    # --- AI Chat ---
+    AiMessage:
+      type: object
+      required: [id, userId, role, content, createdAt]
+      properties:
+        id:
+          type: integer
+        userId:
+          type: integer
+        role:
+          type: string
+        content:
+          type: string
+        createdAt:
+          type: string
+
+    AiMessageInput:
+      type: object
+      required: [content]
+      properties:
+        content:
+          type: string
+
+    AiMessagePair:
+      type: object
+      required: [userMessage, assistantMessage]
+      properties:
+        userMessage:
+          $ref: "#/components/schemas/AiMessage"
+        assistantMessage:
+          $ref: "#/components/schemas/AiMessage"
+
+    # --- Education ---
+    Article:
+      type: object
+      required: [id, title, category, language, content, createdAt]
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        category:
+          type: string
+        language:
+          type: string
+        summary:
+          type: ["string", "null"]
+        content:
+          type: string
+        imageUrl:
+          type: ["string", "null"]
+        readTimeMinutes:
+          type: ["integer", "null"]
+        isPublished:
+          type: boolean
+        createdAt:
+          type: string
+
+    ArticleInput:
+      type: object
+      required: [title, category, language, content]
+      properties:
+        title:
+          type: string
+        category:
+          type: string
+        language:
+          type: string
+        summary:
+          type: string
+        content:
+          type: string
+        imageUrl:
+          type: string
+        readTimeMinutes:
+          type: integer
+        isPublished:
+          type: boolean
+
+    ArticleUpdate:
+      type: object
+      properties:
+        title:
+          type: string
+        category:
+          type: string
+        language:
+          type: string
+        summary:
+          type: string
+        content:
+          type: string
+        imageUrl:
+          type: string
+        readTimeMinutes:
+          type: integer
+        isPublished:
+          type: boolean
+
+    # --- Subscriptions ---
+    Subscription:
+      type: object
+      required: [id, userId, status, planName, priceEtb, createdAt]
+      properties:
+        id:
+          type: integer
+        userId:
+          type: integer
+        planName:
+          type: string
+        priceEtb:
+          type: number
+        status:
+          type: string
+        receiptImageUrl:
+          type: ["string", "null"]
+        transferDate:
+          type: ["string", "null"]
+        senderName:
+          type: ["string", "null"]
+        bankAccount:
+          type: ["string", "null"]
+        adminNotes:
+          type: ["string", "null"]
+        expiresAt:
+          type: ["string", "null"]
+        createdAt:
+          type: string
+
+    SubscriptionInput:
+      type: object
+      required: [senderName, transferDate]
+      properties:
+        senderName:
+          type: string
+        transferDate:
+          type: string
+        receiptImageUrl:
+          type: string
+        bankAccount:
+          type: string
+
+    AdminSubscriptionUpdate:
+      type: object
+      required: [status]
+      properties:
+        status:
+          type: string
+        adminNotes:
+          type: string
+        expiresAt:
+          type: string
+
+    # --- Analytics ---
+    WellnessScore:
+      type: object
+      required: [score, breakdown]
+      properties:
+        score:
+          type: number
+        breakdown:
+          type: object
+          properties:
+            sleep:
+              type: ["number", "null"]
+            hydration:
+              type: ["number", "null"]
+            exercise:
+              type: ["number", "null"]
+            mood:
+              type: ["number", "null"]
+            pain:
+              type: ["number", "null"]
+
+    SymptomTrend:
+      type: object
+      required: [symptom, count, month]
+      properties:
+        symptom:
+          type: string
+        count:
+          type: integer
+        month:
+          type: string
+
+    MoodTrend:
+      type: object
+      required: [mood, count, month]
+      properties:
+        mood:
+          type: string
+        count:
+          type: integer
+        month:
+          type: string
+
+    CalendarDay:
+      type: object
+      required: [date, type]
+      properties:
+        date:
+          type: string
+        type:
+          type: string
+        hasLog:
+          type: boolean
+        phase:
+          type: ["string", "null"]
+
+    # --- Notifications ---
+    Notification:
+      type: object
+      required: [id, userId, type, message, isRead, createdAt]
+      properties:
+        id:
+          type: integer
+        userId:
+          type: integer
+        type:
+          type: string
+        message:
+          type: string
+        isRead:
+          type: boolean
+        createdAt:
+          type: string
+
+    # --- Admin ---
+    AdminUserList:
+      type: object
+      required: [users, total]
+      properties:
+        users:
+          type: array
+          items:
+            $ref: "#/components/schemas/User"
+        total:
+          type: integer
+
+    AdminAnalytics:
+      type: object
+      required: [totalUsers, activeSubscriptions, pendingSubscriptions, totalCyclesLogged, totalHealthLogs, totalAiMessages]
+      properties:
+        totalUsers:
+          type: integer
+        activeSubscriptions:
+          type: integer
+        pendingSubscriptions:
+          type: integer
+        totalCyclesLogged:
+          type: integer
+        totalHealthLogs:
+          type: integer
+        totalAiMessages:
+          type: integer
+        newUsersThisMonth:
+          type: integer
+
+    AnnouncementInput:
+      type: object
+      required: [message]
+      properties:
+        message:
+          type: string
+        title:
+          type: string
+
+    Announcement:
+      type: object
+      required: [id, message, sentAt]
+      properties:
+        id:
+          type: integer
+        title:
+          type: ["string", "null"]
+        message:
+          type: string
+        sentAt:
+          type: string
