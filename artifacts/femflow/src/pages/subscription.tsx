@@ -46,7 +46,7 @@ export default function Subscription() {
 
   const handleSubmit = () => {
     submitSub.mutate({
-      data: { receiptImageUrl: receiptPath, bankAccount: "1000123456789" }
+      data: { receiptImageUrl: receiptPath, bankAccount: "1000296594931" }
     }, {
       onSuccess: () => {
         toast({ title: t.submitted });
@@ -128,7 +128,9 @@ export default function Subscription() {
           <div className="space-y-4">
             <div className="bg-white/60 p-4 rounded-xl">
               <p className="text-sm text-muted-foreground mb-1">{t.cbeAccount}</p>
-              <p className="font-mono text-lg tracking-wider font-bold text-foreground">1000123456789</p>
+              <p className="font-mono text-lg tracking-wider font-bold text-foreground">1000296594931</p>
+              <p className="text-sm text-muted-foreground mt-2 mb-1">{t.accountName}</p>
+              <p className="text-base font-semibold text-foreground">Hanae Maeruf Mahammedzain</p>
               <p className="text-xs text-muted-foreground mt-2">{t.howTo}</p>
             </div>
             <h3 className="font-medium text-sm">{t.uploadDetails}</h3>
