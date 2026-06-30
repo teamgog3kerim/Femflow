@@ -3,9 +3,6 @@ info:
   title: Api
   version: 0.1.0
   description: FemFlow API specification
-servers:
-  - url: /api
-    description: Base API path
 tags:
   - name: health
     description: Health operations

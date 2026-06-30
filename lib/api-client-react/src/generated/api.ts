@@ -97,7 +97,7 @@ export const getHealthCheckUrl = () => {
 
 
 
-  return `/api/healthz`
+  return `/healthz`
 }
 
 /**
@@ -120,7 +120,7 @@ export const healthCheck = async ( options?: RequestInit): Promise<HealthStatus>
 
 export const getHealthCheckQueryKey = () => {
     return [
-    `/api/healthz`
+    `/healthz`
     ] as const;
     }
 
@@ -174,7 +174,7 @@ export const getGetMeUrl = () => {
 
 
 
-  return `/api/users/me`
+  return `/users/me`
 }
 
 /**
@@ -197,7 +197,7 @@ export const getMe = async ( options?: RequestInit): Promise<User> => {
 
 export const getGetMeQueryKey = () => {
     return [
-    `/api/users/me`
+    `/users/me`
     ] as const;
     }
 
@@ -251,7 +251,7 @@ export const getUpdateMeUrl = () => {
 
 
 
-  return `/api/users/me`
+  return `/users/me`
 }
 
 /**
@@ -321,7 +321,7 @@ export const getAuthUserUrl = () => {
 
 
 
-  return `/api/users/auth`
+  return `/users/auth`
 }
 
 /**
@@ -391,7 +391,7 @@ export const getTelegramAuthUrl = () => {
 
 
 
-  return `/api/users/telegram-auth`
+  return `/users/telegram-auth`
 }
 
 /**
@@ -468,7 +468,7 @@ export const getListCyclesUrl = (params?: ListCyclesParams,) => {
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `/api/cycles?${stringifiedParams}` : `/api/cycles`
+  return stringifiedParams.length > 0 ? `/cycles?${stringifiedParams}` : `/cycles`
 }
 
 /**
@@ -491,7 +491,7 @@ export const listCycles = async (params?: ListCyclesParams, options?: RequestIni
 
 export const getListCyclesQueryKey = (params?: ListCyclesParams,) => {
     return [
-    `/api/cycles`, ...(params ? [params] : [])
+    `/cycles`, ...(params ? [params] : [])
     ] as const;
     }
 
@@ -545,7 +545,7 @@ export const getCreateCycleUrl = () => {
 
 
 
-  return `/api/cycles`
+  return `/cycles`
 }
 
 /**
@@ -615,7 +615,7 @@ export const getGetCurrentCycleUrl = () => {
 
 
 
-  return `/api/cycles/current`
+  return `/cycles/current`
 }
 
 /**
@@ -638,7 +638,7 @@ export const getCurrentCycle = async ( options?: RequestInit): Promise<CurrentCy
 
 export const getGetCurrentCycleQueryKey = () => {
     return [
-    `/api/cycles/current`
+    `/cycles/current`
     ] as const;
     }
 
@@ -692,7 +692,7 @@ export const getUpdateCycleUrl = (id: number,) => {
 
 
 
-  return `/api/cycles/${id}`
+  return `/cycles/${id}`
 }
 
 /**
@@ -770,7 +770,7 @@ export const getListHealthLogsUrl = (params?: ListHealthLogsParams,) => {
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `/api/health-logs?${stringifiedParams}` : `/api/health-logs`
+  return stringifiedParams.length > 0 ? `/health-logs?${stringifiedParams}` : `/health-logs`
 }
 
 /**
@@ -793,7 +793,7 @@ export const listHealthLogs = async (params?: ListHealthLogsParams, options?: Re
 
 export const getListHealthLogsQueryKey = (params?: ListHealthLogsParams,) => {
     return [
-    `/api/health-logs`, ...(params ? [params] : [])
+    `/health-logs`, ...(params ? [params] : [])
     ] as const;
     }
 
@@ -847,7 +847,7 @@ export const getCreateHealthLogUrl = () => {
 
 
 
-  return `/api/health-logs`
+  return `/health-logs`
 }
 
 /**
@@ -917,7 +917,7 @@ export const getUpdateHealthLogUrl = (id: number,) => {
 
 
 
-  return `/api/health-logs/${id}`
+  return `/health-logs/${id}`
 }
 
 /**
@@ -995,7 +995,7 @@ export const getGetHealthLogSummaryUrl = (params?: GetHealthLogSummaryParams,) =
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `/api/health-logs/summary?${stringifiedParams}` : `/api/health-logs/summary`
+  return stringifiedParams.length > 0 ? `/health-logs/summary?${stringifiedParams}` : `/health-logs/summary`
 }
 
 /**
@@ -1018,7 +1018,7 @@ export const getHealthLogSummary = async (params?: GetHealthLogSummaryParams, op
 
 export const getGetHealthLogSummaryQueryKey = (params?: GetHealthLogSummaryParams,) => {
     return [
-    `/api/health-logs/summary`, ...(params ? [params] : [])
+    `/health-logs/summary`, ...(params ? [params] : [])
     ] as const;
     }
 
@@ -1079,7 +1079,7 @@ export const getListAiMessagesUrl = (params?: ListAiMessagesParams,) => {
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `/api/ai-messages?${stringifiedParams}` : `/api/ai-messages`
+  return stringifiedParams.length > 0 ? `/ai-messages?${stringifiedParams}` : `/ai-messages`
 }
 
 /**
@@ -1102,7 +1102,7 @@ export const listAiMessages = async (params?: ListAiMessagesParams, options?: Re
 
 export const getListAiMessagesQueryKey = (params?: ListAiMessagesParams,) => {
     return [
-    `/api/ai-messages`, ...(params ? [params] : [])
+    `/ai-messages`, ...(params ? [params] : [])
     ] as const;
     }
 
@@ -1156,7 +1156,7 @@ export const getSendAiMessageUrl = () => {
 
 
 
-  return `/api/ai-messages`
+  return `/ai-messages`
 }
 
 /**
@@ -1233,7 +1233,7 @@ export const getListArticlesUrl = (params?: ListArticlesParams,) => {
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `/api/articles?${stringifiedParams}` : `/api/articles`
+  return stringifiedParams.length > 0 ? `/articles?${stringifiedParams}` : `/articles`
 }
 
 /**
@@ -1256,7 +1256,7 @@ export const listArticles = async (params?: ListArticlesParams, options?: Reques
 
 export const getListArticlesQueryKey = (params?: ListArticlesParams,) => {
     return [
-    `/api/articles`, ...(params ? [params] : [])
+    `/articles`, ...(params ? [params] : [])
     ] as const;
     }
 
@@ -1310,7 +1310,7 @@ export const getGetArticleUrl = (id: number,) => {
 
 
 
-  return `/api/articles/${id}`
+  return `/articles/${id}`
 }
 
 /**
@@ -1333,7 +1333,7 @@ export const getArticle = async (id: number, options?: RequestInit): Promise<Art
 
 export const getGetArticleQueryKey = (id: number,) => {
     return [
-    `/api/articles/${id}`
+    `/articles/${id}`
     ] as const;
     }
 
@@ -1387,7 +1387,7 @@ export const getGetMySubscriptionUrl = () => {
 
 
 
-  return `/api/subscriptions/me`
+  return `/subscriptions/me`
 }
 
 /**
@@ -1410,7 +1410,7 @@ export const getMySubscription = async ( options?: RequestInit): Promise<Subscri
 
 export const getGetMySubscriptionQueryKey = () => {
     return [
-    `/api/subscriptions/me`
+    `/subscriptions/me`
     ] as const;
     }
 
@@ -1464,7 +1464,7 @@ export const getSubmitSubscriptionUrl = () => {
 
 
 
-  return `/api/subscriptions`
+  return `/subscriptions`
 }
 
 /**
@@ -1534,7 +1534,7 @@ export const getGetWellnessScoreUrl = () => {
 
 
 
-  return `/api/analytics/wellness-score`
+  return `/analytics/wellness-score`
 }
 
 /**
@@ -1557,7 +1557,7 @@ export const getWellnessScore = async ( options?: RequestInit): Promise<Wellness
 
 export const getGetWellnessScoreQueryKey = () => {
     return [
-    `/api/analytics/wellness-score`
+    `/analytics/wellness-score`
     ] as const;
     }
 
@@ -1618,7 +1618,7 @@ export const getGetSymptomTrendsUrl = (params?: GetSymptomTrendsParams,) => {
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `/api/analytics/symptom-trends?${stringifiedParams}` : `/api/analytics/symptom-trends`
+  return stringifiedParams.length > 0 ? `/analytics/symptom-trends?${stringifiedParams}` : `/analytics/symptom-trends`
 }
 
 /**
@@ -1641,7 +1641,7 @@ export const getSymptomTrends = async (params?: GetSymptomTrendsParams, options?
 
 export const getGetSymptomTrendsQueryKey = (params?: GetSymptomTrendsParams,) => {
     return [
-    `/api/analytics/symptom-trends`, ...(params ? [params] : [])
+    `/analytics/symptom-trends`, ...(params ? [params] : [])
     ] as const;
     }
 
@@ -1702,7 +1702,7 @@ export const getGetMoodTrendsUrl = (params?: GetMoodTrendsParams,) => {
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `/api/analytics/mood-trends?${stringifiedParams}` : `/api/analytics/mood-trends`
+  return stringifiedParams.length > 0 ? `/analytics/mood-trends?${stringifiedParams}` : `/analytics/mood-trends`
 }
 
 /**
@@ -1725,7 +1725,7 @@ export const getMoodTrends = async (params?: GetMoodTrendsParams, options?: Requ
 
 export const getGetMoodTrendsQueryKey = (params?: GetMoodTrendsParams,) => {
     return [
-    `/api/analytics/mood-trends`, ...(params ? [params] : [])
+    `/analytics/mood-trends`, ...(params ? [params] : [])
     ] as const;
     }
 
@@ -1786,7 +1786,7 @@ export const getGetCycleCalendarUrl = (params?: GetCycleCalendarParams,) => {
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `/api/analytics/cycle-calendar?${stringifiedParams}` : `/api/analytics/cycle-calendar`
+  return stringifiedParams.length > 0 ? `/analytics/cycle-calendar?${stringifiedParams}` : `/analytics/cycle-calendar`
 }
 
 /**
@@ -1809,7 +1809,7 @@ export const getCycleCalendar = async (params?: GetCycleCalendarParams, options?
 
 export const getGetCycleCalendarQueryKey = (params?: GetCycleCalendarParams,) => {
     return [
-    `/api/analytics/cycle-calendar`, ...(params ? [params] : [])
+    `/analytics/cycle-calendar`, ...(params ? [params] : [])
     ] as const;
     }
 
@@ -1863,7 +1863,7 @@ export const getGetCycleStatsUrl = () => {
 
 
 
-  return `/api/analytics/cycle-stats`
+  return `/analytics/cycle-stats`
 }
 
 /**
@@ -1886,7 +1886,7 @@ export const getCycleStats = async ( options?: RequestInit): Promise<CycleStats>
 
 export const getGetCycleStatsQueryKey = () => {
     return [
-    `/api/analytics/cycle-stats`
+    `/analytics/cycle-stats`
     ] as const;
     }
 
@@ -1940,7 +1940,7 @@ export const getListNotificationsUrl = () => {
 
 
 
-  return `/api/notifications`
+  return `/notifications`
 }
 
 /**
@@ -1963,7 +1963,7 @@ export const listNotifications = async ( options?: RequestInit): Promise<Notific
 
 export const getListNotificationsQueryKey = () => {
     return [
-    `/api/notifications`
+    `/notifications`
     ] as const;
     }
 
@@ -2017,7 +2017,7 @@ export const getMarkNotificationReadUrl = (id: number,) => {
 
 
 
-  return `/api/notifications/${id}/read`
+  return `/notifications/${id}/read`
 }
 
 /**
@@ -2094,7 +2094,7 @@ export const getAdminListUsersUrl = (params?: AdminListUsersParams,) => {
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `/api/admin/users?${stringifiedParams}` : `/api/admin/users`
+  return stringifiedParams.length > 0 ? `/admin/users?${stringifiedParams}` : `/admin/users`
 }
 
 /**
@@ -2117,7 +2117,7 @@ export const adminListUsers = async (params?: AdminListUsersParams, options?: Re
 
 export const getAdminListUsersQueryKey = (params?: AdminListUsersParams,) => {
     return [
-    `/api/admin/users`, ...(params ? [params] : [])
+    `/admin/users`, ...(params ? [params] : [])
     ] as const;
     }
 
@@ -2178,7 +2178,7 @@ export const getAdminListSubscriptionsUrl = (params?: AdminListSubscriptionsPara
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `/api/admin/subscriptions?${stringifiedParams}` : `/api/admin/subscriptions`
+  return stringifiedParams.length > 0 ? `/admin/subscriptions?${stringifiedParams}` : `/admin/subscriptions`
 }
 
 /**
@@ -2201,7 +2201,7 @@ export const adminListSubscriptions = async (params?: AdminListSubscriptionsPara
 
 export const getAdminListSubscriptionsQueryKey = (params?: AdminListSubscriptionsParams,) => {
     return [
-    `/api/admin/subscriptions`, ...(params ? [params] : [])
+    `/admin/subscriptions`, ...(params ? [params] : [])
     ] as const;
     }
 
@@ -2255,7 +2255,7 @@ export const getAdminUpdateSubscriptionUrl = (id: number,) => {
 
 
 
-  return `/api/admin/subscriptions/${id}`
+  return `/admin/subscriptions/${id}`
 }
 
 /**
@@ -2326,7 +2326,7 @@ export const getAdminGetAnalyticsUrl = () => {
 
 
 
-  return `/api/admin/analytics`
+  return `/admin/analytics`
 }
 
 /**
@@ -2349,7 +2349,7 @@ export const adminGetAnalytics = async ( options?: RequestInit): Promise<AdminAn
 
 export const getAdminGetAnalyticsQueryKey = () => {
     return [
-    `/api/admin/analytics`
+    `/admin/analytics`
     ] as const;
     }
 
@@ -2403,7 +2403,7 @@ export const getAdminListArticlesUrl = () => {
 
 
 
-  return `/api/admin/articles`
+  return `/admin/articles`
 }
 
 /**
@@ -2426,7 +2426,7 @@ export const adminListArticles = async ( options?: RequestInit): Promise<Article
 
 export const getAdminListArticlesQueryKey = () => {
     return [
-    `/api/admin/articles`
+    `/admin/articles`
     ] as const;
     }
 
@@ -2480,7 +2480,7 @@ export const getAdminCreateArticleUrl = () => {
 
 
 
-  return `/api/admin/articles`
+  return `/admin/articles`
 }
 
 /**
@@ -2550,7 +2550,7 @@ export const getAdminUpdateArticleUrl = (id: number,) => {
 
 
 
-  return `/api/admin/articles/${id}`
+  return `/admin/articles/${id}`
 }
 
 /**
@@ -2621,7 +2621,7 @@ export const getAdminDeleteArticleUrl = (id: number,) => {
 
 
 
-  return `/api/admin/articles/${id}`
+  return `/admin/articles/${id}`
 }
 
 /**
@@ -2691,7 +2691,7 @@ export const getAdminSendAnnouncementUrl = () => {
 
 
 
-  return `/api/admin/announcements`
+  return `/admin/announcements`
 }
 
 /**

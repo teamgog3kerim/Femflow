@@ -38,6 +38,7 @@ AI-powered women's menstrual health Telegram Mini App — cycle tracking, daily 
 ## Architecture decisions
 
 - **Contract-first**: OpenAPI spec → Orval codegen → Zod schemas + React Query hooks. Never write fetch calls by hand.
+- **API base path = single source of truth**: The `/api` prefix is applied ONLY at runtime via `setBaseUrl("/api")` in `femflow/src/main.tsx`. Do NOT add `baseUrl: "/api"` in `orval.config.ts` or a `servers: /api` entry in `openapi.yaml` — either one bakes `/api` into generated paths and causes doubled `/api/api/...` 404s.
 - **Auth**: Custom HMAC bearer tokens (signed with `SESSION_SECRET`, 30-day `exp`, constant-time signature compare). No session cookies. Token stored in `localStorage['femflow_token']`. `setAuthTokenGetter` configured in `main.tsx`. Production logins require Telegram `initData`; dev fallback only.
 - **Date serialization**: Drizzle returns `Date` objects; Zod (from OpenAPI) expects `string`. All routes call `serialize()` (`JSON.parse(JSON.stringify(…))`) before Zod parsing.
 - **AI model**: `gpt-4o-mini` via Replit AI Integrations proxy. Context includes last 3 cycles + last 3 health logs.
