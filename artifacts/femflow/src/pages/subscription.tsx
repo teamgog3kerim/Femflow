@@ -1,10 +1,10 @@
 import { useAuth } from "@/hooks/use-auth";
 import { useTranslation } from "@/lib/translations";
 import { useGetMySubscription, useGetMe, useSubmitSubscription } from "@workspace/api-client-react";
+import { useUpload } from "@workspace/object-storage-web";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 
 function daysUntil(dateStr: string | null | undefined): number | null {
@@ -22,17 +22,40 @@ export default function Subscription() {
   const { data: me, refetch: refetchMe } = useGetMe();
   const submitSub = useSubmitSubscription();
 
-  const [senderName, setSenderName] = useState("");
-  const [transferDate, setTransferDate] = useState("");
+  const [receiptPath, setReceiptPath] = useState("");
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [showForm, setShowForm] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const { uploadFile, isUploading } = useUpload({
+    onSuccess: (res) => setReceiptPath(res.objectPath),
+    onError: () => toast({ title: t.uploadFailed, variant: "destructive" }),
+  });
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setReceiptPath("");
+      setPreviewUrl((prev) => {
+        if (prev) URL.revokeObjectURL(prev);
+        return URL.createObjectURL(file);
+      });
+      void uploadFile(file);
+    }
+  };
 
   const handleSubmit = () => {
     submitSub.mutate({
-      data: { senderName, transferDate, bankAccount: "1000123456789" }
+      data: { receiptImageUrl: receiptPath, bankAccount: "1000123456789" }
     }, {
       onSuccess: () => {
         toast({ title: t.submitted });
         setShowForm(false);
+        setReceiptPath("");
+        setPreviewUrl((prev) => {
+          if (prev) URL.revokeObjectURL(prev);
+          return null;
+        });
         refetch();
         refetchMe();
       }
@@ -109,11 +132,45 @@ export default function Subscription() {
               <p className="text-xs text-muted-foreground mt-2">{t.howTo}</p>
             </div>
             <h3 className="font-medium text-sm">{t.uploadDetails}</h3>
-            <Input placeholder={t.senderName} value={senderName} onChange={e => setSenderName(e.target.value)} />
-            <Input type="date" value={transferDate} onChange={e => setTransferDate(e.target.value)} />
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={handleFileChange}
+            />
+            {previewUrl ? (
+              <div className="space-y-2">
+                <img
+                  src={previewUrl}
+                  alt="Receipt"
+                  className="w-full max-h-64 object-contain rounded-xl border border-border bg-white"
+                />
+                <p className="text-xs text-green-700 text-center">{t.receiptReady}</p>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => fileInputRef.current?.click()}
+                  disabled={isUploading}
+                  className="w-full"
+                >
+                  {t.changeImage}
+                </Button>
+              </div>
+            ) : (
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => fileInputRef.current?.click()}
+                disabled={isUploading}
+                className="w-full"
+              >
+                {isUploading ? t.uploading : t.uploadReceipt}
+              </Button>
+            )}
             <Button
               onClick={handleSubmit}
-              disabled={submitSub.isPending || !senderName || !transferDate}
+              disabled={submitSub.isPending || isUploading || !receiptPath}
               className="w-full"
             >
               {t.submit}

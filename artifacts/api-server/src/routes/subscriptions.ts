@@ -55,6 +55,11 @@ router.post("/subscriptions", async (req, res): Promise<void> => {
   const parsed = SubmitSubscriptionBody.safeParse(req.body);
   if (!parsed.success) { res.status(400).json({ error: parsed.error.message }); return; }
 
+  if (!parsed.data.receiptImageUrl.startsWith("/objects/")) {
+    res.status(400).json({ error: "Invalid receipt image path" });
+    return;
+  }
+
   const [sub] = await db.insert(subscriptionsTable).values({
     userId,
     planName: "Premium",

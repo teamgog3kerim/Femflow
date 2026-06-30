@@ -274,9 +274,7 @@ export interface Subscription {
 }
 
 export interface SubscriptionInput {
-  senderName: string;
-  transferDate: string;
-  receiptImageUrl?: string;
+  receiptImageUrl: string;
   bankAccount?: string;
 }
 
@@ -359,6 +357,36 @@ export interface Announcement {
   title?: string | null;
   message: string;
   sentAt: string;
+}
+
+export interface UploadUrlRequest {
+  /**
+     * Original file name.
+     * @minLength 1
+     */
+  name: string;
+  /**
+     * File size in bytes.
+     * @minimum 1
+     */
+  size: number;
+  /**
+     * MIME type of the file (e.g. `image/jpeg`).
+     * @minLength 1
+     */
+  contentType: string;
+}
+
+export interface UploadUrlResponse {
+  /** Presigned GCS URL for PUT upload. */
+  uploadURL: string;
+  /** Normalized object path (e.g. `/objects/uploads/uuid`). */
+  objectPath: string;
+  metadata?: UploadUrlRequest;
+}
+
+export interface ErrorEnvelope {
+  error: string;
 }
 
 export type ListCyclesParams = {

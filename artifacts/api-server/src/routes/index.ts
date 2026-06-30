@@ -9,10 +9,12 @@ import subscriptionsRouter from "./subscriptions.js";
 import analyticsRouter from "./analytics.js";
 import notificationsRouter from "./notifications.js";
 import adminRouter from "./admin.js";
+import storageRouter from "./storage.js";
 
 const router: IRouter = Router();
 
 router.use(healthRouter);
+router.use(storageRouter);
 router.use(usersRouter);
 router.use(cyclesRouter);
 router.use(healthLogsRouter);

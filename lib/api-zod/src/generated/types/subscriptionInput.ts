@@ -7,8 +7,6 @@
  */
 
 export interface SubscriptionInput {
-  senderName: string;
-  transferDate: string;
-  receiptImageUrl?: string;
+  receiptImageUrl: string;
   bankAccount?: string;
 }
