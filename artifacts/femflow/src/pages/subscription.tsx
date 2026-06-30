@@ -6,6 +6,9 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useRef, useState } from "react";
 import { useToast } from "@/hooks/use-toast";
+import { Copy, Check } from "lucide-react";
+
+const CBE_ACCOUNT = "1000296594931";
 
 function daysUntil(dateStr: string | null | undefined): number | null {
   if (!dateStr) return null;
@@ -25,7 +28,19 @@ export default function Subscription() {
   const [receiptPath, setReceiptPath] = useState("");
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [showForm, setShowForm] = useState(false);
+  const [copied, setCopied] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleCopyAccount = async () => {
+    try {
+      await navigator.clipboard.writeText(CBE_ACCOUNT);
+      setCopied(true);
+      toast({ title: t.copied });
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      toast({ title: t.copyFailed, variant: "destructive" });
+    }
+  };
 
   const { uploadFile, isUploading } = useUpload({
     onSuccess: (res) => setReceiptPath(res.objectPath),
@@ -128,7 +143,20 @@ export default function Subscription() {
           <div className="space-y-4">
             <div className="bg-white/60 p-4 rounded-xl">
               <p className="text-sm text-muted-foreground mb-1">{t.cbeAccount}</p>
-              <p className="font-mono text-lg tracking-wider font-bold text-foreground">1000296594931</p>
+              <div className="flex items-center gap-2">
+                <p className="font-mono text-lg tracking-wider font-bold text-foreground">{CBE_ACCOUNT}</p>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  onClick={handleCopyAccount}
+                  className="h-8 gap-1.5 px-2 text-xs"
+                  aria-label={t.copyAccount}
+                >
+                  {copied ? <Check className="h-4 w-4 text-green-600" /> : <Copy className="h-4 w-4" />}
+                  {copied ? t.copied : t.copy}
+                </Button>
+              </div>
               <p className="text-sm text-muted-foreground mt-2 mb-1">{t.accountName}</p>
               <p className="text-base font-semibold text-foreground">Hanae Maeruf Mahammedzain</p>
               <p className="text-xs text-muted-foreground mt-2">{t.howTo}</p>
