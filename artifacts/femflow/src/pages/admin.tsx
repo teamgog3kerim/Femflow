@@ -1,10 +1,10 @@
 import { useAuth } from "@/hooks/use-auth";
-import { useAdminGetAnalytics } from "@workspace/api-client-react";
+import { useAdminGetAnalytics, getAdminGetAnalyticsQueryKey } from "@workspace/api-client-react";
 import { Card } from "@/components/ui/card";
 
 export default function Admin() {
   const { user } = useAuth();
-  const { data: analytics } = useAdminGetAnalytics({ query: { enabled: !!user?.isAdmin } });
+  const { data: analytics } = useAdminGetAnalytics({ query: { queryKey: getAdminGetAnalyticsQueryKey(), enabled: !!user?.isAdmin } });
 
   if (!user?.isAdmin) {
     return <div className="p-6">Unauthorized</div>;

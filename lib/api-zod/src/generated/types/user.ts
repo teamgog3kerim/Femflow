@@ -23,5 +23,7 @@ export interface User {
   isAdmin?: boolean;
   notificationsEnabled?: boolean;
   subscriptionStatus?: string;
+  /** @nullable */
+  trialEndsAt?: string | null;
   createdAt: string;
 }

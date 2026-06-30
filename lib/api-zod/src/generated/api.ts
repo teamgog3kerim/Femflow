@@ -31,6 +31,7 @@ export const GetMeResponse = zod.object({
   "isAdmin": zod.boolean().optional(),
   "notificationsEnabled": zod.boolean().optional(),
   "subscriptionStatus": zod.string().optional(),
+  "trialEndsAt": zod.string().nullish(),
   "createdAt": zod.string()
 })
 
@@ -59,6 +60,7 @@ export const UpdateMeResponse = zod.object({
   "isAdmin": zod.boolean().optional(),
   "notificationsEnabled": zod.boolean().optional(),
   "subscriptionStatus": zod.string().optional(),
+  "trialEndsAt": zod.string().nullish(),
   "createdAt": zod.string()
 })
 
@@ -87,6 +89,35 @@ export const AuthUserResponse = zod.object({
   "isAdmin": zod.boolean().optional(),
   "notificationsEnabled": zod.boolean().optional(),
   "subscriptionStatus": zod.string().optional(),
+  "trialEndsAt": zod.string().nullish(),
+  "createdAt": zod.string()
+}),
+  "token": zod.string()
+})
+
+
+/**
+ * @summary Authenticate via Telegram Mini App initData
+ */
+export const TelegramAuthBody = zod.object({
+  "initData": zod.string(),
+  "language": zod.string().optional()
+})
+
+export const TelegramAuthResponse = zod.object({
+  "user": zod.object({
+  "id": zod.number(),
+  "telegramId": zod.string(),
+  "firstName": zod.string().nullish(),
+  "lastName": zod.string().nullish(),
+  "username": zod.string().nullish(),
+  "language": zod.string(),
+  "timezone": zod.string().nullish(),
+  "dateOfBirth": zod.string().nullish(),
+  "isAdmin": zod.boolean().optional(),
+  "notificationsEnabled": zod.boolean().optional(),
+  "subscriptionStatus": zod.string().optional(),
+  "trialEndsAt": zod.string().nullish(),
   "createdAt": zod.string()
 }),
   "token": zod.string()
@@ -573,6 +604,7 @@ export const AdminListUsersResponse = zod.object({
   "isAdmin": zod.boolean().optional(),
   "notificationsEnabled": zod.boolean().optional(),
   "subscriptionStatus": zod.string().optional(),
+  "trialEndsAt": zod.string().nullish(),
   "createdAt": zod.string()
 })),
   "total": zod.number()

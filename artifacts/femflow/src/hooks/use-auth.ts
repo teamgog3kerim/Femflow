@@ -1,11 +1,18 @@
 import { useEffect, useState } from 'react';
-import { useAuthUser, useGetMe } from '@workspace/api-client-react';
+import { useAuthUser, useTelegramAuth, useGetMe, getGetMeQueryKey } from '@workspace/api-client-react';
+import { getTelegramWebApp } from '@/lib/telegram';
 
 export function useAuth() {
   const [telegramId, setTelegramId] = useState<string | null>(null);
   const [language, setLanguage] = useState<'en' | 'ar'>('en');
 
   useEffect(() => {
+    const wa = getTelegramWebApp();
+    if (wa) {
+      wa.ready();
+      wa.expand();
+    }
+
     let tid = localStorage.getItem('femflow_telegram_id');
     if (!tid) {
       tid = 'tg_' + Math.random().toString(36).substring(2, 10);
@@ -18,28 +25,39 @@ export function useAuth() {
   }, []);
 
   const authMutation = useAuthUser();
+  const telegramAuthMutation = useTelegramAuth();
   const { data: user, isLoading: isUserLoading, refetch } = useGetMe({
     query: {
+      queryKey: getGetMeQueryKey(),
       enabled: !!localStorage.getItem('femflow_token'),
       retry: false,
     }
   });
 
-  const login = async (firstName: string, lang: 'en' | 'ar' = 'en') => {
-    if (!telegramId) return;
-    const result = await authMutation.mutateAsync({
-      data: {
-        telegramId,
-        firstName,
-        language: lang
-      }
-    });
-    // Persist the bearer token so subsequent API calls are authenticated
-    if (result?.token) {
-      localStorage.setItem('femflow_token', result.token);
-    }
+  const persist = (token: string | undefined, lang: 'en' | 'ar') => {
+    if (token) localStorage.setItem('femflow_token', token);
     localStorage.setItem('femflow_language', lang);
     setLanguage(lang);
+  };
+
+  const login = async (firstName: string, lang: 'en' | 'ar' = 'en') => {
+    const wa = getTelegramWebApp();
+    // Real Telegram Mini App users authenticate via signed initData.
+    if (wa) {
+      const result = await telegramAuthMutation.mutateAsync({
+        data: { initData: wa.initData, language: lang },
+      });
+      persist(result?.token, lang);
+      await refetch();
+      return;
+    }
+
+    // Browser / dev fallback: anonymous Telegram-style id.
+    if (!telegramId) return;
+    const result = await authMutation.mutateAsync({
+      data: { telegramId, firstName, language: lang },
+    });
+    persist(result?.token, lang);
     await refetch();
   };
 
@@ -56,7 +74,7 @@ export function useAuth() {
 
   return {
     user,
-    isLoading: isUserLoading || authMutation.isPending,
+    isLoading: isUserLoading || authMutation.isPending || telegramAuthMutation.isPending,
     language,
     login,
     logout,

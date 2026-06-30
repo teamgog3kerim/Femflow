@@ -10,7 +10,8 @@ AI-powered women's menstrual health Telegram Mini App — cycle tracking, daily 
 - `pnpm run build` — typecheck + build all packages
 - `pnpm --filter @workspace/api-spec run codegen` — regenerate API hooks and Zod schemas from the OpenAPI spec
 - `pnpm --filter @workspace/db run push` — push DB schema changes (dev only)
-- Required env: `DATABASE_URL` — Postgres connection string, `SESSION_SECRET` — HMAC signing key for bearer tokens
+- `pnpm --filter @workspace/scripts run setup-telegram-bot` — configure @myfemflowbot menu button to open the Mini App (uses `REPLIT_DOMAINS` or `WEB_APP_URL`)
+- Required env: `DATABASE_URL` — Postgres connection string, `SESSION_SECRET` — HMAC signing key for bearer tokens (server refuses to start if unset), `TELEGRAM_BOT_TOKEN` — for Mini App initData validation
 
 ## Stack
 
@@ -37,10 +38,11 @@ AI-powered women's menstrual health Telegram Mini App — cycle tracking, daily 
 ## Architecture decisions
 
 - **Contract-first**: OpenAPI spec → Orval codegen → Zod schemas + React Query hooks. Never write fetch calls by hand.
-- **Auth**: Custom HMAC bearer tokens (signed with `SESSION_SECRET`). No session cookies. Token stored in `localStorage['femflow_token']`. `setAuthTokenGetter` configured in `main.tsx`.
+- **Auth**: Custom HMAC bearer tokens (signed with `SESSION_SECRET`, 30-day `exp`, constant-time signature compare). No session cookies. Token stored in `localStorage['femflow_token']`. `setAuthTokenGetter` configured in `main.tsx`. Production logins require Telegram `initData`; dev fallback only.
 - **Date serialization**: Drizzle returns `Date` objects; Zod (from OpenAPI) expects `string`. All routes call `serialize()` (`JSON.parse(JSON.stringify(…))`) before Zod parsing.
 - **AI model**: `gpt-4o-mini` via Replit AI Integrations proxy. Context includes last 3 cycles + last 3 health logs.
-- **Subscription flow**: Users pay 990 ETB/month via CBE bank (account `1000123456789`), upload a transfer receipt, admin reviews and approves/rejects manually.
+- **Subscription flow**: New users get a 6-day free trial (`subscriptionStatus="trial"`, `trialEndsAt`). After that they pay **990 birr / 3 months** via CBE bank (account `1000123456789`), upload a transfer receipt; admin approves (sets `expiresAt = now + 3 months`, status `premium`). Expiry is reconciled lazily on read (`checkSubscriptionStatus`), which downgrades expired trials/subs and emits a deduped reminder notification 3 days before expiry (bilingual).
+- **Telegram Mini App auth**: In Telegram, the frontend authenticates via `POST /users/telegram-auth` with signed `initData` (HMAC validated server-side using `TELEGRAM_BOT_TOKEN`). The `POST /users/auth` route is a **dev-only** fallback (raw telegramId, no proof-of-possession) and is disabled when `NODE_ENV=production`. Bot is @myfemflowbot; configure its Mini App menu button via `pnpm --filter @workspace/scripts run setup-telegram-bot`.
 
 ## Product
 

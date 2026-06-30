@@ -44,6 +44,7 @@ export * from './notification';
 export * from './subscription';
 export * from './subscriptionInput';
 export * from './symptomTrend';
+export * from './telegramAuthInput';
 export * from './user';
 export * from './userAuthInput';
 export * from './userUpdate';

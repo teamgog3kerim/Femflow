@@ -26,6 +26,8 @@ export interface User {
   isAdmin?: boolean;
   notificationsEnabled?: boolean;
   subscriptionStatus?: string;
+  /** @nullable */
+  trialEndsAt?: string | null;
   createdAt: string;
 }
 
@@ -43,6 +45,11 @@ export interface UserAuthInput {
   firstName?: string;
   lastName?: string;
   username?: string;
+  language?: string;
+}
+
+export interface TelegramAuthInput {
+  initData: string;
   language?: string;
 }
 

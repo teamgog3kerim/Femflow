@@ -85,7 +85,14 @@ router.patch("/admin/subscriptions/:id", async (req, res): Promise<void> => {
 
   const updateData: Record<string, unknown> = { status: parsed.data.status };
   if (parsed.data.adminNotes !== undefined) updateData.adminNotes = parsed.data.adminNotes;
-  if (parsed.data.expiresAt !== undefined) updateData.expiresAt = new Date(parsed.data.expiresAt);
+  if (parsed.data.expiresAt !== undefined) {
+    updateData.expiresAt = new Date(parsed.data.expiresAt);
+  } else if (parsed.data.status === "active") {
+    // Premium billing cycle is 3 months from approval.
+    const expires = new Date();
+    expires.setMonth(expires.getMonth() + 3);
+    updateData.expiresAt = expires;
+  }
 
   const [sub] = await db
     .update(subscriptionsTable)
@@ -101,7 +108,7 @@ router.patch("/admin/subscriptions/:id", async (req, res): Promise<void> => {
     await db.insert(notificationsTable).values({
       userId: sub.userId,
       type: "subscription_approved",
-      message: "Your Premium subscription has been approved! Enjoy full access to FemFlow.",
+      message: "Your Premium subscription has been approved! It is valid for 3 months. Enjoy full access to FemFlow.",
     });
   } else if (parsed.data.status === "rejected") {
     await db.update(usersTable).set({ subscriptionStatus: "free" }).where(eq(usersTable.id, sub.userId));

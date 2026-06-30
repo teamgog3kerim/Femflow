@@ -49,6 +49,28 @@ export const translations = {
       notifications: "Notifications",
       timezone: "Timezone",
       save: "Save Changes"
+    },
+    sub: {
+      title: "Premium",
+      planName: "Premium Plan",
+      price: "990 ETB / 3 months",
+      freeTrial: "Free Trial",
+      trialActive: "Your 6-day free trial is active.",
+      trialDaysLeft: "days left in your free trial",
+      trialEndsToday: "Your free trial ends today.",
+      expiringSoon: "Your subscription expires soon — renew to keep full access.",
+      premiumActive: "Your premium subscription is active!",
+      premiumDaysLeft: "days left",
+      expired: "Your access has expired. Subscribe to continue.",
+      pending: "Your payment is pending approval.",
+      cbeAccount: "CBE Bank Account",
+      howTo: "Transfer 990 ETB to the account above, then submit your receipt details below.",
+      uploadDetails: "Payment Receipt Details",
+      senderName: "Sender Name",
+      transferDate: "Transfer Date",
+      submit: "Submit Payment",
+      renew: "Renew Now",
+      submitted: "Receipt submitted successfully"
     }
   },
   ar: {
@@ -101,6 +123,28 @@ export const translations = {
       notifications: "الإشعارات",
       timezone: "المنطقة الزمنية",
       save: "حفظ التغييرات"
+    },
+    sub: {
+      title: "بريميوم",
+      planName: "الخطة المميزة",
+      price: "990 بر / 3 أشهر",
+      freeTrial: "تجربة مجانية",
+      trialActive: "فترتك التجريبية المجانية لمدة 6 أيام نشطة.",
+      trialDaysLeft: "أيام متبقية في فترتك التجريبية",
+      trialEndsToday: "تنتهي فترتك التجريبية اليوم.",
+      expiringSoon: "اشتراكك على وشك الانتهاء — جددي للحفاظ على الوصول الكامل.",
+      premiumActive: "اشتراكك المميز نشط!",
+      premiumDaysLeft: "أيام متبقية",
+      expired: "انتهت صلاحية وصولك. اشتركي للمتابعة.",
+      pending: "دفعتك قيد المراجعة.",
+      cbeAccount: "حساب بنك CBE",
+      howTo: "حوّلي 990 بر إلى الحساب أعلاه، ثم أرسلي تفاصيل الإيصال أدناه.",
+      uploadDetails: "تفاصيل إيصال الدفع",
+      senderName: "اسم المُرسِل",
+      transferDate: "تاريخ التحويل",
+      submit: "إرسال الدفع",
+      renew: "جددي الآن",
+      submitted: "تم إرسال الإيصال بنجاح"
     }
   }
 };

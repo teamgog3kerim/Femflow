@@ -1,3 +1,6 @@
 - [FemFlow date serialization](femflow-date-serialization.md) — Drizzle returns Date objects; Zod from OpenAPI expects strings; use serialize() helper before Zod.parse()
 - [FemFlow esbuild externals](femflow-esbuild-externals.md) — openai/p-limit/p-retry must be both in api-server deps and marked external in build.mjs to bundle cross-package.
 - [FemFlow auth pattern](femflow-auth-pattern.md) — HMAC bearer tokens; setBaseUrl('/api') + setAuthTokenGetter in main.tsx; token in localStorage.
+- [Drizzle numeric is string](drizzle-numeric-string.md) — numeric() columns map to TS string; coerce number→String() before insert/update or typecheck fails.
+- [Orval query option queryKey](orval-querykey-required.md) — TanStack v5 query hooks require queryKey when passing a query options override; pass the generated getXQueryKey().
+- [Vendored openai-ai-react lib](vendored-openai-react-typecheck.md) — unused react integration lib needs react + @types/react devDeps to pass tsc --build (peerDep alone fails typecheck:libs).

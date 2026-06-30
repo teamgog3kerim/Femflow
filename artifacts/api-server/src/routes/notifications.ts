@@ -8,6 +8,7 @@ import {
 } from "@workspace/api-zod";
 import { getUserId } from "../lib/getUserId.js";
 import { serialize } from "../lib/serialize.js";
+import { checkSubscriptionStatus } from "../lib/subscription-status.js";
 
 const router: IRouter = Router();
 
@@ -15,6 +16,8 @@ const router: IRouter = Router();
 router.get("/notifications", async (req, res): Promise<void> => {
   const userId = getUserId(req);
   if (!userId) { res.status(401).json({ error: "Unauthorized" }); return; }
+
+  await checkSubscriptionStatus(userId);
 
   const notifications = await db
     .select()

@@ -13,7 +13,8 @@ export const usersTable = pgTable("users", {
   dateOfBirth: text("date_of_birth"),
   isAdmin: boolean("is_admin").notNull().default(false),
   notificationsEnabled: boolean("notifications_enabled").notNull().default(true),
-  subscriptionStatus: text("subscription_status").notNull().default("free"),
+  subscriptionStatus: text("subscription_status").notNull().default("trial"), // trial | premium | expired | free
+  trialEndsAt: timestamp("trial_ends_at", { withTimezone: true }),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow().$onUpdate(() => new Date()),
 });

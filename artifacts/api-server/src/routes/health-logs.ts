@@ -15,6 +15,16 @@ import { serialize } from "../lib/serialize.js";
 
 const router: IRouter = Router();
 
+// Drizzle maps numeric columns to strings; coerce numeric body fields before writing.
+const NUMERIC_FIELDS = ["sleepHours", "waterIntakeLiters", "weightKg"] as const;
+function coerceNumericFields<T extends Record<string, unknown>>(data: T): T {
+  const out: Record<string, unknown> = { ...data };
+  for (const field of NUMERIC_FIELDS) {
+    if (typeof out[field] === "number") out[field] = String(out[field]);
+  }
+  return out as T;
+}
+
 // GET /health-logs
 router.get("/health-logs", async (req, res): Promise<void> => {
   const userId = getUserId(req);
@@ -44,7 +54,8 @@ router.post("/health-logs", async (req, res): Promise<void> => {
   const parsed = CreateHealthLogBody.safeParse(req.body);
   if (!parsed.success) { res.status(400).json({ error: parsed.error.message }); return; }
 
-  const [log] = await db.insert(healthLogsTable).values({ ...parsed.data, userId }).returning();
+  const values = { ...coerceNumericFields(parsed.data), userId } as typeof healthLogsTable.$inferInsert;
+  const [log] = await db.insert(healthLogsTable).values(values).returning();
   res.status(201).json(CreateHealthLogResponse.parse(serialize(log)));
 });
 
@@ -131,9 +142,10 @@ router.patch("/health-logs/:id", async (req, res): Promise<void> => {
   const parsed = UpdateHealthLogBody.safeParse(req.body);
   if (!parsed.success) { res.status(400).json({ error: parsed.error.message }); return; }
 
+  const updates = coerceNumericFields(parsed.data) as Partial<typeof healthLogsTable.$inferInsert>;
   const [log] = await db
     .update(healthLogsTable)
-    .set(parsed.data)
+    .set(updates)
     .where(and(eq(healthLogsTable.id, params.data.id), eq(healthLogsTable.userId, userId)))
     .returning();
 
