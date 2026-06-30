@@ -1,6 +1,6 @@
 import { Router, type IRouter } from "express";
 import { eq, desc } from "drizzle-orm";
-import { db, subscriptionsTable } from "@workspace/db";
+import { db, subscriptionsTable, usersTable, notificationsTable } from "@workspace/db";
 import {
   GetMySubscriptionResponse,
   SubmitSubscriptionBody,
@@ -44,7 +44,7 @@ router.get("/subscriptions/me", async (req, res): Promise<void> => {
     return;
   }
 
-  res.json(GetMySubscriptionResponse.parse(serialize(sub)));
+  res.json(GetMySubscriptionResponse.parse({ ...serialize(sub), priceEtb: Number(sub.priceEtb) }));
 });
 
 // POST /subscriptions
@@ -68,7 +68,33 @@ router.post("/subscriptions", async (req, res): Promise<void> => {
     ...parsed.data,
   }).returning();
 
-  res.status(201).json(SubmitSubscriptionResponse.parse(serialize(sub)));
+  // Notify all admins that a new payment receipt is awaiting review.
+  try {
+    const [payer] = await db
+      .select({ firstName: usersTable.firstName, username: usersTable.username })
+      .from(usersTable)
+      .where(eq(usersTable.id, userId));
+    const payerName = payer?.firstName || payer?.username || `User #${userId}`;
+
+    const admins = await db
+      .select({ id: usersTable.id })
+      .from(usersTable)
+      .where(eq(usersTable.isAdmin, true));
+
+    if (admins.length > 0) {
+      await db.insert(notificationsTable).values(
+        admins.map((admin) => ({
+          userId: admin.id,
+          type: "payment_pending",
+          message: `${payerName} submitted a payment receipt. Please review and approve it in the admin dashboard.`,
+        })),
+      );
+    }
+  } catch (err) {
+    req.log.error({ err }, "Failed to notify admins of new payment submission");
+  }
+
+  res.status(201).json(SubmitSubscriptionResponse.parse({ ...serialize(sub), priceEtb: Number(sub.priceEtb) }));
 });
 
 export default router;

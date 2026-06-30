@@ -66,7 +66,9 @@ router.get("/admin/subscriptions", async (req, res): Promise<void> => {
     ? await db.select().from(subscriptionsTable).where(eq(subscriptionsTable.status, status)).orderBy(desc(subscriptionsTable.createdAt))
     : await db.select().from(subscriptionsTable).orderBy(desc(subscriptionsTable.createdAt));
 
-  res.json(AdminListSubscriptionsResponse.parse(serialize(subs)));
+  res.json(AdminListSubscriptionsResponse.parse(
+    serialize(subs).map((s: { priceEtb: unknown }) => ({ ...s, priceEtb: Number(s.priceEtb) })),
+  ));
 });
 
 // PATCH /admin/subscriptions/:id
@@ -119,7 +121,7 @@ router.patch("/admin/subscriptions/:id", async (req, res): Promise<void> => {
     });
   }
 
-  res.json(AdminUpdateSubscriptionResponse.parse(serialize(sub)));
+  res.json(AdminUpdateSubscriptionResponse.parse({ ...serialize(sub), priceEtb: Number(sub.priceEtb) }));
 });
 
 // GET /admin/analytics
