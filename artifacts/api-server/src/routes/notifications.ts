@@ -9,6 +9,7 @@ import {
 import { getUserId } from "../lib/getUserId.js";
 import { serialize } from "../lib/serialize.js";
 import { checkSubscriptionStatus } from "../lib/subscription-status.js";
+import { ensureDailyWellnessReminder } from "../lib/daily-wellness.js";
 
 const router: IRouter = Router();
 
@@ -18,6 +19,7 @@ router.get("/notifications", async (req, res): Promise<void> => {
   if (!userId) { res.status(401).json({ error: "Unauthorized" }); return; }
 
   await checkSubscriptionStatus(userId);
+  await ensureDailyWellnessReminder(userId);
 
   const notifications = await db
     .select()

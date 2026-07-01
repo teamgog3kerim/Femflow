@@ -159,7 +159,92 @@ export const translations = {
         { title: "Gentle Exercise", content: "Lower intensity like yoga feels better." },
         { title: "Comfort Foods", content: "Include magnesium-rich foods like dark chocolate." },
         { title: "More Sleep", content: "Aim for 8-9 hours of quality sleep." }
-      ]
+      ],
+      dailyPlan: "Your Daily Plan",
+      waterTarget: "Water Target",
+      liters: "L",
+      loggedToday: "logged today",
+      logWater: "Log",
+      goalReached: "Goal reached!",
+      exercisesTitle: "Recommended Movement",
+      nutritionTitle: "Nutrition & Diet",
+      foodsLabel: "Foods to favor",
+      habitsTitle: "Daily Habits",
+      habitsDone: "done",
+      remindersTitle: "Daily Reminders",
+      remindersDesc: "We nudge you in Notifications each day to reach your water, movement, and nutrition goals.",
+      moreTips: "More Tips",
+      min: "min",
+      plan: {
+        menstruation: {
+          water: 2.5,
+          exercises: [
+            { name: "Gentle yoga", minutes: 20 },
+            { name: "Light walking", minutes: 30 },
+            { name: "Stretching", minutes: 10 }
+          ],
+          foods: "Spinach, lentils, red meat, beans, dark chocolate, ginger tea",
+          nutritionNote: "Replenish iron and magnesium. Stay warm and limit salt, caffeine, and sugar.",
+          habits: [
+            "Drink 2.5L of water",
+            "20 min of gentle movement",
+            "Eat one iron-rich meal",
+            "Sleep 8 hours",
+            "Warm compress for cramps"
+          ]
+        },
+        follicular: {
+          water: 2.2,
+          exercises: [
+            { name: "Cardio or running", minutes: 30 },
+            { name: "Strength training", minutes: 25 },
+            { name: "Dance workout", minutes: 20 }
+          ],
+          foods: "Lean protein, eggs, fermented foods, colorful vegetables, seeds",
+          nutritionNote: "Fuel rising energy with protein and complex carbs. A great time for fresh, light meals.",
+          habits: [
+            "Drink 2.2L of water",
+            "30 min of active exercise",
+            "Eat a protein-rich breakfast",
+            "Sleep 7-8 hours",
+            "Take on a challenging task"
+          ]
+        },
+        ovulation: {
+          water: 2.5,
+          exercises: [
+            { name: "HIIT", minutes: 25 },
+            { name: "Group sport", minutes: 40 },
+            { name: "Cycling", minutes: 30 }
+          ],
+          foods: "Leafy greens, berries, salmon, nuts, whole grains",
+          nutritionNote: "Support your peak with antioxidants and fiber. Stay well hydrated during intense workouts.",
+          habits: [
+            "Drink 2.5L of water",
+            "25 min high-intensity workout",
+            "Eat antioxidant-rich foods",
+            "Sleep 7-8 hours",
+            "Connect with friends"
+          ]
+        },
+        luteal: {
+          water: 2.3,
+          exercises: [
+            { name: "Yoga or Pilates", minutes: 25 },
+            { name: "Walking", minutes: 30 },
+            { name: "Light strength", minutes: 20 }
+          ],
+          foods: "Complex carbs, sweet potato, bananas, dark chocolate, leafy greens",
+          nutritionNote: "Ease PMS with magnesium and B vitamins. Reduce salt, sugar, and caffeine.",
+          habits: [
+            "Drink 2.3L of water",
+            "25 min of low-intensity movement",
+            "Eat magnesium-rich foods",
+            "Sleep 8-9 hours",
+            "Take 10 min to relax"
+          ]
+        }
+      }
     },
     learn: {
       title: "Learn About Your Cycle",
@@ -440,7 +525,92 @@ export const translations = {
         { title: "تمارين لطيفة", content: "تشعرين بشكل أفضل مع الشدة المنخفضة." },
         { title: "أطعمة مريحة", content: "أدرجي الأطعمة الغنية بالمغنيسيوم." },
         { title: "المزيد من النوم", content: "استهدفي 8-9 ساعات من النوم الجيد." }
-      ]
+      ],
+      dailyPlan: "خطتك اليومية",
+      waterTarget: "هدف شرب الماء",
+      liters: "لتر",
+      loggedToday: "مسجّل اليوم",
+      logWater: "تسجيل",
+      goalReached: "تم تحقيق الهدف!",
+      exercisesTitle: "التمارين الموصى بها",
+      nutritionTitle: "التغذية والنظام الغذائي",
+      foodsLabel: "أطعمة مفضّلة",
+      habitsTitle: "العادات اليومية",
+      habitsDone: "مكتملة",
+      remindersTitle: "تذكيرات يومية",
+      remindersDesc: "نذكّرك في الإشعارات كل يوم للوصول إلى أهداف الماء والحركة والتغذية.",
+      moreTips: "المزيد من النصائح",
+      min: "دقيقة",
+      plan: {
+        menstruation: {
+          water: 2.5,
+          exercises: [
+            { name: "يوغا لطيفة", minutes: 20 },
+            { name: "مشي خفيف", minutes: 30 },
+            { name: "تمارين إطالة", minutes: 10 }
+          ],
+          foods: "السبانخ، العدس، اللحم الأحمر، الفاصوليا، الشوكولاتة الداكنة، شاي الزنجبيل",
+          nutritionNote: "عوّضي الحديد والمغنيسيوم. حافظي على الدفء وقلّلي الملح والكافيين والسكر.",
+          habits: [
+            "اشربي 2.5 لتر من الماء",
+            "20 دقيقة من الحركة اللطيفة",
+            "تناولي وجبة غنية بالحديد",
+            "نامي 8 ساعات",
+            "كمادة دافئة لتخفيف التقلصات"
+          ]
+        },
+        follicular: {
+          water: 2.2,
+          exercises: [
+            { name: "كارديو أو جري", minutes: 30 },
+            { name: "تمارين قوة", minutes: 25 },
+            { name: "رقص رياضي", minutes: 20 }
+          ],
+          foods: "بروتين قليل الدهن، البيض، الأطعمة المخمّرة، خضروات ملوّنة، البذور",
+          nutritionNote: "ادعمي طاقتك المتصاعدة بالبروتين والكربوهيدرات المعقّدة. وقت رائع للوجبات الطازجة الخفيفة.",
+          habits: [
+            "اشربي 2.2 لتر من الماء",
+            "30 دقيقة من التمارين النشطة",
+            "تناولي فطوراً غنياً بالبروتين",
+            "نامي 7-8 ساعات",
+            "أنجزي مهمة صعبة"
+          ]
+        },
+        ovulation: {
+          water: 2.5,
+          exercises: [
+            { name: "تمارين متقطعة عالية الشدة", minutes: 25 },
+            { name: "رياضة جماعية", minutes: 40 },
+            { name: "ركوب الدراجة", minutes: 30 }
+          ],
+          foods: "الخضروات الورقية، التوت، السلمون، المكسرات، الحبوب الكاملة",
+          nutritionNote: "ادعمي ذروتك بمضادات الأكسدة والألياف. حافظي على الترطيب أثناء التمارين المكثفة.",
+          habits: [
+            "اشربي 2.5 لتر من الماء",
+            "25 دقيقة تمرين عالي الشدة",
+            "تناولي أطعمة غنية بمضادات الأكسدة",
+            "نامي 7-8 ساعات",
+            "تواصلي مع الأصدقاء"
+          ]
+        },
+        luteal: {
+          water: 2.3,
+          exercises: [
+            { name: "يوغا أو بيلاتس", minutes: 25 },
+            { name: "مشي", minutes: 30 },
+            { name: "تمارين قوة خفيفة", minutes: 20 }
+          ],
+          foods: "الكربوهيدرات المعقّدة، البطاطا الحلوة، الموز، الشوكولاتة الداكنة، الخضروات الورقية",
+          nutritionNote: "خفّفي أعراض ما قبل الطمث بالمغنيسيوم وفيتامينات ب. قلّلي الملح والسكر والكافيين.",
+          habits: [
+            "اشربي 2.3 لتر من الماء",
+            "25 دقيقة من الحركة الخفيفة",
+            "تناولي أطعمة غنية بالمغنيسيوم",
+            "نامي 8-9 ساعات",
+            "خذي 10 دقائق للاسترخاء"
+          ]
+        }
+      }
     },
     learn: {
       title: "تعلمي عن دورتك",
