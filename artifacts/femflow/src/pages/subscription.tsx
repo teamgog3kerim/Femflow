@@ -79,6 +79,7 @@ export default function Subscription() {
 
   const status = me?.subscriptionStatus ?? "trial";
   const isPending = sub?.status === "pending";
+  const isRejected = sub?.status === "rejected";
   const trialDays = daysUntil(me?.trialEndsAt);
   const premiumDays = daysUntil(sub?.expiresAt);
   const premiumExpiringSoon = status === "premium" && premiumDays !== null && premiumDays <= 3;
@@ -111,6 +112,18 @@ export default function Subscription() {
           <p>{premiumExpiringSoon ? t.expiringSoon : t.premiumActive}</p>
           {premiumDays !== null && (
             <p className="text-sm mt-1">{premiumDays} {t.premiumDaysLeft}</p>
+          )}
+        </div>
+      );
+    }
+    if (isRejected) {
+      return (
+        <div className="bg-destructive/10 text-destructive p-4 rounded-xl text-center font-medium border border-destructive/20">
+          <p>{t.rejected}</p>
+          {sub?.adminNotes && (
+            <p className="text-sm mt-2 text-destructive/90">
+              {t.rejectedReason}: {sub.adminNotes}
+            </p>
           )}
         </div>
       );

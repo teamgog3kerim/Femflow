@@ -67,13 +67,20 @@ export default function Admin() {
   );
 
   const updateSub = useAdminUpdateSubscription();
+  const [reasons, setReasons] = useState<Record<number, string>>({});
 
   const handleDecision = (id: number, status: "active" | "rejected") => {
+    const adminNotes = status === "rejected" ? reasons[id]?.trim() : undefined;
     updateSub.mutate(
-      { id, data: { status } },
+      { id, data: { status, ...(adminNotes ? { adminNotes } : {}) } },
       {
         onSuccess: () => {
           toast({ title: status === "active" ? t.approved : t.rejected });
+          setReasons((prev) => {
+            const next = { ...prev };
+            delete next[id];
+            return next;
+          });
           queryClient.invalidateQueries({ queryKey: pendingKey });
           queryClient.invalidateQueries({ queryKey: getAdminGetAnalyticsQueryKey() });
         },
@@ -130,6 +137,17 @@ export default function Admin() {
               ) : (
                 <p className="text-sm text-muted-foreground">{t.noReceipt}</p>
               )}
+
+              <input
+                type="text"
+                value={reasons[sub.id] ?? ""}
+                onChange={(e) =>
+                  setReasons((prev) => ({ ...prev, [sub.id]: e.target.value }))
+                }
+                placeholder={t.rejectReasonPlaceholder}
+                aria-label={t.rejectReason}
+                className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+              />
 
               <div className="flex gap-3">
                 <Button

@@ -230,6 +230,8 @@ export const translations = {
       premiumActive: "Your premium subscription is active!",
       premiumDaysLeft: "days left",
       expired: "Your access has expired. Subscribe to continue.",
+      rejected: "Your payment receipt was rejected. Please submit a new receipt to continue.",
+      rejectedReason: "Reason",
       pending: "Your payment is pending approval.",
       cbeAccount: "CBE Bank Account",
       accountName: "Account Name",
@@ -262,7 +264,9 @@ export const translations = {
       rejected: "Subscription rejected",
       actionFailed: "Action failed. Please try again.",
       submittedOn: "Submitted",
-      noReceipt: "No receipt uploaded"
+      noReceipt: "No receipt uploaded",
+      rejectReason: "Rejection reason (optional)",
+      rejectReasonPlaceholder: "e.g. Receipt unclear or amount incorrect"
     }
   },
   ar: {
@@ -496,6 +500,8 @@ export const translations = {
       premiumActive: "اشتراكك المميز نشط!",
       premiumDaysLeft: "أيام متبقية",
       expired: "انتهت صلاحية وصولك. اشتركي للمتابعة.",
+      rejected: "تم رفض إيصال الدفع الخاص بك. يُرجى إرسال إيصال جديد للمتابعة.",
+      rejectedReason: "السبب",
       pending: "دفعتك قيد المراجعة.",
       cbeAccount: "حساب بنك CBE",
       accountName: "اسم صاحب الحساب",
@@ -528,7 +534,9 @@ export const translations = {
       rejected: "تم رفض الاشتراك",
       actionFailed: "فشل الإجراء. حاولي مرة أخرى.",
       submittedOn: "أُرسل في",
-      noReceipt: "لم يتم رفع إيصال"
+      noReceipt: "لم يتم رفع إيصال",
+      rejectReason: "سبب الرفض (اختياري)",
+      rejectReasonPlaceholder: "مثال: الإيصال غير واضح أو المبلغ غير صحيح"
     }
   }
 };
