@@ -39,7 +39,6 @@ export function AppShell({ children }: { children: ReactNode }) {
     { href: "/tips", icon: Lightbulb, label: nav.tips },
     { href: "/education", icon: BookOpen, label: nav.education },
     { href: "/chat", icon: MessageCircle, label: nav.chat },
-    { href: "/settings", icon: SettingsIcon, label: nav.settings },
   ];
 
   if (user?.isAdmin) {
@@ -78,6 +77,19 @@ export function AppShell({ children }: { children: ReactNode }) {
                 <option value="en">English</option>
                 <option value="ar">العربية</option>
               </select>
+              <Link href="/settings">
+                <button
+                  aria-label={nav.settings}
+                  title={nav.settings}
+                  className={`w-9 h-9 rounded-full flex items-center justify-center transition-opacity ${
+                    location === "/settings"
+                      ? "gradient-primary text-white shadow-md shadow-primary/25"
+                      : "bg-secondary text-secondary-foreground hover:opacity-80"
+                  }`}
+                >
+                  <SettingsIcon className="w-4 h-4" />
+                </button>
+              </Link>
             </div>
           </div>
         </header>
