@@ -8,7 +8,6 @@ import {
   Lightbulb,
   BookOpen,
   MessageCircle,
-  Crown,
   Settings as SettingsIcon,
   Shield,
   Sun,
@@ -40,7 +39,6 @@ export function AppShell({ children }: { children: ReactNode }) {
     { href: "/tips", icon: Lightbulb, label: nav.tips },
     { href: "/education", icon: BookOpen, label: nav.education },
     { href: "/chat", icon: MessageCircle, label: nav.chat },
-    { href: "/subscription", icon: Crown, label: nav.subscription },
     { href: "/settings", icon: SettingsIcon, label: nav.settings },
   ];
 
