@@ -56,15 +56,15 @@ export default function Settings() {
     badgeClass = "bg-secondary text-secondary-foreground";
   } else if (status === "trial") {
     statusLabel = t.statusTrial;
-    badgeClass = "bg-blue-100 text-blue-700";
+    badgeClass = "bg-blue-100 text-blue-700 dark:bg-blue-950/50 dark:text-blue-300";
     days = daysUntil(me?.trialEndsAt);
   } else if (status === "premium") {
     statusLabel = t.statusPremium;
-    badgeClass = "bg-green-100 text-green-700";
+    badgeClass = "bg-green-100 text-green-700 dark:bg-green-950/50 dark:text-green-300";
     days = daysUntil(sub?.expiresAt);
   } else if (status === "expired") {
     statusLabel = t.statusExpired;
-    badgeClass = "bg-red-100 text-red-700";
+    badgeClass = "bg-red-100 text-red-700 dark:bg-red-950/50 dark:text-red-300";
   }
 
   const cycleLenLabel =

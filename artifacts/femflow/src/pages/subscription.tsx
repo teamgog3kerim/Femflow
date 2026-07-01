@@ -95,7 +95,7 @@ export default function Subscription() {
     }
     if (status === "trial") {
       return (
-        <div className="bg-blue-50 text-blue-800 p-4 rounded-xl text-center font-medium border border-blue-100">
+        <div className="bg-blue-50 text-blue-800 p-4 rounded-xl text-center font-medium border border-blue-100 dark:bg-blue-950/40 dark:text-blue-200 dark:border-blue-900">
           <p className="font-semibold">{t.freeTrial}</p>
           <p className="text-sm mt-1">
             {trialDays === 0
@@ -107,7 +107,7 @@ export default function Subscription() {
     }
     if (status === "premium") {
       return (
-        <div className={`p-4 rounded-xl text-center font-medium ${premiumExpiringSoon ? "bg-amber-50 text-amber-800 border border-amber-100" : "bg-green-100 text-green-800"}`}>
+        <div className={`p-4 rounded-xl text-center font-medium ${premiumExpiringSoon ? "bg-amber-50 text-amber-800 border border-amber-100 dark:bg-amber-950/40 dark:text-amber-200 dark:border-amber-900" : "bg-green-100 text-green-800 dark:bg-green-950/40 dark:text-green-200"}`}>
           <p>{premiumExpiringSoon ? t.expiringSoon : t.premiumActive}</p>
           {premiumDays !== null && (
             <p className="text-sm mt-1">{premiumDays} {t.premiumDaysLeft}</p>
@@ -117,7 +117,7 @@ export default function Subscription() {
     }
     // expired / free
     return (
-      <div className="bg-red-50 text-red-700 p-4 rounded-xl text-center font-medium border border-red-100">
+      <div className="bg-red-50 text-red-700 p-4 rounded-xl text-center font-medium border border-red-100 dark:bg-red-950/40 dark:text-red-200 dark:border-red-900">
         {t.expired}
       </div>
     );
@@ -141,7 +141,7 @@ export default function Subscription() {
 
         {showPaymentForm && (
           <div className="space-y-4">
-            <div className="bg-white/60 p-4 rounded-xl">
+            <div className="bg-background/60 dark:bg-white/5 p-4 rounded-xl">
               <p className="text-sm text-muted-foreground mb-1">{t.cbeAccount}</p>
               <div className="flex items-center gap-2">
                 <p className="font-mono text-lg tracking-wider font-bold text-foreground">{CBE_ACCOUNT}</p>
@@ -153,7 +153,7 @@ export default function Subscription() {
                   className="h-8 gap-1.5 px-2 text-xs"
                   aria-label={t.copyAccount}
                 >
-                  {copied ? <Check className="h-4 w-4 text-green-600" /> : <Copy className="h-4 w-4" />}
+                  {copied ? <Check className="h-4 w-4 text-green-600 dark:text-green-400" /> : <Copy className="h-4 w-4" />}
                   {copied ? t.copied : t.copy}
                 </Button>
               </div>
@@ -176,7 +176,7 @@ export default function Subscription() {
                   alt="Receipt"
                   className="w-full max-h-64 object-contain rounded-xl border border-border bg-white"
                 />
-                <p className="text-xs text-green-700 text-center">{t.receiptReady}</p>
+                <p className="text-xs text-green-700 dark:text-green-400 text-center">{t.receiptReady}</p>
                 <Button
                   type="button"
                   variant="outline"
