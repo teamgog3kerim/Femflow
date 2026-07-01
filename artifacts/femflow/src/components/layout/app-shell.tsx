@@ -82,31 +82,33 @@ export function AppShell({ children }: { children: ReactNode }) {
               </select>
             </div>
           </div>
+        </header>
 
-          {/* Tabs */}
-          <nav className="flex gap-2 overflow-x-auto no-scrollbar px-4 pb-3">
+        <main className={`pb-28 ${isRtl ? "text-right" : ""}`}>{children}</main>
+
+        {/* Bottom tab bar */}
+        <nav className="fixed bottom-0 inset-x-0 z-40 bg-background/90 backdrop-blur-lg border-t border-border">
+          <div className="mx-auto max-w-lg grid grid-cols-5 gap-1 px-2 py-2">
             {tabs.map((tab) => {
               const isActive = location === tab.href;
               const Icon = tab.icon;
               return (
                 <Link key={tab.href} href={tab.href}>
                   <button
-                    className={`flex items-center gap-1.5 whitespace-nowrap rounded-full px-4 py-2 text-sm font-medium transition-all ${
+                    className={`flex w-full flex-col items-center justify-center gap-1 rounded-2xl px-1 py-2 text-[11px] font-medium leading-tight transition-all ${
                       isActive
                         ? "gradient-primary text-white shadow-md shadow-primary/25"
-                        : "bg-secondary text-secondary-foreground hover:opacity-80"
+                        : "text-muted-foreground hover:text-foreground hover:bg-secondary"
                     }`}
                   >
-                    <Icon className="w-4 h-4" />
-                    {tab.label}
+                    <Icon className="w-5 h-5 shrink-0" />
+                    <span className="truncate w-full text-center">{tab.label}</span>
                   </button>
                 </Link>
               );
             })}
-          </nav>
-        </header>
-
-        <main className={isRtl ? "text-right" : ""}>{children}</main>
+          </div>
+        </nav>
       </div>
     </div>
   );
