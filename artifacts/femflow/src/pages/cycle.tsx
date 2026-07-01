@@ -44,10 +44,10 @@ function fmtDate(dateStr: string | null | undefined, locale: string): string {
 }
 
 const DAY_TYPE_CLASS: Record<string, string> = {
-  period: "bg-rose-500 text-white font-semibold",
-  "predicted-period": "bg-rose-100 text-rose-600 border border-dashed border-rose-300",
-  fertile: "bg-emerald-100 text-emerald-700",
-  ovulation: "bg-violet-500 text-white font-semibold",
+  period: "bg-[hsl(var(--phase-menstruation))] text-white font-semibold",
+  "predicted-period": "bg-[hsl(var(--phase-menstruation)/0.18)] text-[hsl(var(--phase-menstruation))] border border-dashed border-[hsl(var(--phase-menstruation)/0.5)]",
+  fertile: "bg-[hsl(var(--phase-follicular)/0.25)] text-[hsl(var(--phase-follicular))]",
+  ovulation: "bg-[hsl(var(--phase-ovulation))] text-white font-semibold",
   normal: "text-foreground hover:bg-secondary/60",
 };
 
@@ -245,10 +245,10 @@ export default function Cycle() {
 
         {/* Legend */}
         <div className="flex flex-wrap gap-x-4 gap-y-1 mt-4 text-xs text-muted-foreground">
-          <span className="flex items-center gap-1"><Circle className="h-3 w-3 fill-rose-500 text-rose-500" />{t.period}</span>
-          <span className="flex items-center gap-1"><Circle className="h-3 w-3 fill-rose-100 text-rose-300" />{t.predicted}</span>
-          <span className="flex items-center gap-1"><Circle className="h-3 w-3 fill-emerald-100 text-emerald-400" />{t.fertile}</span>
-          <span className="flex items-center gap-1"><Circle className="h-3 w-3 fill-violet-500 text-violet-500" />{t.ovulation}</span>
+          <span className="flex items-center gap-1"><Circle className="h-3 w-3 fill-[hsl(var(--phase-menstruation))] text-[hsl(var(--phase-menstruation))]" />{t.period}</span>
+          <span className="flex items-center gap-1"><Circle className="h-3 w-3 fill-[hsl(var(--phase-menstruation)/0.3)] text-[hsl(var(--phase-menstruation)/0.5)]" />{t.predicted}</span>
+          <span className="flex items-center gap-1"><Circle className="h-3 w-3 fill-[hsl(var(--phase-follicular)/0.4)] text-[hsl(var(--phase-follicular))]" />{t.fertile}</span>
+          <span className="flex items-center gap-1"><Circle className="h-3 w-3 fill-[hsl(var(--phase-ovulation))] text-[hsl(var(--phase-ovulation))]" />{t.ovulation}</span>
         </div>
       </Card>
 

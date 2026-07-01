@@ -1,11 +1,13 @@
 export const translations = {
   en: {
     nav: {
-      home: "Home",
-      cycle: "Cycle",
+      home: "Dashboard",
+      cycle: "Calendar",
       log: "Log",
-      chat: "Chat",
+      insights: "Insights",
+      tips: "Tips",
       education: "Learn",
+      chat: "Chat",
       admin: "Admin",
       settings: "Settings",
       subscription: "Premium"
@@ -19,24 +21,45 @@ export const translations = {
     home: {
       greeting: "Hello, ",
       cycleDay: "Cycle Day",
+      daysIntoCycle: "Days into cycle",
       phase: "Phase",
       wellnessScore: "Wellness Score",
       logToday: "Log Today's Health",
-      nextPeriod: "Next period in",
+      nextPeriod: "Next Period",
       days: "days",
+      status: "Status",
+      statusRegular: "Regular",
+      statusIrregular: "Irregular",
+      fertile: "Fertile",
+      fertileYes: "Fertile now",
+      fertileNo: "Not now",
       aiTip: "AI Tip of the Day",
       recentActivity: "Recent Notifications"
     },
     log: {
-      title: "Daily Log",
+      title: "Log Today's Health",
+      flow: "Period Flow",
       symptoms: "Symptoms",
+      symptomOptions: {
+        "cramps": "Cramps",
+        "bloating": "Bloating",
+        "headache": "Headache",
+        "fatigue": "Fatigue",
+        "breast-tenderness": "Breast Tenderness",
+        "mood-changes": "Mood Changes"
+      },
+      feeling: "How are you feeling?",
       mood: "Mood",
-      pain: "Pain Level",
+      pain: "Pain",
       energy: "Energy",
       sleep: "Sleep (hrs)",
       water: "Water (L)",
-      save: "Save Log",
-      success: "Log saved successfully"
+      notes: "Notes",
+      notesPlaceholder: "How did you feel today?",
+      save: "Save Entry",
+      saving: "Saving...",
+      clear: "Clear",
+      success: "Entry saved!"
     },
     cycle: {
       title: "Cycle Calendar",
@@ -80,6 +103,78 @@ export const translations = {
         luteal: "Luteal"
       }
     },
+    insights: {
+      title: "Your Insights",
+      cycleLength: "Cycle Length",
+      yourAverage: "Your average",
+      duration: "Period Duration",
+      periodLength: "Period length",
+      consistency: "Consistency",
+      cyclePattern: "Cycle pattern",
+      commonSymptom: "Common Symptom",
+      mostFrequent: "Most frequent",
+      entries: "Entries",
+      loggedDays: "Logged days",
+      nextPeriod: "Next Period",
+      estimatedDate: "Estimated date",
+      days: "days",
+      good: "Good",
+      fair: "Fair",
+      irregular: "Irregular",
+      none: "—"
+    },
+    tips: {
+      title: "Health Tips",
+      forPhase: "Tips for your",
+      phase: "phase",
+      menstruation: [
+        { title: "Stay Hydrated", content: "Drink plenty of water to reduce fatigue." },
+        { title: "Iron-Rich Foods", content: "Include red meat, spinach, beans to replenish iron." },
+        { title: "Rest Well", content: "Allow your body rest. Light activity helps." },
+        { title: "Pain Relief", content: "Heating pads or pain relievers help with cramps." }
+      ],
+      follicular: [
+        { title: "High Energy", content: "Perfect time for intense workouts and challenges." },
+        { title: "Brain Power", content: "Your cognition is at its peak now." },
+        { title: "Skincare Boost", content: "Your skin typically looks best this phase." },
+        { title: "Social Time", content: "Great for meetings and social activities." }
+      ],
+      ovulation: [
+        { title: "Peak Energy", content: "You're at your physical peak. Great for exercise." },
+        { title: "Confidence Boost", content: "Feel more confident and social." },
+        { title: "Fertility Window", content: "Your most fertile time if planning pregnancy." },
+        { title: "Peak Performance", content: "Memory and focus are at their best." }
+      ],
+      luteal: [
+        { title: "Self-Care Time", content: "Prioritize rest and relaxation." },
+        { title: "Gentle Exercise", content: "Lower intensity like yoga feels better." },
+        { title: "Comfort Foods", content: "Include magnesium-rich foods like dark chocolate." },
+        { title: "More Sleep", content: "Aim for 8-9 hours of quality sleep." }
+      ]
+    },
+    learn: {
+      title: "Learn About Your Cycle",
+      articles: "Articles",
+      noArticles: "No articles available yet.",
+      min: "min read",
+      phases: {
+        menstruation: { title: "Menstruation Phase", content: "The uterine lining sheds. You may experience cramps, bloating, fatigue." },
+        follicular: { title: "Follicular Phase", content: "FSH rises, estrogen increases. You feel energetic and confident." },
+        ovulation: { title: "Ovulation Phase", content: "An egg is released. Peak energy and fertility window." },
+        luteal: { title: "Luteal Phase", content: "Progesterone rises then falls. Energy may decrease." }
+      },
+      doctorTitle: "When to See Your Doctor",
+      doctorList: [
+        "Periods lasting more than 7 days",
+        "Extremely heavy bleeding",
+        "Severe pain not relieved by medication",
+        "Missed periods for 3+ months",
+        "Significant cycle changes",
+        "Severe PMS symptoms",
+        "Abnormal bleeding between periods",
+        "Unusual pain during intercourse"
+      ]
+    },
     chat: {
       title: "Health Companion",
       placeholder: "Ask me anything...",
@@ -87,6 +182,10 @@ export const translations = {
     },
     settings: {
       title: "Settings",
+      appearance: "Appearance",
+      theme: "Theme",
+      lightMode: "Light",
+      darkMode: "Dark",
       language: "Language",
       notifications: "Notifications",
       timezone: "Timezone",
@@ -152,10 +251,12 @@ export const translations = {
   ar: {
     nav: {
       home: "الرئيسية",
-      cycle: "الدورة",
+      cycle: "التقويم",
       log: "سجل",
-      chat: "محادثة",
+      insights: "إحصاءات",
+      tips: "نصائح",
       education: "تعلم",
+      chat: "محادثة",
       admin: "إدارة",
       settings: "الإعدادات",
       subscription: "بريميوم"
@@ -169,23 +270,44 @@ export const translations = {
     home: {
       greeting: "مرحباً، ",
       cycleDay: "يوم الدورة",
+      daysIntoCycle: "أيام من الدورة",
       phase: "المرحلة",
       wellnessScore: "مؤشر الصحة",
       logToday: "سجل صحتك اليوم",
-      nextPeriod: "الدورة القادمة في",
+      nextPeriod: "الدورة القادمة",
       days: "أيام",
+      status: "الحالة",
+      statusRegular: "منتظمة",
+      statusIrregular: "غير منتظمة",
+      fertile: "الخصوبة",
+      fertileYes: "خصبة الآن",
+      fertileNo: "ليس الآن",
       aiTip: "نصيحة اليوم",
       recentActivity: "الإشعارات الأخيرة"
     },
     log: {
-      title: "السجل اليومي",
+      title: "سجل صحتك اليوم",
+      flow: "تدفق الحيض",
       symptoms: "الأعراض",
+      symptomOptions: {
+        "cramps": "تقلصات",
+        "bloating": "انتفاخ",
+        "headache": "صداع",
+        "fatigue": "إرهاق",
+        "breast-tenderness": "ألم الثدي",
+        "mood-changes": "تقلب المزاج"
+      },
+      feeling: "كيف تشعرين؟",
       mood: "المزاج",
-      pain: "مستوى الألم",
+      pain: "الألم",
       energy: "الطاقة",
       sleep: "النوم (ساعات)",
       water: "الماء (لتر)",
+      notes: "ملاحظات",
+      notesPlaceholder: "كيف شعرتِ اليوم؟",
       save: "حفظ السجل",
+      saving: "جارٍ الحفظ...",
+      clear: "مسح",
       success: "تم الحفظ بنجاح"
     },
     cycle: {
@@ -230,6 +352,78 @@ export const translations = {
         luteal: "الأصفرية"
       }
     },
+    insights: {
+      title: "إحصاءاتك",
+      cycleLength: "طول الدورة",
+      yourAverage: "متوسطك",
+      duration: "مدة الحيض",
+      periodLength: "مدة الدورة",
+      consistency: "الانتظام",
+      cyclePattern: "نمط الدورة",
+      commonSymptom: "أكثر عرض شيوعاً",
+      mostFrequent: "الأكثر تكراراً",
+      entries: "السجلات",
+      loggedDays: "الأيام المسجلة",
+      nextPeriod: "الدورة القادمة",
+      estimatedDate: "التاريخ المتوقع",
+      days: "أيام",
+      good: "جيد",
+      fair: "مقبول",
+      irregular: "غير منتظم",
+      none: "—"
+    },
+    tips: {
+      title: "نصائح صحية",
+      forPhase: "نصائح لمرحلة",
+      phase: "",
+      menstruation: [
+        { title: "ابقي رطبة", content: "اشربي الكثير من الماء لتقليل الإرهاق." },
+        { title: "أطعمة غنية بالحديد", content: "أدرجي اللحم الأحمر والسبانخ والفاصوليا." },
+        { title: "استريحي جيداً", content: "امنحي جسدك الراحة. النشاط الخفيف يساعد." },
+        { title: "تخفيف الألم", content: "تساعد كمادات التدفئة ومسكنات الألم." }
+      ],
+      follicular: [
+        { title: "طاقة عالية", content: "وقت مثالي للتمارين المكثفة والتحديات." },
+        { title: "قوة الدماغ", content: "قدراتك المعرفية في أعلى مستوياتها." },
+        { title: "تعزيز العناية بالبشرة", content: "تبدو بشرتك أفضل في هذه المرحلة عادة." },
+        { title: "الوقت الاجتماعي", content: "رائع للاجتماعات والأنشطة الاجتماعية." }
+      ],
+      ovulation: [
+        { title: "ذروة الطاقة", content: "أنتِ في ذروة اللياقة البدنية. رائع للتمارين." },
+        { title: "دفعة من الثقة", content: "شعري بمزيد من الثقة والاجتماعية." },
+        { title: "نافذة الخصوبة", content: "أكثر وقت خصوبة إذا كنتِ تخططين للحمل." },
+        { title: "ذروة الأداء", content: "الذاكرة والتركيز في أفضل حالاتهما." }
+      ],
+      luteal: [
+        { title: "وقت الرعاية الذاتية", content: "أعطي الأولوية للراحة والاسترخاء." },
+        { title: "تمارين لطيفة", content: "تشعرين بشكل أفضل مع الشدة المنخفضة." },
+        { title: "أطعمة مريحة", content: "أدرجي الأطعمة الغنية بالمغنيسيوم." },
+        { title: "المزيد من النوم", content: "استهدفي 8-9 ساعات من النوم الجيد." }
+      ]
+    },
+    learn: {
+      title: "تعلمي عن دورتك",
+      articles: "المقالات",
+      noArticles: "لا توجد مقالات بعد.",
+      min: "دقيقة قراءة",
+      phases: {
+        menstruation: { title: "مرحلة الحيض", content: "يتم إطلاق بطانة الرحم. قد تعانين من تقلصات وانتفاخ وإرهاق." },
+        follicular: { title: "المرحلة الجرابية", content: "يرتفع FSH ويزداد الإستروجين. تشعرين بالنشاط والثقة." },
+        ovulation: { title: "مرحلة الإباضة", content: "يتم إطلاق بويضة. ذروة الطاقة ونافذة الخصوبة." },
+        luteal: { title: "المرحلة الأصفرية", content: "يرتفع البروجسترون ثم ينخفض. قد تنخفض الطاقة." }
+      },
+      doctorTitle: "متى تزوري الطبيب",
+      doctorList: [
+        "الدورات التي تستمر أكثر من 7 أيام",
+        "نزيف ثقيل جداً",
+        "ألم شديد لا يتحسن بالأدوية",
+        "غياب الدورة لمدة 3 أشهر أو أكثر",
+        "تغييرات كبيرة في الدورة",
+        "أعراض حادة قبل الحيض",
+        "نزيف غير طبيعي بين الفترات",
+        "ألم غير عادي أثناء الجماع"
+      ]
+    },
     chat: {
       title: "الرفيق الصحي",
       placeholder: "اسألني أي شيء...",
@@ -237,6 +431,10 @@ export const translations = {
     },
     settings: {
       title: "الإعدادات",
+      appearance: "المظهر",
+      theme: "السمة",
+      lightMode: "فاتح",
+      darkMode: "داكن",
       language: "اللغة",
       notifications: "الإشعارات",
       timezone: "المنطقة الزمنية",

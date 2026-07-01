@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useAuthUser, useTelegramAuth, useGetMe, getGetMeQueryKey } from '@workspace/api-client-react';
 import { getTelegramWebApp } from '@/lib/telegram';
+import { useLanguage } from '@/hooks/use-language';
 
 export function useAuth() {
   const [telegramId, setTelegramId] = useState<string | null>(null);
-  const [language, setLanguage] = useState<'en' | 'ar'>('en');
+  const { language, changeLanguage, isRtl } = useLanguage();
 
   useEffect(() => {
     const wa = getTelegramWebApp();
@@ -19,9 +20,6 @@ export function useAuth() {
       localStorage.setItem('femflow_telegram_id', tid);
     }
     setTelegramId(tid);
-
-    const lang = localStorage.getItem('femflow_language') as 'en' | 'ar';
-    if (lang) setLanguage(lang);
   }, []);
 
   const authMutation = useAuthUser();
@@ -36,8 +34,7 @@ export function useAuth() {
 
   const persist = (token: string | undefined, lang: 'en' | 'ar') => {
     if (token) localStorage.setItem('femflow_token', token);
-    localStorage.setItem('femflow_language', lang);
-    setLanguage(lang);
+    changeLanguage(lang);
   };
 
   const login = async (firstName: string, lang: 'en' | 'ar' = 'en') => {
@@ -67,11 +64,6 @@ export function useAuth() {
     window.location.reload();
   };
 
-  const changeLanguage = (lang: 'en' | 'ar') => {
-    setLanguage(lang);
-    localStorage.setItem('femflow_language', lang);
-  };
-
   return {
     user,
     isLoading: isUserLoading || authMutation.isPending || telegramAuthMutation.isPending,
@@ -80,6 +72,6 @@ export function useAuth() {
     logout,
     changeLanguage,
     isAuthenticated: !!user,
-    isRtl: language === 'ar'
+    isRtl
   };
 }

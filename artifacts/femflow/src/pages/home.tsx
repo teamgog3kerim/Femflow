@@ -1,81 +1,160 @@
 import { useAuth } from "@/hooks/use-auth";
 import { useTranslation } from "@/lib/translations";
-import { useGetCurrentCycle, useGetWellnessScore, useListNotifications } from "@workspace/api-client-react";
+import {
+  useGetCurrentCycle,
+  useGetCycleStats,
+  useGetWellnessScore,
+  useListNotifications,
+} from "@workspace/api-client-react";
 import { Link } from "wouter";
-import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Bell, Droplets, Moon, Activity, Flame, Plus, Heart } from "lucide-react";
+import { Bell, Plus } from "lucide-react";
 import { motion } from "framer-motion";
+import { phaseColor, normalizePhase, localDateStr } from "@/lib/phase";
+
+function fmtShort(dateStr: string | null | undefined, locale: string): string {
+  if (!dateStr) return "—";
+  const d = new Date(dateStr.split("T")[0] + "T00:00:00");
+  if (Number.isNaN(d.getTime())) return "—";
+  return new Intl.DateTimeFormat(locale, { day: "numeric", month: "short" }).format(d);
+}
+
+function daysUntil(dateStr: string | null | undefined): number | null {
+  if (!dateStr) return null;
+  const d = new Date(dateStr.split("T")[0] + "T00:00:00");
+  if (Number.isNaN(d.getTime())) return null;
+  const today = new Date(localDateStr(new Date()) + "T00:00:00");
+  return Math.round((d.getTime() - today.getTime()) / 86400000);
+}
 
 export default function Home() {
   const { user, language } = useAuth();
-  const t = useTranslation(language).home;
+  const tt = useTranslation(language);
+  const t = tt.home;
+  const locale = language === "ar" ? "ar" : "en";
 
   const { data: currentCycle } = useGetCurrentCycle();
+  const { data: stats } = useGetCycleStats();
   const { data: wellness } = useGetWellnessScore();
   const { data: notifications } = useListNotifications();
 
+  const phaseKey = normalizePhase(currentCycle?.phase);
+  const phaseLabel = tt.cycle.phases[phaseKey === "menstruation" ? "menstrual" : phaseKey];
+  const color = phaseColor(currentCycle?.phase);
+
+  const cycleDay = currentCycle?.cycleDay ?? 0;
+  const cycleLen = currentCycle?.averageCycleLength ?? stats?.averageCycleLength ?? 28;
+  const progress = cycleLen ? Math.min(1, Math.max(0, cycleDay / cycleLen)) : 0;
+
+  const R = 52;
+  const CIRC = 2 * Math.PI * R;
+  const dashOffset = CIRC * (1 - progress);
+
+  // Fertile window check
+  const todayS = localDateStr(new Date());
+  const fs = currentCycle?.fertileWindowStart?.split("T")[0];
+  const fe = currentCycle?.fertileWindowEnd?.split("T")[0];
+  const isFertile = !!(fs && fe && todayS >= fs && todayS <= fe);
+
+  // Status from regularity
+  const reg = stats?.regularityScore ?? null;
+  const statusLabel = reg == null ? t.statusRegular : reg >= 70 ? t.statusRegular : t.statusIrregular;
+
+  const nextDays = daysUntil(currentCycle?.nextPeriodDate);
+  const score = wellness?.score ?? 0;
+
   return (
-    <div className="p-6 space-y-8 animate-in fade-in duration-500">
-      <header className="flex justify-between items-center pt-4">
-        <div>
-          <h1 className="text-2xl font-serif font-bold text-foreground">
-            {t.greeting} {user?.firstName || 'Beautiful'}
-          </h1>
-        </div>
-        <Link href="/settings">
-          <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center hover:bg-secondary/80 transition-colors">
-            <span className="font-medium text-secondary-foreground">{user?.firstName?.[0] || 'F'}</span>
-          </div>
-        </Link>
+    <div className="p-6 space-y-6 animate-in fade-in duration-500 pb-16">
+      <header className="pt-1">
+        <h1 className="text-2xl font-serif font-bold text-foreground">
+          {t.greeting}
+          {user?.firstName || "Beautiful"}
+        </h1>
       </header>
 
-      {/* Hero Cycle Status */}
-      <motion.div 
-        initial={{ scale: 0.95, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        className="relative bg-gradient-to-br from-primary to-primary/80 rounded-3xl p-6 text-primary-foreground shadow-lg shadow-primary/20 overflow-hidden"
-      >
-        <div className="absolute -right-10 -top-10 w-40 h-40 bg-white/10 rounded-full blur-2xl"></div>
-        <div className="relative z-10 flex flex-col items-center text-center space-y-2">
-          <span className="text-primary-foreground/80 text-sm font-medium uppercase tracking-wider">{t.phase}</span>
-          <h2 className="text-4xl font-serif font-bold capitalize">{currentCycle?.phase || 'Follicular'}</h2>
-          <div className="inline-flex items-center px-4 py-1.5 rounded-full bg-white/20 backdrop-blur-sm text-sm font-medium mt-2">
-            {t.cycleDay} {currentCycle?.cycleDay || 1}
+      {/* Cycle ring */}
+      <motion.div initial={{ scale: 0.96, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}>
+        <Card className="p-8 flex flex-col items-center text-center border-none shadow-lg shadow-primary/5">
+          <span
+            className="inline-flex items-center px-4 py-1.5 rounded-full text-sm font-semibold text-white mb-6 capitalize"
+            style={{ backgroundColor: color }}
+          >
+            {phaseLabel}
+          </span>
+
+          <div className="relative w-40 h-40">
+            <svg className="w-full h-full -rotate-90" viewBox="0 0 120 120">
+              <circle cx="60" cy="60" r={R} fill="none" strokeWidth="10" className="stroke-secondary" />
+              <circle
+                cx="60"
+                cy="60"
+                r={R}
+                fill="none"
+                strokeWidth="10"
+                strokeLinecap="round"
+                stroke={color}
+                strokeDasharray={CIRC}
+                strokeDashoffset={dashOffset}
+                style={{ transition: "stroke-dashoffset 0.6s ease" }}
+              />
+            </svg>
+            <div className="absolute inset-0 flex flex-col items-center justify-center">
+              <span className="text-5xl font-serif font-bold text-foreground">{cycleDay || "—"}</span>
+              <span className="text-xs text-muted-foreground mt-1">{t.daysIntoCycle}</span>
+            </div>
           </div>
-        </div>
+        </Card>
       </motion.div>
 
-      {/* Wellness & Quick Actions */}
+      {/* Info grid */}
+      <div className="grid grid-cols-3 gap-3">
+        <Card className="p-4 text-center">
+          <p className="text-xs text-muted-foreground mb-1">{t.nextPeriod}</p>
+          <p className="font-semibold text-foreground">{fmtShort(currentCycle?.nextPeriodDate, locale)}</p>
+          {nextDays != null && nextDays >= 0 && (
+            <p className="text-xs text-primary mt-0.5">
+              {nextDays} {t.days}
+            </p>
+          )}
+        </Card>
+        <Card className="p-4 text-center">
+          <p className="text-xs text-muted-foreground mb-1">{t.status}</p>
+          <p className="font-semibold text-foreground">{statusLabel}</p>
+        </Card>
+        <Card className="p-4 text-center">
+          <p className="text-xs text-muted-foreground mb-1">{t.fertile}</p>
+          <p className="font-semibold text-sm text-foreground">{isFertile ? t.fertileYes : t.fertileNo}</p>
+        </Card>
+      </div>
+
+      {/* Wellness + quick log */}
       <div className="grid grid-cols-2 gap-4">
-        <Card className="p-5 flex flex-col items-center justify-center text-center border-none shadow-md bg-card/50 backdrop-blur">
+        <Card className="p-5 flex flex-col items-center justify-center text-center">
           <div className="relative w-16 h-16 mb-3">
-            <svg className="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+            <svg className="w-full h-full -rotate-90" viewBox="0 0 36 36">
               <path
-                className="text-muted stroke-current"
-                strokeWidth="3"
+                className="stroke-secondary"
+                strokeWidth="3.5"
                 fill="none"
                 d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
               />
               <path
                 className="text-primary stroke-current"
-                strokeWidth="3"
-                strokeDasharray={`${wellness?.score || 85}, 100`}
+                strokeWidth="3.5"
+                strokeDasharray={`${score}, 100`}
                 strokeLinecap="round"
                 fill="none"
                 d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
               />
             </svg>
-            <div className="absolute inset-0 flex items-center justify-center font-bold text-lg text-primary">
-              {wellness?.score || 85}
-            </div>
+            <div className="absolute inset-0 flex items-center justify-center font-bold text-lg text-primary">{score}</div>
           </div>
           <span className="text-sm font-medium text-muted-foreground">{t.wellnessScore}</span>
         </Card>
 
         <Link href="/log">
-          <Card className="h-full p-5 flex flex-col items-center justify-center text-center border-none shadow-md bg-secondary/50 backdrop-blur cursor-pointer hover:bg-secondary/70 transition-colors">
-            <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center mb-3 text-primary shadow-sm">
+          <Card className="h-full p-5 flex flex-col items-center justify-center text-center cursor-pointer hover:bg-secondary/50 transition-colors">
+            <div className="w-12 h-12 gradient-primary rounded-full flex items-center justify-center mb-3 text-white shadow-md shadow-primary/25">
               <Plus className="w-6 h-6" />
             </div>
             <span className="text-sm font-medium text-foreground">{t.logToday}</span>
@@ -83,45 +162,25 @@ export default function Home() {
         </Link>
       </div>
 
-      {/* Predictions */}
-      <div className="bg-card rounded-2xl p-5 border border-border shadow-sm flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <div className="w-10 h-10 rounded-full bg-accent text-accent-foreground flex items-center justify-center">
-            <Droplets className="w-5 h-5" />
-          </div>
-          <div>
-            <p className="text-sm text-muted-foreground">{t.nextPeriod}</p>
-            <p className="font-semibold text-foreground">
-              {currentCycle?.nextPeriodDate ? new Date(currentCycle.nextPeriodDate).toLocaleDateString() : 'Dec 14'}
-            </p>
-          </div>
-        </div>
-        <div className="text-right">
-          <span className="text-2xl font-bold text-primary">12</span>
-          <span className="text-sm text-muted-foreground ml-1">{t.days}</span>
-        </div>
-      </div>
-
       {/* Notifications */}
       {notifications && notifications.length > 0 && (
         <div className="space-y-3">
           <h3 className="font-semibold text-foreground">{t.recentActivity}</h3>
           <div className="space-y-2">
-            {notifications.slice(0, 2).map((n) => (
+            {notifications.slice(0, 3).map((n) => (
               <div key={n.id} className="flex gap-3 p-3 rounded-xl bg-card border border-border">
                 <div className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center flex-shrink-0">
                   <Bell className="w-4 h-4 text-primary" />
                 </div>
                 <div>
                   <p className="text-sm text-foreground">{n.message}</p>
-                  <p className="text-xs text-muted-foreground mt-1">{new Date(n.createdAt).toLocaleTimeString()}</p>
+                  <p className="text-xs text-muted-foreground mt-1">{new Date(n.createdAt).toLocaleTimeString(locale)}</p>
                 </div>
               </div>
             ))}
           </div>
         </div>
       )}
-
     </div>
   );
 }
