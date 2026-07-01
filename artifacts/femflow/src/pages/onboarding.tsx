@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useLocation } from "wouter";
 import { useAuth } from "@/hooks/use-auth";
 import { useTranslation } from "@/lib/translations";
@@ -8,9 +8,8 @@ import { motion } from "framer-motion";
 
 export default function Onboarding() {
   const [, setLocation] = useLocation();
-  const { user, isLoading, login, isAuthenticated } = useAuth();
-  const [lang, setLang] = useState<'en' | 'ar'>('en');
-  const t = useTranslation(lang).onboarding;
+  const { isLoading, login, isAuthenticated, language, changeLanguage } = useAuth();
+  const t = useTranslation(language).onboarding;
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -28,7 +27,7 @@ export default function Onboarding() {
 
   const handleStart = async () => {
     // We pass a mock first name for demo purposes
-    await login("Beautiful", lang);
+    await login("Beautiful", language);
   };
 
   return (
@@ -56,16 +55,16 @@ export default function Onboarding() {
             <p className="text-sm font-medium text-foreground">{t.language}</p>
             <div className="grid grid-cols-2 gap-3">
               <Button 
-                variant={lang === 'en' ? 'default' : 'outline'} 
+                variant={language === 'en' ? 'default' : 'outline'} 
                 className="w-full rounded-2xl"
-                onClick={() => setLang('en')}
+                onClick={() => changeLanguage('en')}
               >
                 English
               </Button>
               <Button 
-                variant={lang === 'ar' ? 'default' : 'outline'} 
+                variant={language === 'ar' ? 'default' : 'outline'} 
                 className="w-full rounded-2xl font-arabic"
-                onClick={() => setLang('ar')}
+                onClick={() => changeLanguage('ar')}
               >
                 العربية
               </Button>

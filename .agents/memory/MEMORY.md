@@ -5,7 +5,7 @@
 - [Orval query option queryKey](orval-querykey-required.md) — TanStack v5 query hooks require queryKey when passing a query options override; pass the generated getXQueryKey().
 - [FemFlow local date handling](femflow-local-date-handling.md) — calendar/period day values must use local-date helpers; never toISOString().split or new Date("YYYY-MM-DD") (UTC off-by-one).
 - [Vendored openai-ai-react lib](vendored-openai-react-typecheck.md) — unused react integration lib needs react + @types/react devDeps to pass tsc --build (peerDep alone fails typecheck:libs).
-- [FemFlow theming & language](femflow-theme-i18n.md) — dark theme applied in main.tsx; language is per-hook-instance (no global ctx); phase colors via --phase-* CSS vars + normalizePhase().
+- [FemFlow theming & language](femflow-theme-i18n.md) — dark theme applied at bootstrap; language+RTL live in a shared LanguageProvider context (useAuth proxies it); phase colors via --phase-* CSS vars + normalizePhase().
 - [Object storage serving under bearer auth](object-storage-serving-bearer-auth.md) — gate /storage/objects/* with getUserId; <img> can't send headers, so use local preview (owner) + authenticated blob fetch (admin).
 - [Secret propagation needs restart_workflow](secret-propagation-restart.md) — updated secrets don't reach bash/sandbox/JS-spawned workflows; only the platform restart_workflow tool injects the fresh value.
 - [FemFlow /api prefix single source](femflow-api-base-prefix.md) — apply /api ONLY via setBaseUrl in main.tsx; never in orval baseUrl or openapi servers, or paths double to /api/api 404.
