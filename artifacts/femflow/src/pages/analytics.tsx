@@ -6,6 +6,8 @@ import {
   useGetCurrentCycle,
 } from "@workspace/api-client-react";
 import { Card } from "@/components/ui/card";
+import { Link } from "wouter";
+import { BarChart3, Plus } from "lucide-react";
 
 function fmtShort(dateStr: string | null | undefined, locale: string): string {
   if (!dateStr) return "—";
@@ -21,9 +23,15 @@ export default function Analytics() {
   const locale = language === "ar" ? "ar" : "en";
 
   const now = new Date();
-  const { data: stats } = useGetCycleStats();
+  const { data: stats, isSuccess: statsLoaded } = useGetCycleStats();
   const { data: summary } = useGetHealthLogSummary({ year: now.getFullYear(), month: now.getMonth() + 1 });
-  const { data: currentCycle } = useGetCurrentCycle();
+  const { data: currentCycle, isSuccess: cycleLoaded } = useGetCurrentCycle();
+
+  const hasNoCycleData =
+    cycleLoaded &&
+    statsLoaded &&
+    !currentCycle?.currentCycle &&
+    (stats?.totalCycles ?? 0) === 0;
 
   const reg = stats?.regularityScore ?? null;
   const consistency = reg == null ? t.none : reg >= 80 ? t.good : reg >= 60 ? t.fair : t.irregular;
@@ -65,6 +73,21 @@ export default function Analytics() {
     <div className="p-6 space-y-6 animate-in fade-in duration-500 pb-16">
       <h1 className="text-2xl font-serif font-bold text-foreground">{t.title}</h1>
 
+      {hasNoCycleData ? (
+        <Card className="p-8 flex flex-col items-center text-center border-none shadow-lg shadow-primary/5">
+          <div className="w-20 h-20 gradient-primary rounded-full flex items-center justify-center mb-6 text-white shadow-md shadow-primary/25">
+            <BarChart3 className="w-9 h-9" />
+          </div>
+          <h2 className="text-xl font-serif font-bold text-foreground mb-2">{t.emptyTitle}</h2>
+          <p className="text-sm text-muted-foreground max-w-xs mb-6 leading-relaxed">{t.emptySubtitle}</p>
+          <Link href="/cycle">
+            <button className="inline-flex items-center gap-2 px-6 py-3 rounded-full gradient-primary text-white font-medium shadow-md shadow-primary/25 hover:opacity-90 transition-opacity">
+              <Plus className="w-5 h-5" />
+              {t.emptyCta}
+            </button>
+          </Link>
+        </Card>
+      ) : (
       <div className="grid grid-cols-2 gap-4">
         {cards.map((c) => (
           <Card key={c.label} className="p-5 flex flex-col gap-1">
@@ -78,6 +101,7 @@ export default function Analytics() {
           </Card>
         ))}
       </div>
+      )}
     </div>
   );
 }

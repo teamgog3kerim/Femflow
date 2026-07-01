@@ -34,7 +34,10 @@ export const translations = {
       fertileYes: "Fertile now",
       fertileNo: "Not now",
       aiTip: "AI Tip of the Day",
-      recentActivity: "Recent Notifications"
+      recentActivity: "Recent Notifications",
+      emptyTitle: "Let's start your journey",
+      emptySubtitle: "Log your first period to unlock personalized cycle predictions, phase insights, and daily guidance made just for you.",
+      emptyCta: "Log your first period"
     },
     log: {
       title: "Log Today's Health",
@@ -121,7 +124,10 @@ export const translations = {
       good: "Good",
       fair: "Fair",
       irregular: "Irregular",
-      none: "—"
+      none: "—",
+      emptyTitle: "No insights yet",
+      emptySubtitle: "Once you log your first period, we'll reveal your cycle length, patterns, and symptom trends here.",
+      emptyCta: "Log your first period"
     },
     tips: {
       title: "Health Tips",
@@ -294,7 +300,10 @@ export const translations = {
       fertileYes: "خصبة الآن",
       fertileNo: "ليس الآن",
       aiTip: "نصيحة اليوم",
-      recentActivity: "الإشعارات الأخيرة"
+      recentActivity: "الإشعارات الأخيرة",
+      emptyTitle: "لنبدأ رحلتك",
+      emptySubtitle: "سجّلي أول دورة لك لفتح تنبؤات مخصصة لدورتك ورؤى لكل مرحلة وإرشادات يومية مصممة خصيصاً لكِ.",
+      emptyCta: "سجّلي أول دورة لك"
     },
     log: {
       title: "سجل صحتك اليوم",
@@ -381,7 +390,10 @@ export const translations = {
       good: "جيد",
       fair: "مقبول",
       irregular: "غير منتظم",
-      none: "—"
+      none: "—",
+      emptyTitle: "لا توجد إحصاءات بعد",
+      emptySubtitle: "بمجرد تسجيل أول دورة لك، سنعرض هنا طول دورتك وأنماطها واتجاهات الأعراض.",
+      emptyCta: "سجّلي أول دورة لك"
     },
     tips: {
       title: "نصائح صحية",

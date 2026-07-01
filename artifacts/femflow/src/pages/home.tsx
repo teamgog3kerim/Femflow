@@ -8,7 +8,7 @@ import {
 } from "@workspace/api-client-react";
 import { Link } from "wouter";
 import { Card } from "@/components/ui/card";
-import { Bell, Plus } from "lucide-react";
+import { Bell, Plus, Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
 import { phaseColor, normalizePhase, localDateStr } from "@/lib/phase";
 
@@ -33,10 +33,16 @@ export default function Home() {
   const t = tt.home;
   const locale = language === "ar" ? "ar" : "en";
 
-  const { data: currentCycle } = useGetCurrentCycle();
-  const { data: stats } = useGetCycleStats();
+  const { data: currentCycle, isSuccess: cycleLoaded } = useGetCurrentCycle();
+  const { data: stats, isSuccess: statsLoaded } = useGetCycleStats();
   const { data: wellness } = useGetWellnessScore();
   const { data: notifications } = useListNotifications();
+
+  const hasNoCycleData =
+    cycleLoaded &&
+    statsLoaded &&
+    !currentCycle?.currentCycle &&
+    (stats?.totalCycles ?? 0) === 0;
 
   const phaseKey = normalizePhase(currentCycle?.phase);
   const phaseLabel = tt.cycle.phases[phaseKey === "menstruation" ? "menstrual" : phaseKey];
@@ -72,6 +78,24 @@ export default function Home() {
         </h1>
       </header>
 
+      {hasNoCycleData ? (
+        <motion.div initial={{ scale: 0.96, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}>
+          <Card className="p-8 flex flex-col items-center text-center border-none shadow-lg shadow-primary/5">
+            <div className="w-20 h-20 gradient-primary rounded-full flex items-center justify-center mb-6 text-white shadow-md shadow-primary/25">
+              <Sparkles className="w-9 h-9" />
+            </div>
+            <h2 className="text-xl font-serif font-bold text-foreground mb-2">{t.emptyTitle}</h2>
+            <p className="text-sm text-muted-foreground max-w-xs mb-6 leading-relaxed">{t.emptySubtitle}</p>
+            <Link href="/cycle">
+              <button className="inline-flex items-center gap-2 px-6 py-3 rounded-full gradient-primary text-white font-medium shadow-md shadow-primary/25 hover:opacity-90 transition-opacity">
+                <Plus className="w-5 h-5" />
+                {t.emptyCta}
+              </button>
+            </Link>
+          </Card>
+        </motion.div>
+      ) : (
+        <>
       {/* Cycle ring */}
       <motion.div initial={{ scale: 0.96, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}>
         <Card className="p-8 flex flex-col items-center text-center border-none shadow-lg shadow-primary/5">
@@ -180,6 +204,8 @@ export default function Home() {
             ))}
           </div>
         </div>
+      )}
+        </>
       )}
     </div>
   );
