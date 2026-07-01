@@ -1,0 +1,2208 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Professional Women's Health Menstrual Cycle Tracker - Elegant, Intuitive Period Tracking">
+    <title>Cycle Wellness - Women's Health Companion</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Light Mode Colors */
+            --primary-gradient: linear-gradient(135deg, #c77dba 0%, #d4a5a5 100%);
+            --primary: #c77dba;
+            --primary-light: #e8c5dc;
+            --primary-dark: #9d5a8a;
+            --secondary: #8b9a8a;
+            --accent: #f4a8a0;
+            --success: #7ab87a;
+            --warning: #dba73a;
+            --danger: #d9876f;
+            
+            --bg-primary: #fefcfb;
+            --bg-secondary: #f8f5f2;
+            --bg-tertiary: #f0ebe7;
+            --text-primary: #2d2d2d;
+            --text-secondary: #6b6b6b;
+            --text-light: #999999;
+            --border-color: #e8dfd8;
+            --card-shadow: 0 2px 16px rgba(199, 125, 186, 0.08);
+            --card-shadow-hover: 0 8px 32px rgba(199, 125, 186, 0.12);
+            
+            --phase-menstruation: #d9876f;
+            --phase-follicular: #a8c5e0;
+            --phase-ovulation: #7ab87a;
+            --phase-luteal: #dba73a;
+
+            /* Dark Mode Colors */
+            --dm-bg-primary: #0f0d0c;
+            --dm-bg-secondary: #1a1817;
+            --dm-bg-tertiary: #2a2622;
+            --dm-text-primary: #f5f5f5;
+            --dm-text-secondary: #d0d0d0;
+            --dm-text-light: #888888;
+            --dm-border-color: #3a3530;
+            --dm-card-shadow: 0 2px 16px rgba(199, 125, 186, 0.15);
+            --dm-card-shadow-hover: 0 8px 32px rgba(199, 125, 186, 0.25);
+
+            /* Spacing System */
+            --spacing-xs: 4px;
+            --spacing-sm: 8px;
+            --spacing-md: 16px;
+            --spacing-lg: 24px;
+            --spacing-xl: 32px;
+            --spacing-2xl: 48px;
+
+            /* Transitions */
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-fast: all 0.15s ease-out;
+        }
+
+        html[data-theme="dark"] {
+            color-scheme: dark;
+        }
+
+        body {
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: var(--spacing-lg);
+            transition: var(--transition);
+        }
+
+        html[data-theme="dark"] body {
+            background: var(--dm-bg-primary);
+            color: var(--dm-text-primary);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* HEADER */
+        header {
+            background: var(--bg-secondary);
+            padding: var(--spacing-xl) var(--spacing-lg);
+            border-radius: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+            box-shadow: var(--card-shadow);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        html[data-theme="dark"] header {
+            background: var(--dm-bg-secondary);
+            border-color: var(--dm-border-color);
+            box-shadow: var(--dm-card-shadow);
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+        }
+
+        .header-logo {
+            font-size: 28px;
+            line-height: 1;
+        }
+
+        .header-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            font-weight: 700;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header-controls {
+            display: flex;
+            gap: var(--spacing-md);
+            align-items: center;
+        }
+
+        .theme-toggle {
+            width: 52px;
+            height: 32px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 2px;
+            transition: var(--transition-fast);
+            position: relative;
+        }
+
+        html[data-theme="dark"] .theme-toggle {
+            background: var(--dm-bg-tertiary);
+            border-color: var(--dm-border-color);
+            justify-content: flex-end;
+        }
+
+        .theme-toggle::before {
+            content: '☀️';
+            font-size: 16px;
+            transition: var(--transition-fast);
+            position: absolute;
+            left: 8px;
+            opacity: 1;
+        }
+
+        html[data-theme="dark"] .theme-toggle::before {
+            opacity: 0;
+            left: -20px;
+        }
+
+        .theme-toggle::after {
+            content: '🌙';
+            font-size: 16px;
+            transition: var(--transition-fast);
+            position: absolute;
+            right: 8px;
+            opacity: 0;
+        }
+
+        html[data-theme="dark"] .theme-toggle::after {
+            opacity: 1;
+            right: 8px;
+        }
+
+        .theme-toggle:hover {
+            background: var(--bg-tertiary);
+        }
+
+        .language-select {
+            padding: var(--spacing-sm) var(--spacing-md);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        html[data-theme="dark"] .language-select {
+            background: var(--dm-bg-tertiary);
+            border-color: var(--dm-border-color);
+            color: var(--dm-text-primary);
+        }
+
+        .language-select:hover {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(199, 125, 186, 0.1);
+        }
+
+        /* TABS */
+        .tabs-wrapper {
+            background: var(--bg-secondary);
+            border-radius: 20px;
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-xl);
+            overflow-x: auto;
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary) transparent;
+        }
+
+        html[data-theme="dark"] .tabs-wrapper {
+            background: var(--dm-bg-secondary);
+            border-color: var(--dm-border-color);
+            box-shadow: var(--dm-card-shadow);
+            scrollbar-color: var(--primary) transparent;
+        }
+
+        .tabs {
+            display: flex;
+            gap: var(--spacing-sm);
+            white-space: nowrap;
+        }
+
+        .tab {
+            padding: var(--spacing-sm) var(--spacing-lg);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-light);
+            white-space: nowrap;
+            transition: var(--transition-fast);
+            border-radius: 10px;
+            position: relative;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .tab:hover {
+            color: var(--primary);
+        }
+
+        .tab.active {
+            color: var(--primary);
+            background: rgba(199, 125, 186, 0.1);
+        }
+
+        html[data-theme="dark"] .tab.active {
+            background: rgba(199, 125, 186, 0.15);
+        }
+
+        /* TAB CONTENT */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* DASHBOARD */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-xl);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .dashboard-card {
+            background: var(--bg-secondary);
+            border-radius: 20px;
+            padding: var(--spacing-xl);
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        html[data-theme="dark"] .dashboard-card {
+            background: var(--dm-bg-secondary);
+            border-color: var(--dm-border-color);
+            box-shadow: var(--dm-card-shadow);
+        }
+
+        .dashboard-card:hover {
+            box-shadow: var(--card-shadow-hover);
+            transform: translateY(-4px);
+        }
+
+        html[data-theme="dark"] .dashboard-card:hover {
+            box-shadow: var(--dm-card-shadow-hover);
+        }
+
+        .cycle-status {
+            text-align: center;
+        }
+
+        .cycle-phase-badge {
+            display: inline-block;
+            font-size: 12px;
+            font-weight: 700;
+            color: white;
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: 10px;
+            margin-bottom: var(--spacing-lg);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: var(--primary-gradient);
+        }
+
+        .cycle-ring {
+            width: 160px;
+            height: 160px;
+            margin: 0 auto var(--spacing-lg);
+        }
+
+        .cycle-day-large {
+            font-family: 'Playfair Display', serif;
+            font-size: 48px;
+            font-weight: 700;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .cycle-day-label {
+            font-size: 13px;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-lg);
+        }
+
+        .info-item {
+            background: var(--bg-tertiary);
+            padding: var(--spacing-md);
+            border-radius: 12px;
+            text-align: center;
+            border-left: 3px solid var(--primary);
+        }
+
+        html[data-theme="dark"] .info-item {
+            background: var(--dm-bg-tertiary);
+        }
+
+        .info-label {
+            font-size: 11px;
+            color: var(--text-light);
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-bottom: var(--spacing-xs);
+            letter-spacing: 0.5px;
+        }
+
+        .info-value {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        /* CALENDAR */
+        .calendar-container {
+            background: var(--bg-secondary);
+            border-radius: 20px;
+            padding: var(--spacing-xl);
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        html[data-theme="dark"] .calendar-container {
+            background: var(--dm-bg-secondary);
+            border-color: var(--dm-border-color);
+            box-shadow: var(--dm-card-shadow);
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .calendar-nav button {
+            background: linear-gradient(135deg, rgba(199, 125, 186, 0.1), rgba(244, 168, 160, 0.1));
+            border: 1px solid var(--border-color);
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--primary);
+            transition: var(--transition-fast);
+            font-size: 13px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        html[data-theme="dark"] .calendar-nav button {
+            border-color: var(--dm-border-color);
+        }
+
+        .calendar-nav button:hover {
+            background: var(--primary-gradient);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .calendar-month {
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .day-header {
+            text-align: center;
+            font-weight: 700;
+            color: var(--text-light);
+            padding: var(--spacing-md);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .calendar-day {
+            aspect-ratio: 1;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            font-weight: 600;
+            font-size: 14px;
+            position: relative;
+            background: var(--bg-primary);
+        }
+
+        html[data-theme="dark"] .calendar-day {
+            border-color: var(--dm-border-color);
+            background: var(--dm-bg-tertiary);
+        }
+
+        .calendar-day:hover {
+            transform: scale(1.08);
+            box-shadow: var(--card-shadow);
+        }
+
+        html[data-theme="dark"] .calendar-day:hover {
+            box-shadow: var(--dm-card-shadow);
+        }
+
+        .calendar-day.other-month {
+            color: var(--text-light);
+            background: var(--bg-tertiary);
+        }
+
+        html[data-theme="dark"] .calendar-day.other-month {
+            background: var(--dm-bg-secondary);
+        }
+
+        .calendar-day.menstruation {
+            background: var(--phase-menstruation);
+            color: white;
+            font-weight: 700;
+        }
+
+        .calendar-day.follicular {
+            background: var(--phase-follicular);
+            color: white;
+            font-weight: 700;
+        }
+
+        .calendar-day.ovulation {
+            background: var(--phase-ovulation);
+            color: white;
+            font-weight: 700;
+        }
+
+        .calendar-day.luteal {
+            background: var(--phase-luteal);
+            color: white;
+            font-weight: 700;
+        }
+
+        .calendar-day.fertile::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border: 2px solid var(--phase-ovulation);
+            border-radius: 12px;
+            pointer-events: none;
+        }
+
+        .calendar-day.today {
+            border: 2px solid var(--primary);
+        }
+
+        /* LOGGING */
+        .form-section {
+            background: var(--bg-secondary);
+            border-radius: 20px;
+            padding: var(--spacing-xl);
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--border-color);
+            margin-bottom: var(--spacing-xl);
+            transition: var(--transition);
+        }
+
+        html[data-theme="dark"] .form-section {
+            background: var(--dm-bg-secondary);
+            border-color: var(--dm-border-color);
+            box-shadow: var(--dm-card-shadow);
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-lg);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+        }
+
+        .form-group {
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .form-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-sm);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            padding: var(--spacing-md) var(--spacing-lg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 14px;
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            transition: var(--transition-fast);
+        }
+
+        html[data-theme="dark"] .form-input,
+        html[data-theme="dark"] .form-select,
+        html[data-theme="dark"] .form-textarea {
+            background: var(--dm-bg-tertiary);
+            border-color: var(--dm-border-color);
+            color: var(--dm-text-primary);
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(199, 125, 186, 0.1);
+        }
+
+        .checkbox-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: var(--spacing-md);
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            cursor: pointer;
+            font-size: 14px;
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: 10px;
+            transition: var(--transition-fast);
+            background: var(--bg-tertiary);
+        }
+
+        html[data-theme="dark"] .checkbox-label {
+            background: var(--dm-bg-tertiary);
+        }
+
+        .checkbox-label:hover {
+            background: rgba(199, 125, 186, 0.1);
+        }
+
+        .checkbox-label input {
+            cursor: pointer;
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary);
+        }
+
+        .slider-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-lg);
+        }
+
+        .slider-container {
+            background: var(--bg-tertiary);
+            padding: var(--spacing-lg);
+            border-radius: 12px;
+        }
+
+        html[data-theme="dark"] .slider-container {
+            background: var(--dm-bg-tertiary);
+        }
+
+        .slider-label {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--primary);
+            text-transform: uppercase;
+            margin-bottom: var(--spacing-sm);
+            letter-spacing: 0.5px;
+        }
+
+        .slider-value {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-md);
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: linear-gradient(90deg, var(--phase-menstruation), var(--phase-ovulation), var(--phase-luteal));
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: var(--primary-gradient);
+            cursor: pointer;
+            box-shadow: var(--card-shadow);
+            border: 2px solid white;
+        }
+
+        html[data-theme="dark"] input[type="range"]::-webkit-slider-thumb {
+            border: 2px solid var(--dm-bg-secondary);
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: var(--primary-gradient);
+            cursor: pointer;
+            border: 2px solid white;
+            box-shadow: var(--card-shadow);
+        }
+
+        /* BUTTONS */
+        .button-group {
+            display: flex;
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-xl);
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: var(--spacing-md) var(--spacing-xl);
+            border: none;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .btn-primary {
+            background: var(--primary-gradient);
+            color: white;
+            box-shadow: var(--card-shadow);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--card-shadow-hover);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background: var(--bg-tertiary);
+            color: var(--primary);
+            border: 1px solid var(--border-color);
+        }
+
+        html[data-theme="dark"] .btn-secondary {
+            background: var(--dm-bg-tertiary);
+            border-color: var(--dm-border-color);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary-gradient);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* INSIGHTS */
+        .insights-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-lg);
+        }
+
+        .insight-card {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: var(--spacing-lg);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+        }
+
+        html[data-theme="dark"] .insight-card {
+            background: var(--dm-bg-secondary);
+            border-color: var(--dm-border-color);
+            box-shadow: var(--dm-card-shadow);
+        }
+
+        .insight-card:hover {
+            box-shadow: var(--card-shadow-hover);
+            transform: translateY(-4px);
+        }
+
+        html[data-theme="dark"] .insight-card:hover {
+            box-shadow: var(--dm-card-shadow-hover);
+        }
+
+        .insight-icon {
+            font-size: 28px;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .insight-label {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .insight-value {
+            font-family: 'Playfair Display', serif;
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .insight-detail {
+            font-size: 13px;
+            color: var(--text-light);
+        }
+
+        /* TIPS */
+        .tip-card {
+            background: linear-gradient(135deg, rgba(199, 125, 186, 0.08), rgba(244, 168, 160, 0.08));
+            border-left: 4px solid var(--primary);
+            padding: var(--spacing-lg);
+            border-radius: 12px;
+            margin-bottom: var(--spacing-lg);
+            transition: var(--transition-fast);
+        }
+
+        html[data-theme="dark"] .tip-card {
+            background: linear-gradient(135deg, rgba(199, 125, 186, 0.12), rgba(244, 168, 160, 0.12));
+        }
+
+        .tip-card:hover {
+            transform: translateX(4px);
+        }
+
+        .tip-icon {
+            font-size: 20px;
+            margin-right: var(--spacing-sm);
+        }
+
+        .tip-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: var(--spacing-sm);
+            display: flex;
+            align-items: center;
+        }
+
+        .tip-content {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* EDUCATION */
+        .education-card {
+            background: var(--bg-tertiary);
+            padding: var(--spacing-lg);
+            border-radius: 12px;
+            margin-bottom: var(--spacing-lg);
+            border-left: 4px solid var(--primary);
+        }
+
+        html[data-theme="dark"] .education-card {
+            background: var(--dm-bg-tertiary);
+        }
+
+        .education-card h4 {
+            color: var(--primary);
+            font-family: 'Playfair Display', serif;
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .education-card p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .education-card ul {
+            margin-left: var(--spacing-lg);
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .education-card li {
+            margin-bottom: var(--spacing-sm);
+            line-height: 1.6;
+        }
+
+        /* SETTINGS */
+        .settings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: var(--spacing-xl);
+        }
+
+        .settings-card {
+            background: var(--bg-secondary);
+            border-radius: 20px;
+            padding: var(--spacing-xl);
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--border-color);
+        }
+
+        html[data-theme="dark"] .settings-card {
+            background: var(--dm-bg-secondary);
+            border-color: var(--dm-border-color);
+            box-shadow: var(--dm-card-shadow);
+        }
+
+        .settings-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-lg);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+        }
+
+        .settings-item {
+            margin-bottom: var(--spacing-lg);
+            padding-bottom: var(--spacing-lg);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        html[data-theme="dark"] .settings-item {
+            border-bottom-color: var(--dm-border-color);
+        }
+
+        .settings-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .settings-label {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-sm);
+            display: block;
+        }
+
+        .settings-description {
+            font-size: 12px;
+            color: var(--text-light);
+            margin-top: var(--spacing-xs);
+        }
+
+        /* MODAL */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(45, 45, 45, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: var(--spacing-lg);
+        }
+
+        html[data-theme="dark"] .modal {
+            background: rgba(15, 13, 12, 0.8);
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--bg-primary);
+            border-radius: 20px;
+            padding: var(--spacing-2xl);
+            max-width: 500px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(199, 125, 186, 0.3);
+            border: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        html[data-theme="dark"] .modal-content {
+            background: var(--dm-bg-primary);
+            border-color: var(--dm-border-color);
+            box-shadow: 0 20px 60px rgba(199, 125, 186, 0.4);
+        }
+
+        .modal-header {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: var(--spacing-lg);
+            right: var(--spacing-lg);
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: var(--text-light);
+            transition: var(--transition-fast);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            hover-bg: var(--bg-tertiary);
+        }
+
+        .modal-close:hover {
+            color: var(--primary);
+            background: var(--bg-tertiary);
+        }
+
+        html[data-theme="dark"] .modal-close:hover {
+            background: var(--dm-bg-tertiary);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header-title {
+                font-size: 20px;
+            }
+
+            .cycle-day-large {
+                font-size: 36px;
+            }
+
+            .section-title {
+                font-size: 18px;
+            }
+
+            .settings-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tab {
+                padding: var(--spacing-sm) var(--spacing-md);
+                font-size: 12px;
+            }
+        }
+
+        /* SUCCESS MESSAGE */
+        .success-message {
+            background: rgba(122, 184, 122, 0.1);
+            border: 1px solid var(--success);
+            border-radius: 12px;
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-lg);
+            color: var(--success);
+            display: none;
+            align-items: center;
+            gap: var(--spacing-md);
+            font-weight: 600;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        .success-message.show {
+            display: flex;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* SCROLL BAR */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+
+        html[data-theme="dark"] ::-webkit-scrollbar-track {
+            background: var(--dm-bg-primary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-dark);
+        }
+    </style>
+</head>
+<body data-theme="light">
+    <!-- SETUP WIZARD -->
+    <div class="modal active" id="setupWizard">
+        <div class="modal-content">
+            <button class="modal-close" id="skipSetup">✕</button>
+            <div id="wizardContent">
+                <h2 class="modal-header" id="welcomeTitle">Welcome to Cycle Wellness 🌸</h2>
+                <p style="color: var(--text-secondary); margin-bottom: var(--spacing-lg);" id="welcomeText">
+                    Let's personalize your cycle tracker. Just answer a few quick questions.
+                </p>
+
+                <div class="form-group">
+                    <label class="form-label" id="lastPeriodLabel">When was your last period?</label>
+                    <input type="date" class="form-input" id="setupLastPeriod">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" id="cycleLengthLabel">Average cycle length (days)</label>
+                    <input type="number" class="form-input" id="setupCycleLength" value="28" min="20" max="40">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" id="periodDurationLabel">Period duration (days)</label>
+                    <input type="number" class="form-input" id="setupPeriodDuration" value="5" min="2" max="7">
+                </div>
+
+                <div class="button-group">
+                    <button class="btn btn-secondary" id="skipSetupBtn" style="flex: 1;">Skip for now</button>
+                    <button class="btn btn-primary" id="completeSetupBtn" style="flex: 1;">Get Started ✓</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- HEADER -->
+        <header>
+            <div class="header-brand">
+                <div class="header-logo">🌸</div>
+                <h1 class="header-title" id="appTitle">Cycle Wellness</h1>
+            </div>
+            <div class="header-controls">
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme"></button>
+                <select class="language-select" id="languageSelect">
+                    <option value="en">English</option>
+                    <option value="ar">العربية</option>
+                    <option value="am">አማርኛ</option>
+                </select>
+            </div>
+        </header>
+
+        <!-- TABS -->
+        <div class="tabs-wrapper">
+            <div class="tabs" id="tabsContainer">
+                <button class="tab active" data-tab="dashboard" id="tabDashboard">📊 Dashboard</button>
+                <button class="tab" data-tab="calendar" id="tabCalendar">📅 Calendar</button>
+                <button class="tab" data-tab="logging" id="tabLogging">✍️ Log Entry</button>
+                <button class="tab" data-tab="insights" id="tabInsights">📈 Insights</button>
+                <button class="tab" data-tab="tips" id="tabTips">💡 Tips</button>
+                <button class="tab" data-tab="education" id="tabEducation">📚 Learn</button>
+                <button class="tab" data-tab="settings" id="tabSettings">⚙️ Settings</button>
+            </div>
+        </div>
+
+        <!-- DASHBOARD TAB -->
+        <div class="tab-content active" id="dashboard">
+            <div class="dashboard-grid">
+                <div class="dashboard-card">
+                    <div class="cycle-status">
+                        <div class="cycle-phase-badge" id="cyclePhaseText">Follicular</div>
+                        <div class="cycle-ring">
+                            <canvas id="cycleCanvas" width="160" height="160"></canvas>
+                        </div>
+                        <div class="cycle-day-large" id="cycleDay">8</div>
+                        <div class="cycle-day-label" id="cycleLabel">Days into cycle</div>
+                    </div>
+                </div>
+
+                <div class="dashboard-card">
+                    <div class="info-grid" id="phaseInfo">
+                        <div class="info-item">
+                            <div class="info-label" id="nextPeriodLabel">Next Period</div>
+                            <div class="info-value" id="nextPeriodDate">Jun 30</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label" id="cycleStatusLabel">Status</div>
+                            <div class="info-value" id="cycleStatus">Regular</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label" id="fertileWindowLabel">Fertile</div>
+                            <div class="info-value" style="font-size: 12px;" id="fertileWindowText">Not now</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CALENDAR TAB -->
+        <div class="tab-content" id="calendar">
+            <div class="calendar-container">
+                <div class="calendar-header">
+                    <button id="prevMonth" class="calendar-nav"><button> ← Previous</button></button>
+                    <div class="calendar-month" id="calendarMonth">June 2026</div>
+                    <button id="nextMonth" class="calendar-nav">Next →</button>
+                </div>
+                <div class="calendar-grid" id="calendarGrid"></div>
+            </div>
+        </div>
+
+        <!-- LOGGING TAB -->
+        <div class="tab-content" id="logging">
+            <div class="form-section">
+                <h2 class="section-title" id="logTodayTitle">📋 <span id="logSpan">Log Today's Health</span></h2>
+
+                <div id="successMessage" class="success-message">
+                    <span>✓</span>
+                    <span id="successText">Saved!</span>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" id="periodFlowLabel">Period Flow</label>
+                    <select class="form-select" id="flowSelect">
+                        <option value="">Not menstruating</option>
+                        <option value="light">Light</option>
+                        <option value="medium">Medium</option>
+                        <option value="heavy">Heavy</option>
+                        <option value="very-heavy">Very Heavy</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" id="symptomsLabel">Symptoms</label>
+                    <div class="checkbox-grid">
+                        <label class="checkbox-label"><input type="checkbox" name="symptoms" value="cramps"><span>Cramps</span></label>
+                        <label class="checkbox-label"><input type="checkbox" name="symptoms" value="bloating"><span>Bloating</span></label>
+                        <label class="checkbox-label"><input type="checkbox" name="symptoms" value="headache"><span>Headache</span></label>
+                        <label class="checkbox-label"><input type="checkbox" name="symptoms" value="fatigue"><span>Fatigue</span></label>
+                        <label class="checkbox-label"><input type="checkbox" name="symptoms" value="breast-tenderness"><span>Breast Tender</span></label>
+                        <label class="checkbox-label"><input type="checkbox" name="symptoms" value="mood-changes"><span>Mood Changes</span></label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">How are you feeling?</label>
+                    <div class="slider-grid">
+                        <div class="slider-container">
+                            <div class="slider-label">Pain (0-10)</div>
+                            <div class="slider-value"><span id="painValue">0</span>/10</div>
+                            <input type="range" id="painSlider" min="0" max="10" value="0">
+                        </div>
+                        <div class="slider-container">
+                            <div class="slider-label">Mood (1-10)</div>
+                            <div class="slider-value"><span id="moodValue">5</span>/10</div>
+                            <input type="range" id="moodSlider" min="1" max="10" value="5">
+                        </div>
+                        <div class="slider-container">
+                            <div class="slider-label">Energy (1-10)</div>
+                            <div class="slider-value"><span id="energyValue">5</span>/10</div>
+                            <input type="range" id="energySlider" min="1" max="10" value="5">
+                        </div>
+                        <div class="slider-container">
+                            <div class="slider-label">Sleep (1-10)</div>
+                            <div class="slider-value"><span id="sleepValue">5</span>/10</div>
+                            <input type="range" id="sleepSlider" min="1" max="10" value="5">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" id="notesLabel">Notes</label>
+                    <textarea class="form-textarea" id="notesTextarea" rows="3" placeholder="How did you feel today?"></textarea>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn btn-primary" id="saveLogBtn">💾 Save</button>
+                    <button class="btn btn-secondary" id="clearLogBtn">Clear</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- INSIGHTS TAB -->
+        <div class="tab-content" id="insights">
+            <div class="insights-grid" id="insightsGrid">
+                <div class="insight-card">
+                    <div class="insight-icon">📏</div>
+                    <div class="insight-label">Cycle Length</div>
+                    <div class="insight-value"><span id="avgCycleLength">28</span> <span style="font-size: 20px;">days</span></div>
+                    <div class="insight-detail">Your average</div>
+                </div>
+
+                <div class="insight-card">
+                    <div class="insight-icon">📅</div>
+                    <div class="insight-label">Duration</div>
+                    <div class="insight-value"><span id="avgPeriodDuration">5</span> <span style="font-size: 20px;">days</span></div>
+                    <div class="insight-detail">Period length</div>
+                </div>
+
+                <div class="insight-card">
+                    <div class="insight-icon">✨</div>
+                    <div class="insight-label">Consistency</div>
+                    <div class="insight-value" id="cycleConsistency">Good</div>
+                    <div class="insight-detail">Cycle pattern</div>
+                </div>
+
+                <div class="insight-card">
+                    <div class="insight-icon">💬</div>
+                    <div class="insight-label">Common Symptom</div>
+                    <div class="insight-value" style="font-size: 18px;" id="mostCommonSymptom">—</div>
+                    <div class="insight-detail">Most frequent</div>
+                </div>
+
+                <div class="insight-card">
+                    <div class="insight-icon">📊</div>
+                    <div class="insight-label">Entries</div>
+                    <div class="insight-value"><span id="totalLogs">0</span></div>
+                    <div class="insight-detail">Logged days</div>
+                </div>
+
+                <div class="insight-card">
+                    <div class="insight-icon">🗓️</div>
+                    <div class="insight-label">Next Period</div>
+                    <div class="insight-value" style="font-size: 18px;" id="nextPeriodETA">—</div>
+                    <div class="insight-detail">Estimated date</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TIPS TAB -->
+        <div class="tab-content" id="tips">
+            <div class="form-section">
+                <h2 class="section-title">💡 <span id="healthTipsTitle">Health Tips</span></h2>
+                <div id="tipsContent"></div>
+            </div>
+        </div>
+
+        <!-- EDUCATION TAB -->
+        <div class="tab-content" id="education">
+            <div class="form-section">
+                <h2 class="section-title">📚 <span id="educationTitle">Learn About Your Cycle</span></h2>
+                <div id="educationContent"></div>
+            </div>
+        </div>
+
+        <!-- SETTINGS TAB -->
+        <div class="tab-content" id="settings">
+            <div class="settings-grid">
+                <div class="settings-card">
+                    <h3>⚙️ <span id="cycleSettingsLabel">Cycle Settings</span></h3>
+                    
+                    <div class="settings-item">
+                        <label class="settings-label">Cycle Length</label>
+                        <input type="number" class="form-input" id="settingsCycleLength" min="20" max="40" value="28">
+                        <div class="settings-description">Days in your cycle</div>
+                    </div>
+
+                    <div class="settings-item">
+                        <label class="settings-label">Period Duration</label>
+                        <input type="number" class="form-input" id="settingsPeriodDuration" min="2" max="7" value="5">
+                        <div class="settings-description">How long it lasts</div>
+                    </div>
+
+                    <div class="settings-item">
+                        <label class="settings-label">Last Period</label>
+                        <input type="date" class="form-input" id="settingsLastPeriod">
+                        <div class="settings-description">Update predictions</div>
+                    </div>
+
+                    <button class="btn btn-primary" id="saveCycleSettings" style="width: 100%; margin-top: var(--spacing-md);">💾 Save Settings</button>
+                </div>
+
+                <div class="settings-card">
+                    <h3>📊 <span id="dataManagementLabel">Data Management</span></h3>
+                    
+                    <div class="settings-item">
+                        <label class="settings-label">📥 Export Data</label>
+                        <div class="settings-description">Download your data</div>
+                        <button class="btn btn-secondary" id="exportDataBtn" style="width: 100%; margin-top: var(--spacing-sm);">Export JSON</button>
+                    </div>
+
+                    <div class="settings-item">
+                        <label class="settings-label">📤 Import Data</label>
+                        <div class="settings-description">Restore from backup</div>
+                        <div style="margin-top: var(--spacing-sm);">
+                            <input type="file" id="importDataFile" accept=".json" style="display: none;">
+                            <button class="btn btn-secondary" id="importBtn" style="width: 100%;">Choose File</button>
+                        </div>
+                    </div>
+
+                    <div class="settings-item">
+                        <label class="settings-label">🗑️ Reset Data</label>
+                        <div class="settings-description">Clear all entries</div>
+                        <button class="btn btn-warning" id="resetDataBtn" style="width: 100%; margin-top: var(--spacing-sm);">Reset</button>
+                    </div>
+                </div>
+
+                <div class="settings-card">
+                    <h3>ℹ️ <span id="appInfoLabel">About</span></h3>
+                    <div class="settings-item">
+                        <label class="settings-label">Version</label>
+                        <div class="settings-description">2.0.0 Premium</div>
+                    </div>
+                    <div class="settings-item">
+                        <label class="settings-label">Storage</label>
+                        <div class="settings-description">100% Local & Private</div>
+                    </div>
+                    <div class="settings-item">
+                        <label class="settings-label">Languages</label>
+                        <div class="settings-description">English • العربية • አማርኛ</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // =====================
+        // TRANSLATIONS
+        // =====================
+
+        const translations = {
+            en: {
+                appTitle: "Cycle Wellness",
+                welcomeTitle: "Welcome to Cycle Wellness 🌸",
+                welcomeText: "Let's personalize your cycle tracker. Just answer a few quick questions.",
+                lastPeriodLabel: "When was your last period?",
+                cycleLengthLabel: "Average cycle length (days)",
+                periodDurationLabel: "Period duration (days)",
+                skipForNow: "Skip for now",
+                getStarted: "Get Started ✓",
+                
+                cyclePhaseFollicular: "Follicular",
+                cyclePhaseMenstruation: "Menstruation",
+                cyclePhaseOvulation: "Ovulation",
+                cyclePhaseLuteal: "Luteal",
+                daysIntoCycle: "Days into cycle",
+                nextPeriodLabel: "Next Period",
+                cycleStatusLabel: "Status",
+                fertileWindowLabel: "Fertile",
+                cycleStatusRegular: "Regular",
+                cycleStatusIrregular: "Irregular",
+                notInFertileWindow: "Not now",
+                inFertileWindow: "Fertile",
+                
+                logTodayTitle: "Log Today's Health",
+                periodFlowLabel: "Period Flow",
+                symptomsLabel: "Symptoms",
+                painLevelLabel: "Pain Level",
+                mood: "Mood",
+                energy: "Energy",
+                sleepQuality: "Sleep",
+                notesLabel: "Notes",
+                saveEntry: "💾 Save",
+                clearForm: "Clear",
+                entrySaved: "Saved!",
+                successText: "Entry saved!",
+
+                healthTipsTitle: "Health Tips",
+                educationTitle: "Learn About Your Cycle",
+                cycleSettingsLabel: "Cycle Settings",
+                dataManagementLabel: "Data Management",
+                appInfoLabel: "About",
+
+                menstruationTips: [
+                    { title: "Stay Hydrated", content: "Drink plenty of water to reduce fatigue." },
+                    { title: "Iron-Rich Foods", content: "Include red meat, spinach, beans to replenish iron." },
+                    { title: "Rest Well", content: "Allow your body rest. Light activity helps." },
+                    { title: "Pain Relief", content: "Heating pads or pain relievers help with cramps." }
+                ],
+                follicularTips: [
+                    { title: "High Energy", content: "Perfect time for intense workouts and challenges." },
+                    { title: "Brain Power", content: "Your cognition is at its peak now." },
+                    { title: "Skincare Boost", content: "Your skin typically looks best this phase." },
+                    { title: "Social Time", content: "Great for meetings and social activities." }
+                ],
+                ovulationTips: [
+                    { title: "Peak Energy", content: "You're at your physical peak. Great for exercise." },
+                    { title: "Confidence Boost", content: "Feel more confident and social." },
+                    { title: "Fertility Window", content: "Your most fertile time if planning pregnancy." },
+                    { title: "Peak Performance", content: "Memory and focus are at their best." }
+                ],
+                lutealTips: [
+                    { title: "Self-Care Time", content: "Prioritize rest and relaxation." },
+                    { title: "Gentle Exercise", content: "Lower intensity like yoga feels better." },
+                    { title: "Comfort Foods", content: "Include magnesium-rich foods like dark chocolate." },
+                    { title: "More Sleep", content: "Aim for 8-9 hours of quality sleep." }
+                ],
+
+                menstruationPhaseTitle: "Menstruation Phase",
+                menstruationPhaseContent: "The uterine lining sheds. You may experience cramps, bloating, fatigue.",
+                follicularPhaseTitle: "Follicular Phase",
+                follicularPhaseContent: "FSH rises, estrogen increases. You feel energetic and confident.",
+                ovulationPhaseTitle: "Ovulation Phase",
+                ovulationPhaseContent: "An egg is released. Peak energy and fertility window.",
+                lutealPhaseTitle: "Luteal Phase",
+                lutealPhaseContent: "Progesterone rises then falls. Energy may decrease.",
+                whenToSeeDoctorTitle: "When to See Your Doctor",
+                whenToSeeDoctorContent: [
+                    "Periods lasting more than 7 days",
+                    "Extremely heavy bleeding",
+                    "Severe pain not relieved by medication",
+                    "Missed periods for 3+ months",
+                    "Significant cycle changes",
+                    "Severe PMS symptoms",
+                    "Abnormal bleeding between periods",
+                    "Unusual pain during intercourse"
+                ]
+            },
+            
+            ar: {
+                appTitle: "صحة الدورة",
+                welcomeTitle: "أهلا بك في صحة الدورة 🌸",
+                welcomeText: "دعنا نخصص متتبع دورتك. أجب عن بعض الأسئلة السريعة.",
+                lastPeriodLabel: "متى كانت آخر دورة شهرية لك؟",
+                cycleLengthLabel: "متوسط طول الدورة (أيام)",
+                periodDurationLabel: "مدة الدورة (أيام)",
+                skipForNow: "تخطي الآن",
+                getStarted: "ابدأي الآن ✓",
+                
+                cyclePhaseFollicular: "جرابي",
+                cyclePhaseMenstruation: "حيض",
+                cyclePhaseOvulation: "إباضة",
+                cyclePhaseLuteal: "لوتيني",
+                daysIntoCycle: "أيام من الدورة",
+                nextPeriodLabel: "الدورة القادمة",
+                cycleStatusLabel: "الحالة",
+                fertileWindowLabel: "خصوبة",
+                cycleStatusRegular: "منتظمة",
+                cycleStatusIrregular: "غير منتظمة",
+                notInFertileWindow: "ليس الآن",
+                inFertileWindow: "خصب",
+                
+                logTodayTitle: "سجل صحتك اليوم",
+                periodFlowLabel: "تدفق الحيض",
+                symptomsLabel: "الأعراض",
+                painLevelLabel: "مستوى الألم",
+                mood: "المزاج",
+                energy: "الطاقة",
+                sleepQuality: "النوم",
+                notesLabel: "ملاحظات",
+                saveEntry: "💾 حفظ",
+                clearForm: "مسح",
+                entrySaved: "تم الحفظ!",
+                successText: "تم الحفظ!",
+
+                healthTipsTitle: "نصائح صحية",
+                educationTitle: "تعلمي عن دورتك",
+                cycleSettingsLabel: "إعدادات الدورة",
+                dataManagementLabel: "إدارة البيانات",
+                appInfoLabel: "حول",
+
+                menstruationTips: [
+                    { title: "ابقي رطبة", content: "اشربي الكثير من الماء لتقليل الإرهاق." },
+                    { title: "أطعمة غنية بالحديد", content: "أدرجي اللحم الأحمر والسبانخ والفاصوليا." },
+                    { title: "استريحي جيداً", content: "امنحي جسدك الراحة. النشاط الخفيف يساعد." },
+                    { title: "تخفيف الألم", content: "تساعد كمادات التدفئة ومسكنات الألم." }
+                ],
+                follicularTips: [
+                    { title: "طاقة عالية", content: "وقت مثالي للتمارين المكثفة والتحديات." },
+                    { title: "قوة الدماغ", content: "قدراتك المعرفية في أعلى مستوياتها." },
+                    { title: "تعزيز العناية بالبشرة", content: "تبدو بشرتك أفضل في هذه المرحلة عادة." },
+                    { title: "الوقت الاجتماعي", content: "رائع للاجتماعات والأنشطة الاجتماعية." }
+                ],
+                ovulationTips: [
+                    { title: "ذروة الطاقة", content: "أنتِ في ذروة اللياقة البدنية. رائع للتمارين." },
+                    { title: "دفعة من الثقة", content: "شعري بمزيد من الثقة والاجتماعية." },
+                    { title: "نافذة الخصوبة", content: "أكثر وقت خصوبة إذا كنتِ تخططين للحمل." },
+                    { title: "ذروة الأداء", content: "الذاكرة والتركيز في أفضل حالاتهما." }
+                ],
+                lutealTips: [
+                    { title: "وقت الرعاية الذاتية", content: "أعطي الأولوية للراحة والاسترخاء." },
+                    { title: "تمارين لطيفة", content: "تشعرين بشكل أفضل مع الشدة المنخفضة." },
+                    { title: "أطعمة مريحة", content: "أدرجي الأطعمة الغنية بالمغنيسيوم." },
+                    { title: "المزيد من النوم", content: "استهدفي 8-9 ساعات من النوم الجيد." }
+                ],
+
+                menstruationPhaseTitle: "مرحلة الحيض",
+                menstruationPhaseContent: "يتم إطلاق بطانة الرحم. قد تعانين من تقلصات وانتفاخ وإرهاق.",
+                follicularPhaseTitle: "المرحلة الجرابية",
+                follicularPhaseContent: "يرتفع FSH ويزداد الإستروجين. تشعرين بالنشاط والثقة.",
+                ovulationPhaseTitle: "مرحلة الإباضة",
+                ovulationPhaseContent: "يتم إطلاق بويضة. ذروة الطاقة ونافذة الخصوبة.",
+                lutealPhaseTitle: "المرحلة اللوتيينية",
+                lutealPhaseContent: "يرتفع البروجسترون ثم ينخفض. قد تنخفض الطاقة.",
+                whenToSeeDoctorTitle: "متى تزيري الطبيب",
+                whenToSeeDoctorContent: [
+                    "الدورات التي تستمر أكثر من 7 أيام",
+                    "نزيف ثقيل جداً",
+                    "ألم شديد لا يتحسن بالأدوية",
+                    "فترات مفقودة لمدة 3 أشهر أو أكثر",
+                    "تغييرات كبيرة في الدورة",
+                    "أعراض حادة قبل الحيض",
+                    "نزيف غير طبيعي بين الفترات",
+                    "ألم غير عادي أثناء الجماع"
+                ]
+            },
+
+            am: {
+                appTitle: "ጊዜ wellness",
+                welcomeTitle: "ወደ Cycle Wellness እንኳን ደህና መጡ 🌸",
+                welcomeText: "ወር ነበር ትከታይ ይወገዛ። ጥቂት ፈጣን ጥያቄዎችን መልስ ይስጡ።",
+                lastPeriodLabel: "ሪድስክሳቦ ወር ነበር መቼ ነበር?",
+                cycleLengthLabel: "አማካኝ ወር ነበር ርዝመት (ቀናት)",
+                periodDurationLabel: "ወር ነበር ስነ ፍ (ቀናት)",
+                skipForNow: "አሁን ትቅ",
+                getStarted: "ይጀምሩ ✓",
+                
+                cyclePhaseFollicular: "ትንሿ",
+                cyclePhaseMenstruation: "ወር ነበር",
+                cyclePhaseOvulation: "ዞር እንሳት",
+                cyclePhaseLuteal: "ሉቲል",
+                daysIntoCycle: "ወሩ ስነ",
+                nextPeriodLabel: "ሚቀጥለው ወር ነበር",
+                cycleStatusLabel: "ሁኔታ",
+                fertileWindowLabel: "ዋርካ",
+                cycleStatusRegular: "መደበኛ",
+                cycleStatusIrregular: "መደበኛ ያልሆነ",
+                notInFertileWindow: "አሁን አይደለም",
+                inFertileWindow: "ዋርካ",
+                
+                logTodayTitle: "ዛሬ ጤናዎን ይመዝግቡ",
+                periodFlowLabel: "ወር ነበር ፍሰት",
+                symptomsLabel: "ምልክቶች",
+                painLevelLabel: "ሕመም ደረጃ",
+                mood: "ስሜት",
+                energy: "ጉልበት",
+                sleepQuality: "እንቅልፍ",
+                notesLabel: "ማስታወሻዎች",
+                saveEntry: "💾 ያስቀምጡ",
+                clearForm: "ሰርዝ",
+                entrySaved: "ተቀምጧል!",
+                successText: "ተቀምጧል!",
+
+                healthTipsTitle: "ጤና ምክር",
+                educationTitle: "ወር ነበር ምስምር",
+                cycleSettingsLabel: "ወር ነበር ቅንብር",
+                dataManagementLabel: "ግቤት ቅንብር",
+                appInfoLabel: "ስለ",
+
+                menstruationTips: [
+                    { title: "ውሃ ይወሰዱ", content: "ብዙ ውሃ ይጠጡ ለመቀነስ ድክሞ።" },
+                    { title: "ብረት ምግብ", content: "ቀይ ስጋ፣ ሰላጣ፣ እና ምስር ያካትቱ።" },
+                    { title: "ይኑሩ አረፋ", content: "ሰውዎን ፍቀዱ። ቀላል ንቅናቄ ይሞክሩ።" },
+                    { title: "ሕመም ማቀነስ", content: "ሙቅ ታናናሽ ወይም ሕመም ማቆሪያዎች ይሞክሩ።" }
+                ],
+                follicularTips: [
+                    { title: "ከፍተኛ ጉልበት", content: "ከባድ የስልጠና እና ፈታኞች ጊዜ።" },
+                    { title: "የአንጅ ጉልበት", content: "የእናትዎ የእንቦልት ከቁሪ ላይ።" },
+                    { title: "ቆሪ ትንሿ", content: "የእናትዎ ቆዮ ብዙ ጊዜ ጥሩ ይመስላል።" },
+                    { title: "ማህበራዊ ሰዓት", content: "ለስብሰባ እና ማህበራዊ ንቅናቄ ጥሩ።" }
+                ],
+                ovulationTips: [
+                    { title: "ጉልበት ሰቅ", content: "በአካል ከሯ ላይ ነዎት። ስልጠናው ጥሩ ነው።" },
+                    { title: "ራስ ታበっ", content: "ብዙ ራስ ጣበቁ እና ማህበራዊ ሕሊና።" },
+                    { title: "ዋርካ መጨረሻ", content: "ወሊድ ካሰበ በጣም ሆነ።" },
+                    { title: "ሰቅ አፈፃፃም", content: "ገጽታ እና ሮሳ በተሻለ ሕልየት።" }
+                ],
+                lutealTips: [
+                    { title: "ራስ ጤና ሰዓት", content: "ራሃት እና ተዘዋወር ፍላ።" },
+                    { title: "ጠቅላላ ስልጠና", content: "ዝቅተኛ ሙቀት ብዙ ሚሊ ይሰማ።" },
+                    { title: "ምግብ ምኞ", content: "ማግネሲየም ብዙ ምግብ ያካትቱ።" },
+                    { title: "ብዙ እንቅልፍ", content: "8-9 ሰዓታት ጥሩ እንቅልፍ ያስተባብሩ።" }
+                ],
+
+                menstruationPhaseTitle: "ወር ነበር ደረጃ",
+                menstruationPhaseContent: "የርሕሮ ውስጥ ሕብ ወርደዋል። ሕመም እና ስሜት ምልክቶች ሊኖር ይችላል።",
+                follicularPhaseTitle: "ትንሿ ደረጃ",
+                follicularPhaseContent: "FSH ሲጨምር ኤስቴሮስ ሳቱ। ራስ ታበቁ ኮት።",
+                ovulationPhaseTitle: "ዞር እንሳት ደረጃ",
+                ovulationPhaseContent: "ጆለት ይልቀቁ። ሰቅ ጉልበት እና ዋርካ።",
+                lutealPhaseTitle: "ሉቲል ደረጃ",
+                lutealPhaseContent: "ሉቲይ ሲጨምር ሲቀነስ። ጉልበት ሊቀነስ ይችላል።",
+                whenToSeeDoctorTitle: "ወደ ሮኪ ሂደት",
+                whenToSeeDoctorContent: [
+                    "ከ 7 ቀናት ይበልጣል",
+                    "ከባድ ፍሰት በጣም",
+                    "ከባድ ሕመም ሕመም ማቆሪያ",
+                    "3 ወር ወር ነበር ድከም",
+                    "ዞር ለውጥ ብዙ",
+                    "ከባድ ምልክቶች",
+                    "ዞር ላይ ፍሰት",
+                    "ሕመም ወይም ጊዜ"
+                ]
+            }
+        };
+
+        // State & DOM
+        let currentLanguage = localStorage.getItem('cycleLanguage') || 'en';
+        let currentTheme = localStorage.getItem('cycleTheme') || 'light';
+        let cycleData = JSON.parse(localStorage.getItem('cycleData')) || {
+            lastPeriodStart: null,
+            cycleLength: 28,
+            periodDuration: 5,
+            logs: []
+        };
+
+        // Initialize
+        function init() {
+            document.documentElement.setAttribute('data-theme', currentTheme);
+            loadLanguage();
+            setupEventListeners();
+            
+            if (!cycleData.lastPeriodStart && !localStorage.getItem('setupDone')) {
+                document.getElementById('setupWizard').classList.add('active');
+            } else {
+                document.getElementById('setupWizard').classList.remove('active');
+            }
+            
+            renderDashboard();
+            renderCalendar();
+            updateTips();
+            updateEducation();
+            updateInsights();
+            loadSettingsPage();
+        }
+
+        function loadLanguage() {
+            document.documentElement.lang = currentLanguage;
+            document.documentElement.dir = currentLanguage === 'ar' ? 'rtl' : 'ltr';
+            document.getElementById('languageSelect').value = currentLanguage;
+            localStorage.setItem('cycleLanguage', currentLanguage);
+        }
+
+        function setupEventListeners() {
+            // Theme toggle
+            document.getElementById('themeToggle').addEventListener('click', () => {
+                currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+                document.documentElement.setAttribute('data-theme', currentTheme);
+                localStorage.setItem('cycleTheme', currentTheme);
+            });
+
+            // Language
+            document.getElementById('languageSelect').addEventListener('change', (e) => {
+                currentLanguage = e.target.value;
+                loadLanguage();
+                location.reload();
+            });
+
+            // Setup
+            document.getElementById('skipSetup').addEventListener('click', () => {
+                document.getElementById('setupWizard').classList.remove('active');
+                localStorage.setItem('setupDone', 'true');
+            });
+
+            document.getElementById('skipSetupBtn').addEventListener('click', () => {
+                document.getElementById('setupWizard').classList.remove('active');
+                localStorage.setItem('setupDone', 'true');
+            });
+
+            document.getElementById('completeSetupBtn').addEventListener('click', completeSetup);
+
+            // Tabs
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                    tab.classList.add('active');
+                    document.getElementById(tab.dataset.tab).classList.add('active');
+                });
+            });
+
+            // Sliders
+            document.getElementById('painSlider').addEventListener('input', (e) => {
+                document.getElementById('painValue').textContent = e.target.value;
+            });
+            document.getElementById('moodSlider').addEventListener('input', (e) => {
+                document.getElementById('moodValue').textContent = e.target.value;
+            });
+            document.getElementById('energySlider').addEventListener('input', (e) => {
+                document.getElementById('energyValue').textContent = e.target.value;
+            });
+            document.getElementById('sleepSlider').addEventListener('input', (e) => {
+                document.getElementById('sleepValue').textContent = e.target.value;
+            });
+
+            // Log
+            document.getElementById('saveLogBtn').addEventListener('click', saveLog);
+            document.getElementById('clearLogBtn').addEventListener('click', clearForm);
+
+            // Calendar
+            document.getElementById('prevMonth').addEventListener('click', () => {
+                currentCalendarDate.setMonth(currentCalendarDate.getMonth() - 1);
+                renderCalendar();
+            });
+            document.getElementById('nextMonth').addEventListener('click', () => {
+                currentCalendarDate.setMonth(currentCalendarDate.getMonth() + 1);
+                renderCalendar();
+            });
+
+            // Settings
+            document.getElementById('saveCycleSettings').addEventListener('click', saveCycleSettings);
+            document.getElementById('exportDataBtn').addEventListener('click', exportData);
+            document.getElementById('importBtn').addEventListener('click', () => {
+                document.getElementById('importDataFile').click();
+            });
+            document.getElementById('importDataFile').addEventListener('change', importData);
+            document.getElementById('resetDataBtn').addEventListener('click', resetAllData);
+        }
+
+        // Setup Wizard
+        function completeSetup() {
+            const lastPeriod = document.getElementById('setupLastPeriod').value;
+            const cycleLength = parseInt(document.getElementById('setupCycleLength').value) || 28;
+            const periodDuration = parseInt(document.getElementById('setupPeriodDuration').value) || 5;
+
+            if (!lastPeriod) return alert('Please enter your last period date');
+
+            cycleData.lastPeriodStart = new Date(lastPeriod).toISOString();
+            cycleData.cycleLength = cycleLength;
+            cycleData.periodDuration = periodDuration;
+            localStorage.setItem('cycleData', JSON.stringify(cycleData));
+            localStorage.setItem('setupDone', 'true');
+
+            document.getElementById('setupWizard').classList.remove('active');
+            renderDashboard();
+            renderCalendar();
+            updateTips();
+        }
+
+        // Cycle Functions
+        function getCyclePhase(dayNumber) {
+            const phase = (dayNumber - 1) % 28;
+            if (phase < 5) return 'menstruation';
+            if (phase < 13) return 'follicular';
+            if (phase < 15) return 'ovulation';
+            return 'luteal';
+        }
+
+        function getPhaseText(phase) {
+            const t = translations[currentLanguage];
+            const phases = {
+                menstruation: t.cyclePhaseMenstruation,
+                follicular: t.cyclePhaseFollicular,
+                ovulation: t.cyclePhaseOvulation,
+                luteal: t.cyclePhaseLuteal
+            };
+            return phases[phase] || 'Unknown';
+        }
+
+        // Dashboard
+        function renderDashboard() {
+            const today = new Date();
+            const t = translations[currentLanguage];
+            let lastPeriod = cycleData.lastPeriodStart ? new Date(cycleData.lastPeriodStart) : new Date(today.getTime() - 8 * 24 * 60 * 60 * 1000);
+            
+            const daysSincePeriod = Math.floor((today - lastPeriod) / (24 * 60 * 60 * 1000));
+            const cycleDay = (daysSincePeriod % cycleData.cycleLength) + 1;
+            const phase = getCyclePhase(cycleDay);
+            const phaseText = getPhaseText(phase);
+
+            document.getElementById('cyclePhaseText').textContent = phaseText;
+            document.getElementById('cycleDay').textContent = cycleDay;
+            document.getElementById('cycleLabel').textContent = t.daysIntoCycle;
+            
+            const nextPeriod = new Date(lastPeriod);
+            nextPeriod.setDate(nextPeriod.getDate() + cycleData.cycleLength);
+            document.getElementById('nextPeriodDate').textContent = nextPeriod.toLocaleDateString();
+
+            const ovulationDay = Math.floor(cycleData.cycleLength / 2);
+            const fertileStart = ovulationDay - 5;
+            const fertileEnd = ovulationDay + 1;
+            const isFertile = cycleDay >= fertileStart && cycleDay <= fertileEnd;
+            document.getElementById('fertileWindowText').textContent = isFertile ? 'Fertile' : 'Not now';
+
+            document.getElementById('cycleStatus').textContent = t.cycleStatusRegular;
+
+            drawCycleRing(cycleDay, cycleData.cycleLength);
+        }
+
+        function drawCycleRing(current, total) {
+            const canvas = document.getElementById('cycleCanvas');
+            const ctx = canvas.getContext('2d');
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            const radius = 60;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            const bgColor = currentTheme === 'dark' ? '#3a3530' : '#e8dfd8';
+            ctx.strokeStyle = bgColor;
+            ctx.lineWidth = 6;
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+            ctx.stroke();
+
+            const progress = (current / total) * 2 * Math.PI - Math.PI / 2;
+            ctx.strokeStyle = '#c77dba';
+            ctx.lineWidth = 6;
+            ctx.lineCap = 'round';
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, radius, -Math.PI / 2, progress);
+            ctx.stroke();
+
+            ctx.fillStyle = currentTheme === 'dark' ? '#1a1817' : '#fefcfb';
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, 42, 0, 2 * Math.PI);
+            ctx.fill();
+
+            ctx.fillStyle = '#c77dba';
+            ctx.font = 'bold 18px Poppins';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            const percentage = Math.round((current / total) * 100);
+            ctx.fillText(percentage + '%', centerX, centerY);
+        }
+
+        // Calendar
+        let currentCalendarDate = new Date();
+
+        function renderCalendar() {
+            const year = currentCalendarDate.getFullYear();
+            const month = currentCalendarDate.getMonth();
+            const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+            
+            document.getElementById('calendarMonth').textContent = `${monthNames[month]} ${year}`;
+
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+            const grid = document.getElementById('calendarGrid');
+            grid.innerHTML = '';
+
+            const dayHeaders = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            dayHeaders.forEach(day => {
+                const header = document.createElement('div');
+                header.className = 'day-header';
+                header.textContent = day;
+                grid.appendChild(header);
+            });
+
+            const today = new Date();
+            const lastPeriodDate = cycleData.lastPeriodStart ? new Date(cycleData.lastPeriodStart) : new Date(today.getTime() - 8 * 24 * 60 * 60 * 1000);
+            
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayElement = document.createElement('div');
+                const currentDate = new Date(year, month, day);
+                const daysSincePeriod = Math.floor((currentDate - lastPeriodDate) / (24 * 60 * 60 * 1000));
+                const cycleDay = (daysSincePeriod % cycleData.cycleLength) + 1;
+                const phase = getCyclePhase(cycleDay);
+
+                dayElement.className = `calendar-day ${phase}`;
+                dayElement.textContent = day;
+
+                if (currentDate.toDateString() === today.toDateString()) {
+                    dayElement.classList.add('today');
+                }
+
+                const ovulationDay = Math.floor(cycleData.cycleLength / 2);
+                if (cycleDay >= ovulationDay - 5 && cycleDay <= ovulationDay + 1) {
+                    dayElement.classList.add('fertile');
+                }
+
+                grid.appendChild(dayElement);
+            }
+
+            const totalCells = grid.children.length - 7;
+            const remainingCells = 42 - totalCells;
+            for (let day = 1; day <= remainingCells; day++) {
+                const dayElement = document.createElement('div');
+                dayElement.className = 'calendar-day other-month';
+                dayElement.textContent = day;
+                grid.appendChild(dayElement);
+            }
+        }
+
+        // Logging
+        function saveLog() {
+            const today = new Date().toDateString();
+            const log = {
+                date: today,
+                flow: document.getElementById('flowSelect').value,
+                symptoms: Array.from(document.querySelectorAll('input[name="symptoms"]:checked')).map(el => el.value),
+                pain: parseInt(document.getElementById('painSlider').value),
+                mood: parseInt(document.getElementById('moodSlider').value),
+                energy: parseInt(document.getElementById('energySlider').value),
+                sleep: parseInt(document.getElementById('sleepSlider').value),
+                notes: document.getElementById('notesTextarea').value
+            };
+
+            if (log.flow && log.flow !== '') {
+                cycleData.lastPeriodStart = new Date().toISOString();
+            }
+
+            cycleData.logs.push(log);
+            localStorage.setItem('cycleData', JSON.stringify(cycleData));
+            
+            const t = translations[currentLanguage];
+            showSuccessMessage(t.successText);
+            clearForm();
+            renderDashboard();
+            updateInsights();
+        }
+
+        function clearForm() {
+            document.getElementById('flowSelect').value = '';
+            document.querySelectorAll('input[name="symptoms"]').forEach(el => el.checked = false);
+            document.getElementById('painSlider').value = '0';
+            document.getElementById('moodSlider').value = '5';
+            document.getElementById('energySlider').value = '5';
+            document.getElementById('sleepSlider').value = '5';
+            document.getElementById('notesTextarea').value = '';
+            
+            document.getElementById('painValue').textContent = '0';
+            document.getElementById('moodValue').textContent = '5';
+            document.getElementById('energyValue').textContent = '5';
+            document.getElementById('sleepValue').textContent = '5';
+        }
+
+        function showSuccessMessage(text) {
+            const msg = document.getElementById('successMessage');
+            document.getElementById('successText').textContent = text;
+            msg.classList.add('show');
+            setTimeout(() => msg.classList.remove('show'), 2000);
+        }
+
+        // Insights
+        function updateInsights() {
+            document.getElementById('avgCycleLength').textContent = cycleData.cycleLength;
+            document.getElementById('avgPeriodDuration').textContent = cycleData.periodDuration;
+            document.getElementById('totalLogs').textContent = cycleData.logs.length;
+            
+            if (cycleData.lastPeriodStart) {
+                const nextDate = new Date(cycleData.lastPeriodStart);
+                nextDate.setDate(nextDate.getDate() + cycleData.cycleLength);
+                document.getElementById('nextPeriodETA').textContent = nextDate.toLocaleDateString();
+            }
+        }
+
+        // Tips
+        function updateTips() {
+            const t = translations[currentLanguage];
+            const today = new Date();
+            const lastPeriod = cycleData.lastPeriodStart ? new Date(cycleData.lastPeriodStart) : new Date(today.getTime() - 8 * 24 * 60 * 60 * 1000);
+            const daysSincePeriod = Math.floor((today - lastPeriod) / (24 * 60 * 60 * 1000));
+            const cycleDay = (daysSincePeriod % cycleData.cycleLength) + 1;
+            const phase = getCyclePhase(cycleDay);
+
+            const tipsMap = {
+                menstruation: t.menstruationTips,
+                follicular: t.follicularTips,
+                ovulation: t.ovulationTips,
+                luteal: t.lutealTips
+            };
+
+            const tips = tipsMap[phase] || [];
+            const tipsContent = document.getElementById('tipsContent');
+            tipsContent.innerHTML = '';
+
+            tips.forEach(tip => {
+                const tipCard = document.createElement('div');
+                tipCard.className = 'tip-card';
+                tipCard.innerHTML = `
+                    <div class="tip-title">
+                        <span class="tip-icon">✨</span>
+                        <span>${tip.title}</span>
+                    </div>
+                    <div class="tip-content">${tip.content}</div>
+                `;
+                tipsContent.appendChild(tipCard);
+            });
+        }
+
+        // Education
+        function updateEducation() {
+            const t = translations[currentLanguage];
+            const educationContent = document.getElementById('educationContent');
+            educationContent.innerHTML = `
+                <div class="education-card">
+                    <h4>${t.menstruationPhaseTitle}</h4>
+                    <p>${t.menstruationPhaseContent}</p>
+                </div>
+                <div class="education-card">
+                    <h4>${t.follicularPhaseTitle}</h4>
+                    <p>${t.follicularPhaseContent}</p>
+                </div>
+                <div class="education-card">
+                    <h4>${t.ovulationPhaseTitle}</h4>
+                    <p>${t.ovulationPhaseContent}</p>
+                </div>
+                <div class="education-card">
+                    <h4>${t.lutealPhaseTitle}</h4>
+                    <p>${t.lutealPhaseContent}</p>
+                </div>
+                <div style="margin-top: var(--spacing-xl);">
+                    <h3 style="color: var(--primary); margin-bottom: var(--spacing-lg); font-family: 'Playfair Display', serif; font-size: 18px;">⚠️ ${t.whenToSeeDoctorTitle}</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--spacing-lg);">
+                        ${t.whenToSeeDoctorContent.map(item => `<div class="education-card">${item}</div>`).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Settings
+        function loadSettingsPage() {
+            document.getElementById('settingsCycleLength').value = cycleData.cycleLength;
+            document.getElementById('settingsPeriodDuration').value = cycleData.periodDuration;
+            
+            if (cycleData.lastPeriodStart) {
+                const date = new Date(cycleData.lastPeriodStart);
+                document.getElementById('settingsLastPeriod').value = date.toISOString().split('T')[0];
+            }
+        }
+
+        function saveCycleSettings() {
+            cycleData.cycleLength = parseInt(document.getElementById('settingsCycleLength').value);
+            cycleData.periodDuration = parseInt(document.getElementById('settingsPeriodDuration').value);
+            
+            if (document.getElementById('settingsLastPeriod').value) {
+                cycleData.lastPeriodStart = new Date(document.getElementById('settingsLastPeriod').value).toISOString();
+            }
+            
+            localStorage.setItem('cycleData', JSON.stringify(cycleData));
+            showSuccessMessage('Settings saved!');
+            renderDashboard();
+            renderCalendar();
+        }
+
+        function exportData() {
+            const dataStr = JSON.stringify(cycleData, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `cycle-data-${new Date().toISOString().split('T')[0]}.json`;
+            link.click();
+            showSuccessMessage('Data exported!');
+        }
+
+        function importData(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                try {
+                    const imported = JSON.parse(event.target.result);
+                    cycleData = imported;
+                    localStorage.setItem('cycleData', JSON.stringify(cycleData));
+                    showSuccessMessage('Data imported!');
+                    renderDashboard();
+                    renderCalendar();
+                    updateInsights();
+                    loadSettingsPage();
+                } catch (error) {
+                    alert('Error importing data');
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        function resetAllData() {
+            if (!confirm('Are you sure? This cannot be undone.')) return;
+            
+            cycleData = {
+                lastPeriodStart: null,
+                cycleLength: 28,
+                periodDuration: 5,
+                logs: []
+            };
+            localStorage.setItem('cycleData', JSON.stringify(cycleData));
+            localStorage.removeItem('setupDone');
+            showSuccessMessage('Data reset!');
+            location.reload();
+        }
+
+        // Start
+        init();
+    </script>
+</body>
+</html>
