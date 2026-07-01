@@ -84,25 +84,26 @@ export function AppShell({ children }: { children: ReactNode }) {
           </div>
         </header>
 
-        <main className={`pb-28 ${isRtl ? "text-right" : ""}`}>{children}</main>
+        <main className={`pb-20 ${isRtl ? "text-right" : ""}`}>{children}</main>
 
         {/* Bottom tab bar */}
         <nav className="fixed bottom-0 inset-x-0 z-40 bg-background/90 backdrop-blur-lg border-t border-border">
-          <div className="mx-auto max-w-lg grid grid-cols-5 gap-1 px-2 py-2">
+          <div className="mx-auto max-w-lg flex items-center justify-between gap-1 px-2 py-2">
             {tabs.map((tab) => {
               const isActive = location === tab.href;
               const Icon = tab.icon;
               return (
                 <Link key={tab.href} href={tab.href}>
                   <button
-                    className={`flex w-full flex-col items-center justify-center gap-1 rounded-2xl px-1 py-2 text-[11px] font-medium leading-tight transition-all ${
+                    aria-label={tab.label}
+                    title={tab.label}
+                    className={`flex h-11 w-11 items-center justify-center rounded-2xl transition-all ${
                       isActive
                         ? "gradient-primary text-white shadow-md shadow-primary/25"
                         : "text-muted-foreground hover:text-foreground hover:bg-secondary"
                     }`}
                   >
                     <Icon className="w-5 h-5 shrink-0" />
-                    <span className="truncate w-full text-center">{tab.label}</span>
                   </button>
                 </Link>
               );
