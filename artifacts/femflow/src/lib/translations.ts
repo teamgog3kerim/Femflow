@@ -71,6 +71,9 @@ export const translations = {
       ofYourCycle: "of your cycle",
       notTracking: "No active cycle yet",
       startTracking: "Log your first period below to start tracking.",
+      emptyTitle: "Start tracking your cycle",
+      emptySubtitle: "Log your first period below and I'll map out your phases, fertile window, and next period — all on this calendar.",
+      emptyCta: "Log your first period",
       avgLength: "Avg Length",
       regularity: "Regularity",
       nextPeriod: "Next period",
@@ -184,7 +187,15 @@ export const translations = {
     chat: {
       title: "Health Companion",
       placeholder: "Ask me anything...",
-      send: "Send"
+      send: "Send",
+      emptyTitle: "Meet your Health Companion",
+      emptySubtitle: "Ask me anything about your cycle, symptoms, mood, or wellness. Here are a few ideas to get started:",
+      suggestions: [
+        "What phase am I in right now?",
+        "Why do I feel tired before my period?",
+        "Give me tips to ease cramps",
+        "What should I eat this week?"
+      ]
     },
     settings: {
       title: "Settings",
@@ -341,6 +352,9 @@ export const translations = {
       ofYourCycle: "من دورتك",
       notTracking: "لا توجد دورة نشطة بعد",
       startTracking: "سجّلي أول دورة لك أدناه لبدء التتبع.",
+      emptyTitle: "ابدئي تتبع دورتك",
+      emptySubtitle: "سجّلي أول دورة لك أدناه وسأرسم مراحلك ونافذة الخصوبة وموعد دورتك القادمة — كل ذلك على هذا التقويم.",
+      emptyCta: "سجّلي أول دورة لك",
       avgLength: "متوسط الطول",
       regularity: "الانتظام",
       nextPeriod: "الدورة القادمة",
@@ -454,7 +468,15 @@ export const translations = {
     chat: {
       title: "الرفيق الصحي",
       placeholder: "اسألني أي شيء...",
-      send: "إرسال"
+      send: "إرسال",
+      emptyTitle: "تعرّفي على رفيقك الصحي",
+      emptySubtitle: "اسأليني أي شيء عن دورتك أو الأعراض أو المزاج أو الصحة. إليكِ بعض الأفكار للبدء:",
+      suggestions: [
+        "في أي مرحلة أنا الآن؟",
+        "لماذا أشعر بالتعب قبل دورتي؟",
+        "أعطيني نصائح لتخفيف التقلصات",
+        "ماذا يجب أن آكل هذا الأسبوع؟"
+      ]
     },
     settings: {
       title: "الإعدادات",

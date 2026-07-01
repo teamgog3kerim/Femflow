@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "@/hooks/use-auth";
 import { useTranslation } from "@/lib/translations";
@@ -19,7 +19,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { ChevronLeft, ChevronRight, Circle } from "lucide-react";
+import { ChevronLeft, ChevronRight, Circle, Sparkles, Plus } from "lucide-react";
 
 type Flow = "light" | "medium" | "heavy";
 
@@ -77,6 +77,11 @@ export default function Cycle() {
   const [endDate, setEndDate] = useState<string>("");
   const [flow, setFlow] = useState<Flow>("medium");
   const [notes, setNotes] = useState<string>("");
+  const logFormRef = useRef<HTMLDivElement>(null);
+
+  const scrollToLogForm = () => {
+    logFormRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+  };
 
   const invalidateAll = () => {
     queryClient.invalidateQueries({ queryKey: getGetCycleCalendarQueryKey() });
@@ -157,33 +162,51 @@ export default function Cycle() {
   const phaseKey = (currentCycle?.phase ?? "") as keyof typeof t.phases;
   const phaseLabel = t.phases[phaseKey] ?? currentCycle?.phase ?? "—";
   const hasCycle = currentCycle?.cycleDay != null;
+  const hasNoCycleData = !hasCycle && (cycles ?? []).length === 0;
 
   return (
     <div className="p-6 space-y-6 animate-in fade-in duration-500 pb-24">
       <h1 className="text-2xl font-serif font-bold text-foreground">{t.title}</h1>
 
       {/* Current phase summary */}
-      <Card className="p-6 bg-gradient-to-br from-primary/10 to-primary/5 border-primary/20">
-        {hasCycle ? (
-          <>
-            <p className="text-sm text-muted-foreground">{t.currentPhase}</p>
-            <h2 className="font-semibold text-xl mb-1">{phaseLabel}</h2>
-            <p className="text-sm text-muted-foreground">
-              {t.day} {currentCycle?.cycleDay} {t.ofYourCycle}
-            </p>
-            {currentCycle?.nextPeriodDate && (
-              <p className="text-sm mt-3 text-primary font-medium">
-                {t.nextPeriod}: {fmtDate(currentCycle.nextPeriodDate, locale)}
+      {hasNoCycleData ? (
+        <Card className="p-8 flex flex-col items-center text-center border-none shadow-lg shadow-primary/5">
+          <div className="w-20 h-20 gradient-primary rounded-full flex items-center justify-center mb-6 text-white shadow-md shadow-primary/25">
+            <Sparkles className="w-9 h-9" />
+          </div>
+          <h2 className="text-xl font-serif font-bold text-foreground mb-2">{t.emptyTitle}</h2>
+          <p className="text-sm text-muted-foreground max-w-xs mb-6 leading-relaxed">{t.emptySubtitle}</p>
+          <button
+            onClick={scrollToLogForm}
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-full gradient-primary text-white font-medium shadow-md shadow-primary/25 hover:opacity-90 transition-opacity"
+          >
+            <Plus className="w-5 h-5" />
+            {t.emptyCta}
+          </button>
+        </Card>
+      ) : (
+        <Card className="p-6 bg-gradient-to-br from-primary/10 to-primary/5 border-primary/20">
+          {hasCycle ? (
+            <>
+              <p className="text-sm text-muted-foreground">{t.currentPhase}</p>
+              <h2 className="font-semibold text-xl mb-1">{phaseLabel}</h2>
+              <p className="text-sm text-muted-foreground">
+                {t.day} {currentCycle?.cycleDay} {t.ofYourCycle}
               </p>
-            )}
-          </>
-        ) : (
-          <>
-            <h2 className="font-semibold text-lg mb-1">{t.notTracking}</h2>
-            <p className="text-sm text-muted-foreground">{t.startTracking}</p>
-          </>
-        )}
-      </Card>
+              {currentCycle?.nextPeriodDate && (
+                <p className="text-sm mt-3 text-primary font-medium">
+                  {t.nextPeriod}: {fmtDate(currentCycle.nextPeriodDate, locale)}
+                </p>
+              )}
+            </>
+          ) : (
+            <>
+              <h2 className="font-semibold text-lg mb-1">{t.notTracking}</h2>
+              <p className="text-sm text-muted-foreground">{t.startTracking}</p>
+            </>
+          )}
+        </Card>
+      )}
 
       {/* Stats */}
       <div className="grid grid-cols-2 gap-4">
@@ -253,7 +276,7 @@ export default function Cycle() {
       </Card>
 
       {/* Log period form */}
-      <Card className="p-5 space-y-4">
+      <Card ref={logFormRef} className="p-5 space-y-4">
         <h2 className="font-semibold text-lg">{t.logPeriod}</h2>
 
         <div className="grid grid-cols-2 gap-3">
