@@ -18,6 +18,7 @@ import {
 import { useAuth } from "@/hooks/use-auth";
 import { useTheme } from "@/hooks/use-theme";
 import { useTranslation } from "@/lib/translations";
+import { DancingLady } from "@/components/dancing-lady";
 
 interface TabItem {
   href: string;
@@ -55,7 +56,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             <Link href="/home">
               <div className="flex items-center gap-2 cursor-pointer">
                 <div className="w-9 h-9 rounded-2xl gradient-primary flex items-center justify-center text-white shadow-md shadow-primary/20">
-                  <span className="font-serif font-bold text-lg leading-none">F</span>
+                  <DancingLady />
                 </div>
                 <span className="font-serif font-bold text-xl text-gradient-primary">FemFlow</span>
               </div>

@@ -5,6 +5,7 @@ import { useTranslation } from "@/lib/translations";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { motion } from "framer-motion";
+import { DancingLady } from "@/components/dancing-lady";
 
 export default function Onboarding() {
   const [, setLocation] = useLocation();
@@ -43,7 +44,7 @@ export default function Onboarding() {
       >
         <div className="w-24 h-24 mx-auto mb-8 bg-gradient-to-tr from-primary to-primary/50 rounded-3xl rotate-12 flex items-center justify-center shadow-xl shadow-primary/20">
           <div className="w-12 h-12 bg-white rounded-full -rotate-12 flex items-center justify-center">
-            <span className="text-primary font-serif font-bold text-xl">F</span>
+            <DancingLady className="w-7 h-7 text-primary" />
           </div>
         </div>
 
