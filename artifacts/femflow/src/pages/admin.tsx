@@ -5,9 +5,11 @@ import {
   getAdminGetAnalyticsQueryKey,
   useAdminListSubscriptions,
   getAdminListSubscriptionsQueryKey,
+  useAdminListUsers,
+  getAdminListUsersQueryKey,
   useAdminUpdateSubscription,
 } from "@workspace/api-client-react";
-import type { Subscription } from "@workspace/api-client-react";
+import type { Subscription, User } from "@workspace/api-client-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
@@ -66,6 +68,10 @@ export default function Admin() {
     { query: { queryKey: pendingKey, enabled: !!user?.isAdmin } },
   );
 
+  const { data: usersData } = useAdminListUsers(undefined, {
+    query: { queryKey: getAdminListUsersQueryKey(), enabled: !!user?.isAdmin },
+  });
+
   const updateSub = useAdminUpdateSubscription();
   const [reasons, setReasons] = useState<Record<number, string>>({});
 
@@ -94,6 +100,30 @@ export default function Admin() {
   }
 
   const pendingSubs = pending ?? [];
+  const users = usersData?.users ?? [];
+
+  const statusLabel = (s: string): string => {
+    const key = s as keyof typeof t.status;
+    return t.status[key] ?? s;
+  };
+  const statusClass = (s: string): string => {
+    switch (s) {
+      case "premium":
+        return "bg-primary/15 text-primary";
+      case "trial":
+        return "bg-amber-500/15 text-amber-600 dark:text-amber-400";
+      case "expired":
+        return "bg-destructive/15 text-destructive";
+      default:
+        return "bg-muted text-muted-foreground";
+    }
+  };
+  const displayName = (u: User): string => {
+    const name = [u.firstName, u.lastName].filter(Boolean).join(" ").trim();
+    if (name) return name;
+    if (u.username) return `@${u.username}`;
+    return `#${u.id}`;
+  };
 
   return (
     <div className="p-6 space-y-6 pb-24">
@@ -168,6 +198,46 @@ export default function Admin() {
               </div>
             </Card>
           ))
+        )}
+      </div>
+
+      <div className="space-y-3">
+        <h2 className="text-lg font-semibold text-foreground">
+          {t.usersTitle}
+          {users.length > 0 && (
+            <span className="ml-2 text-sm font-normal text-muted-foreground">
+              ({usersData?.total ?? users.length})
+            </span>
+          )}
+        </h2>
+
+        {users.length === 0 ? (
+          <p className="text-sm text-muted-foreground">{t.noUsers}</p>
+        ) : (
+          <div className="space-y-2">
+            {users.map((u: User) => (
+              <Card key={u.id} className="p-4 flex items-center justify-between gap-3">
+                <div className="min-w-0">
+                  <div className="flex items-center gap-2">
+                    <p className="font-medium truncate">{displayName(u)}</p>
+                    {u.isAdmin && (
+                      <span className="shrink-0 rounded-full bg-primary/15 text-primary px-2 py-0.5 text-[11px] font-medium">
+                        {t.adminBadge}
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-xs text-muted-foreground mt-0.5">
+                    {t.joined}: {u.createdAt ? new Date(u.createdAt).toLocaleDateString() : "—"}
+                  </p>
+                </div>
+                <span
+                  className={`shrink-0 rounded-full px-2.5 py-1 text-xs font-medium ${statusClass(u.subscriptionStatus ?? "free")}`}
+                >
+                  {statusLabel(u.subscriptionStatus ?? "free")}
+                </span>
+              </Card>
+            ))}
+          </div>
         )}
       </div>
     </div>

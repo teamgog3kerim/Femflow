@@ -362,7 +362,17 @@ export const translations = {
       submittedOn: "Submitted",
       noReceipt: "No receipt uploaded",
       rejectReason: "Rejection reason (optional)",
-      rejectReasonPlaceholder: "e.g. Receipt unclear or amount incorrect"
+      rejectReasonPlaceholder: "e.g. Receipt unclear or amount incorrect",
+      usersTitle: "Users",
+      noUsers: "No users yet.",
+      adminBadge: "Admin",
+      joined: "Joined",
+      status: {
+        trial: "Trial",
+        premium: "Premium",
+        expired: "Expired",
+        free: "Free"
+      }
     }
   },
   ar: {
@@ -728,7 +738,17 @@ export const translations = {
       submittedOn: "أُرسل في",
       noReceipt: "لم يتم رفع إيصال",
       rejectReason: "سبب الرفض (اختياري)",
-      rejectReasonPlaceholder: "مثال: الإيصال غير واضح أو المبلغ غير صحيح"
+      rejectReasonPlaceholder: "مثال: الإيصال غير واضح أو المبلغ غير صحيح",
+      usersTitle: "المستخدمات",
+      noUsers: "لا توجد مستخدمات بعد.",
+      adminBadge: "مشرفة",
+      joined: "انضمّت في",
+      status: {
+        trial: "تجريبي",
+        premium: "مميّز",
+        expired: "منتهٍ",
+        free: "مجاني"
+      }
     }
   }
 };
