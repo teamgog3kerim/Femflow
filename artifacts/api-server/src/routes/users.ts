@@ -14,6 +14,7 @@ import { sign, verify } from "../lib/auth.js";
 import { serialize } from "../lib/serialize.js";
 import { validateInitData } from "../lib/telegram.js";
 import { checkSubscriptionStatus } from "../lib/subscription-status.js";
+import { isAdminUsername } from "../lib/admin-allowlist.js";
 
 const router: IRouter = Router();
 
@@ -81,6 +82,8 @@ router.post("/users/telegram-auth", async (req, res): Promise<void> => {
   }
 
   const telegramId = String(tgUser.id);
+  const username = tgUser.username ?? null;
+  const shouldBeAdmin = isAdminUsername(username);
   let [user] = await db.select().from(usersTable).where(eq(usersTable.telegramId, telegramId));
 
   if (!user) {
@@ -91,11 +94,19 @@ router.post("/users/telegram-auth", async (req, res): Promise<void> => {
         telegramId,
         firstName: tgUser.first_name ?? null,
         lastName: tgUser.last_name ?? null,
-        username: tgUser.username ?? null,
+        username,
         language,
         subscriptionStatus: "trial",
         trialEndsAt: trialEnd(),
+        isAdmin: shouldBeAdmin,
       })
+      .returning();
+  } else if (user.username !== username || user.isAdmin !== shouldBeAdmin) {
+    // Keep username fresh and reconcile admin access to the allowlist on every login.
+    [user] = await db
+      .update(usersTable)
+      .set({ username, isAdmin: shouldBeAdmin })
+      .where(eq(usersTable.id, user.id))
       .returning();
   }
 

@@ -63,7 +63,7 @@ AI-powered women's menstrual health Telegram Mini App — cycle tracking, daily 
 ## Gotchas
 
 - `openai`, `p-limit`, `p-retry` must be in api-server's `dependencies` AND marked as `external` in `build.mjs` (they come from `lib/integrations-openai-ai-server` and esbuild can't bundle them cross-package).
-- Admin access: first admin must be set via SQL (`UPDATE users SET is_admin = true WHERE telegram_id = '...'`).
+- Admin access: controlled by a **username allowlist** (`ADMIN_USERNAMES` env, comma-separated; default `Femflowaiadm`). On every Telegram login `isAdmin` is reconciled to the allowlist, and `syncAdminsToAllowlist()` runs at server startup to enforce the invariant globally (revokes non-allowlisted admins, grants allowlisted ones). To change the admin, set `ADMIN_USERNAMES` (without `@`) and republish; the target user gets admin automatically on their next login. Allowlist is by Telegram username, which is mutable — prefer switching to a Telegram-ID allowlist if stronger identity binding is needed.
 - `symptoms` column in `health_logs` is a Postgres `text[]` array — handle `Array.isArray` checks when reading.
 - Date fields from Drizzle are `Date` objects; always call `serialize()` before Zod parsing in route handlers.
 

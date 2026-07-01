@@ -9,3 +9,4 @@
 - [Object storage serving under bearer auth](object-storage-serving-bearer-auth.md) — gate /storage/objects/* with getUserId; <img> can't send headers, so use local preview (owner) + authenticated blob fetch (admin).
 - [Secret propagation needs restart_workflow](secret-propagation-restart.md) — updated secrets don't reach bash/sandbox/JS-spawned workflows; only the platform restart_workflow tool injects the fresh value.
 - [FemFlow /api prefix single source](femflow-api-base-prefix.md) — apply /api ONLY via setBaseUrl in main.tsx; never in orval baseUrl or openapi servers, or paths double to /api/api 404.
+- [FemFlow admin allowlist](femflow-admin-allowlist.md) — admin = ADMIN_USERNAMES allowlist (default Femflowaiadm); reconciled on login + startup sync; prod cleaned only on next deploy (agent can't write prod).

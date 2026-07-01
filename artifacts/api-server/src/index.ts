@@ -1,5 +1,6 @@
 import app from "./app";
 import { logger } from "./lib/logger";
+import { syncAdminsToAllowlist } from "./lib/admin-allowlist";
 
 const rawPort = process.env["PORT"];
 
@@ -22,4 +23,8 @@ app.listen(port, (err) => {
   }
 
   logger.info({ port }, "Server listening");
+
+  syncAdminsToAllowlist().catch((error) => {
+    logger.error({ err: error }, "Failed to sync admins to allowlist");
+  });
 });
